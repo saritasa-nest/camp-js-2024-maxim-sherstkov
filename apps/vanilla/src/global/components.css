@@ -21,8 +21,14 @@ a:hover,
 }
 
 .default-layout {
-  --default-layout-width: 600px;
+  --default-layout-width: 1244px;
 
-  margin: 80px auto 0;
-  max-width: var(--default-layout-width);
+  min-height: 100vh;
+
+  /* fallback for old browsers */
+  min-height: 100dvh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  width: min(var(--default-layout-width), 100% - calc(var(--content-spacing-md) * 2));
+  margin-inline: auto;
 }

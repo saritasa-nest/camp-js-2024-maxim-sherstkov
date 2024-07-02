@@ -2,24 +2,26 @@
   /* Colors */
   --color-primary: rgb(241 89 36 / 100%);
   --color-on-primary: rgb(255 255 255);
-  --color-surface: rgb(255 255 255 / 100%)
-  --color-surface-overlay: rgb(255 255 255 / 5%)
-  --color-on-surface: rgb(0 0 0 / 100%)
-  --color-on-surface-dim: rgb(0 0 0 / 50%)
+  --color-surface: rgb(255 255 255 / 100%);
+  --color-surface-overlay: rgb(255 255 255 / 5%);
+  --color-on-surface: rgb(0 0 0 / 100%);
+  --color-on-surface-dim: rgb(0 0 0 / 50%);
   --color-border: rgb(0 0 0 / 15%);
 
   /* Typography */
   --font-family-primary: "Inter", sans-serif;
-
   --font-size-md: 20px;
   --font-size-sm: 18px;
   --font-size-xs: 16px;
-
   --line-height-lg: 24px;
   --line-height-xl: 32px;
-
   --font-weight-bold: 700;
   --font-weight-semibold: 600;
   --font-weight-medium: 500;
   --font-weight-regular: 400;
+
+  /* Spacing  */
+  --content-spacing-md: 24px;
+  --content-spacing-sm: 16px;
+  --content-spacing-lg: 40px;
 }
