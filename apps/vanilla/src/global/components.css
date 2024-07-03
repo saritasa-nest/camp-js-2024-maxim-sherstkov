@@ -1,10 +1,26 @@
-.books-app-header {
-  --content-spacing-md: 20px;
+/* Header and footer styles */
 
-  padding-block: var(--content-spacing-md);
+.books-app-header {
+  padding-block: var(--space-5);
+}
+
+/* Book card component */
+
+.book-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+
+  .book-card__img {
+    border-radius: var(--border-radius-md);
+    object-fit: cover;
+    min-height: 250px;
+  }
 }
 
 /* Utility classes */
+
+/* Text utlity */
 
 .text-subtitle {
   font-size: var(--font-size-sm);
@@ -45,6 +61,8 @@
   min-height: 100dvh;
   display: grid;
   grid-template-rows: auto 1fr auto;
-  width: min(var(--default-layout-width), 100% - calc(var(--content-spacing-md) * 2));
+
+  /* Making margin for mobile devices */
+  width: min(var(--default-layout-width), 100% - calc(var(--space-6) * 2));
   margin-inline: auto;
 }

@@ -10,26 +10,77 @@
     <title>Vite App</title>
   </head>
   <body class="default-layout">
-    <!-- TODO check emoji -->
- <header class="books-app__header text-logo">&#128218; Books app</header>
- <main class="catalog">
-  <section class="catalog__content">
-    <section>
-      <ul>
-        <li class="book-item">
-          <img class="book-item__img" src="./assets/images/image 1.png" alt="Refactoring UI book" />
-          <p class="book-item__para">
-            Refactoring UI
-          </p>
-          </li>
-        <li>Master the Skill of Debugging CSS</li>
-        <li>Blue Period</li>
-      </ul>
-    </section>
-  </section>
-  <section class="catalog__filter"></section>
- </main>
- <footer>github</footer>
+    <header class="books-app-header text-logo">📚 Books app</header>
+      <main class="catalog">
+        <article class="catalog__content">
+          <section class="books-category">
+            <h2 class="text-subtitle">2020 year</h2>
+            <ul>
+              <li class="book-card">
+                <img class="book-card__img" src="./assets/images/image 3.png" alt="Refactoring UI book" />
+                <p class="text-body-sm">
+                  Refactoring UI
+                </p>
+              </li>
+              <li class="book-card">
+                <img class="book-card__img" src="./assets/images/image 1.png" alt="Master the Skill of Debugging CSS" />
+                <p class="text-body-sm">
+                  Master the Skill of Debugging CSS
+                </p>
+              </li>
+              <li class="book-card">
+                <img class="book-card__img" src="./assets/images/image 9.png" alt="Blue Period" />
+                <p class="text-body-sm">
+                  Blue Period
+                </p>
+              </li>
+            </ul>
+          </section>
+          <section class="books-category">
+            <h2 class="text-subtitle">1980 year</h2>
+            <ul>
+              <li class="book-card">
+                <img class="book-card__img" src="./assets/images/image 10.png" alt="Yokohama Kaidashi Kikou" />
+                <p class="text-body-sm">
+                  Yokohama Kaidashi Kikou
+                </p>
+              </li>
+              <li class="book-card">
+                <img class="book-card__img" src="./assets/images/image 4.png" alt="Learning JavaScript Design Patterns" />
+                <p class="text-body-sm">
+                  Learning JavaScript Design Patterns
+                </p>
+              </li>
+              <li class="book-card">
+                <img class="book-card__img" src="./assets/images/image 11.png" alt="Yotsuba to!" />
+                <p class="text-body-sm">
+                  Yotsuba to!
+                </p>
+              </li>
+              <li class="book-card">
+                <img class="book-card__img" src="./assets/images/image 5.png" alt="Domain-Driven Design" />
+                <p class="text-body-sm">
+                  Domain-Driven Design
+                </p>
+              </li>
+              <li class="book-card">
+                <img class="book-card__img" src="./assets/images/image 6.png" alt="RImplementing Domain-Driven Design" />
+                <p class="text-body-sm">
+                  Implementing Domain-Driven Design
+                </p>
+              </li>
+              <li class="book-card">
+                <img class="book-card__img" src="./assets/images/04.png" alt="Refactoring UI book" />
+                <p class="text-body-sm">
+                  7 Навыков высокэффективных...
+                </p>
+              </li>
+            </ul>
+          </section>
+        </article>
+  <aside class="catalog__filter"></section>
+      </main>
+  <footer>github</footer>
     <script type="module" src="./index.ts"></script>
   </body>
 </html>
