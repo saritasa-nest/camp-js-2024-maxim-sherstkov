@@ -34,10 +34,16 @@
 
   --filter-width: 320px;
 
+  /* TODO refactor */
   width: var(--filter-width);
+  min-width: var(--filter-width);
 
   & > div {
     position: fixed;
+    width: inherit;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
   }
 }
 
@@ -45,33 +51,37 @@
   display: flex;
   flex-direction: column;
 
-  & > * input,
-  select {
-    background-color: var(--color-on-surface-overlay);
-
-    /* todo refactor */
-    max-width: var(--filter-width);
-    padding: var(--space-2) 0 var(--space-2) var(--space-12);
+  /* Search input and select common styles */
+  & > .filter-form__search,
+  & > .filter-form__select {
+    background-color: var(--color-surface-overlay);
+    border-radius: var(--border-radius-sm);
+    display: flex;
+    place-items: center;
+    gap: var(--space-2);
+    height: 48px;
   }
 
-  & > * input::placeholder {
+  & input[type="search"],
+  & select {
+    background-color: transparent;
+    width: 100%;
+    border: none;
+  }
+
+  input::placeholder,
+  select {
     color: var(--color-on-surface-dim);
   }
 
-  .filter-form__search {
-    position: relative;
+  /* Search input specific styles */
+  & > .filter-form__search {
+    padding: var(--space-2) var(--space-4);
+  }
 
-    & > i {
-      top: 50%;
-      transform: translateY(-50%);
-      position: absolute;
-      left: var(--space-4);
-    }
-
-    & > input {
-      border-radius: var(--border-radius-sm);
-      border: none;
-    }
+  /* Select specific styles */
+  & > .filter-form__select {
+    padding: 0 var(--space-4);
   }
 }
 

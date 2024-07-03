@@ -3,7 +3,7 @@
   --color-primary: rgb(241 89 36 / 100%);
   --color-on-primary: rgb(255 255 255);
   --color-surface: rgb(255 255 255 / 100%);
-  --color-surface-overlay: rgb(255 255 255 / 5%);
+  --color-surface-overlay: rgb(0 0 0 / 5%);
   --color-on-surface: rgb(0 0 0 / 100%);
   --color-on-surface-dim: rgb(0 0 0 / 50%);
   --color-border: rgb(0 0 0 / 15%);
