@@ -2,6 +2,7 @@
 
 .books-app-header {
   padding-block: var(--space-5);
+  border-bottom: 1px solid var(--color-border);
 }
 
 /* Book card component */
@@ -61,6 +62,7 @@
   min-height: 100dvh;
   display: grid;
   grid-template-rows: auto 1fr auto;
+  background-color: var(--color-surface);
 
   /* Making margin for mobile devices */
   width: min(var(--default-layout-width), 100% - calc(var(--space-6) * 2));

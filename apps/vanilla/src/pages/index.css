@@ -1,6 +1,6 @@
 @import url("../global/index.css");
 
-/* Catalog of categories and books inside */
+/* Catalog and filters */
 .catalog {
   display: flex;
   gap: var(--space-6);
@@ -19,9 +19,8 @@
   gap: var(--space-6);
 
   /* Books list inside fo category */
-
   & > ul {
-    --grid-columns: 2;
+    --grid-columns: 5;
 
     display: grid;
     grid-template-columns: repeat(var(--grid-columns), minmax(0, 180px));
@@ -29,14 +28,91 @@
   }
 }
 
-@media (width >= 786px) {
+/* Books filters styles */
+.catalog__filter {
+  position: relative;
+
+  --filter-width: 320px;
+
+  width: var(--filter-width);
+
+  & > div {
+    position: fixed;
+  }
+}
+
+.filter-form {
+  display: flex;
+  flex-direction: column;
+
+  & > * input,
+  select {
+    background-color: var(--color-on-surface-overlay);
+
+    /* todo refactor */
+    max-width: var(--filter-width);
+    padding: var(--space-2) 0 var(--space-2) var(--space-12);
+  }
+
+  & > * input::placeholder {
+    color: var(--color-on-surface-dim);
+  }
+
+  .filter-form__search {
+    position: relative;
+
+    & > i {
+      top: 50%;
+      transform: translateY(-50%);
+      position: absolute;
+      left: var(--space-4);
+    }
+
+    & > input {
+      border-radius: var(--border-radius-sm);
+      border: none;
+    }
+  }
+}
+
+@media screen and (max-width: 1280px) {
+  .catalog__filter {
+    --filter-width: 276px;
+  }
+
   .books-category > ul {
     --grid-columns: 4;
   }
 }
 
-@media (width >= 1280px) {
+@media screen and (max-width: 786px) {
+  .catalog {
+    flex-direction: column-reverse;
+  }
+
+  .catalog__filter {
+    --filter-width: 100%;
+
+    & > div {
+      position: static;
+    }
+  }
+
   .books-category > ul {
-    --grid-columns: 5;
+    --grid-columns: 3;
+  }
+
+  .filter-form {
+    flex-direction: row;
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .books-category > ul {
+    --grid-columns: 2;
+  }
+
+  .filter-form {
+    flex-direction: column;
   }
 }
