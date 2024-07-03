@@ -1,24 +1,40 @@
-a,
-:link,
-.link {
-  --link-color: var(--primary-color);
+.books-app-header {
+  --content-spacing-md: 20px;
 
-  color: var(--link-color);
-  text-decoration: none;
-  border-bottom: 1px solid var(--link-color);
+  padding-block: var(--content-spacing-md);
 }
 
-a:hover,
-:link:hover,
-.link:hover {
-  --link-color: var(--primary-light-color);
+/* Utility classes */
+
+.text-subtitle {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-lg);
+  text-transform: uppercase;
 }
 
-.links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
+.text-body {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-xl);
+  text-transform: none;
 }
+
+.text-body-sm {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-lg);
+  text-transform: none;
+}
+
+.text-logo {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-lg);
+  text-transform: none;
+}
+
+/* Layouts */
 
 .default-layout {
   --default-layout-width: 1244px;
