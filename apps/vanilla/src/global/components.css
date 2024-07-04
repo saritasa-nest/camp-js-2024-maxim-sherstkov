@@ -9,6 +9,7 @@
   display: flex;
   justify-content: space-between;
   margin-top: var(--space-6);
+  padding: var(--space-6) 0;
   height: var(--footer-height);
 
   .footer-link {
@@ -92,7 +93,6 @@
   display: grid;
   grid-template-rows: auto 1fr auto;
   background-color: var(--color-surface);
-  gap: var(--space-6);
 
   /* Making margin for mobile devices */
   width: min(var(--default-layout-width), 100% - calc(var(--space-6) * 2));
@@ -102,7 +102,6 @@
 @media screen and (max-width: 360px) {
   .books-app-footer {
     flex-direction: column;
-    gap: var(--space-10);
   }
 
   .books-app-footer__button {

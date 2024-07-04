@@ -8,7 +8,6 @@
   .catalog__content {
     display: flex;
     flex-direction: column;
-    gap: var(--space-10);
   }
 }
 
@@ -16,7 +15,14 @@
 .books-category {
   display: flex;
   flex-direction: column;
-  gap: var(--space-6);
+  position: relative;
+
+  .books-category__sticky-container {
+    position: sticky;
+    padding: var(--space-6) 0;
+    top: 0;
+    background-color: var(--color-surface);
+  }
 
   /* Books list inside fo category */
   & > ul {
@@ -30,11 +36,11 @@
 
 /* Books filters styles */
 .catalog__filter {
-  position: relative;
-
   --filter-width: 320px;
 
-  /* TODO refactor */
+  position: relative;
+
+  /* With this filters doesn't stick to the right */
   width: var(--filter-width);
   min-width: var(--filter-width);
 
