@@ -63,6 +63,7 @@
   display: grid;
   grid-template-rows: auto 1fr auto;
   background-color: var(--color-surface);
+  gap: var(--space-6);
 
   /* Making margin for mobile devices */
   width: min(var(--default-layout-width), 100% - calc(var(--space-6) * 2));
