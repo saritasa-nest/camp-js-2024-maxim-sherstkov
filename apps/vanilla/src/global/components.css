@@ -5,6 +5,35 @@
   border-bottom: 1px solid var(--color-border);
 }
 
+.books-app-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--space-6);
+  height: var(--footer-height);
+
+  .footer-link {
+    color: var(--color-on-surface);
+  }
+
+  .books-app-footer__info {
+    display: flex;
+    gap: var(--space-8);
+  }
+
+  .books-app-footer__additional {
+    display: flex;
+    place-items: center;
+    gap: var(--space-2);
+  }
+
+  .books-app-footer__button {
+    border: none;
+    cursor: pointer;
+    overflow: visible;
+    background: transparent;
+  }
+}
+
 /* Book card component */
 
 .book-card {
@@ -68,4 +97,15 @@
   /* Making margin for mobile devices */
   width: min(var(--default-layout-width), 100% - calc(var(--space-6) * 2));
   margin-inline: auto;
+}
+
+@media screen and (max-width: 360px) {
+  .books-app-footer {
+    flex-direction: column;
+    gap: var(--space-10);
+  }
+
+  .books-app-footer__button {
+    align-self: flex-end;
+  }
 }
