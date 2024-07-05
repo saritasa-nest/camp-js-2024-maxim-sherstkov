@@ -6,6 +6,12 @@
   gap: var(--space-6);
 }
 
+@media screen and (max-width: 786px) {
+  .catalog {
+    flex-direction: column-reverse;
+  }
+}
+
 .catalog__content {
   display: flex;
   flex-direction: column;
@@ -34,6 +40,24 @@
   gap: var(--space-4);
 }
 
+@media screen and (max-width: 1280px) {
+  .books-list {
+    --grid-columns: 4;
+  }
+}
+
+@media screen and (max-width: 786px) {
+  .books-list {
+    --grid-columns: 3;
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .books-list {
+    --grid-columns: 2;
+  }
+}
+
 /* Books filters styles */
 .catalog__filter {
   --filter-width: 320px;
@@ -45,6 +69,18 @@
   min-width: var(--filter-width);
 }
 
+@media screen and (max-width: 1280px) {
+  .catalog__filter {
+    --filter-width: 276px;
+  }
+}
+
+@media screen and (max-width: 786px) {
+  .catalog__filter {
+    --filter-width: 100%;
+  }
+}
+
 .fixed-container {
   position: fixed;
   width: inherit;
@@ -53,12 +89,32 @@
   gap: var(--space-2);
 }
 
+@media screen and (max-width: 786px) {
+  .fixed-container {
+    position: static;
+  }
+}
+
 /* Filters form styles */
 .filter-form {
   display: flex;
   flex-direction: column;
   gap: var(--space-6);
   place-items: flex-start;
+}
+
+@media screen and (max-width: 786px) {
+  .filter-form {
+    flex-direction: row;
+    place-items: center;
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .filter-form {
+    flex-direction: column;
+    place-items: flex-start;
+  }
 }
 
 /* Search input and select common styles */
@@ -169,48 +225,4 @@
 /* Show the checkmark when checked */
 .checkbox__input:checked ~ .checkbox__mark::after {
   display: block;
-}
-
-@media screen and (max-width: 1280px) {
-  .catalog__filter {
-    --filter-width: 276px;
-  }
-
-  .books-list {
-    --grid-columns: 4;
-  }
-}
-
-@media screen and (max-width: 786px) {
-  .catalog {
-    flex-direction: column-reverse;
-  }
-
-  .catalog__filter {
-    --filter-width: 100%;
-  }
-
-  .fixed-container {
-    position: static;
-  }
-
-  .books-list {
-    --grid-columns: 3;
-  }
-
-  .filter-form {
-    flex-direction: row;
-    place-items: center;
-  }
-}
-
-@media screen and (max-width: 360px) {
-  .books-list {
-    --grid-columns: 2;
-  }
-
-  .filter-form {
-    flex-direction: column;
-    place-items: flex-start;
-  }
 }
