@@ -21,7 +21,7 @@
                 <div class="books-category__sticky-container">
                     <h2 class="text-subtitle">2020 year</h2>
                 </div>
-                <ul>
+                <ul class="books-list">
                     <li class="book-card">
                         <img class="book-card__img" src="./assets/images/image 3.png" alt="Refactoring UI book" />
                         <p class="text-body-sm">
@@ -47,7 +47,7 @@
 
                     <h2 class="text-subtitle">1980 year</h2>
                 </div>
-                <ul>
+                <ul class="books-list">
                     <li class="book-card">
                         <img class="book-card__img" src="./assets/images/image 10.png" alt="Yokohama Kaidashi Kikou" />
                         <p class="text-body-sm">
@@ -89,7 +89,7 @@
         </article>
         <!-- Aside filters -->
         <aside class="catalog__filter">
-            <div>
+            <div class="fixed-container">
                 <h2 class="text-subtitle">filters</h2>
                 <form class="filter-form">
                     <div class="filter-form__search">
@@ -110,9 +110,9 @@
                             <option value="">Choose sort field</option>
                         </select>
                     </div>
-                    <label class="filter-form__checkbox">
-                        <input type="checkbox" name="checkboxField">
-                        <span class="checkmark"></span>
+                    <label class="filter-form__checkbox checkbox">
+                        <input class="checkbox__input" type="checkbox" name="checkboxField">
+                        <span class="checkbox__mark"></span>
                         <p class="text-body">Show comics</p>
                     </label>
                 </form>

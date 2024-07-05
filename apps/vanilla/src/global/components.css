@@ -12,28 +12,28 @@
   padding: var(--space-6) 0;
   height: var(--footer-height);
   border-top: 1px solid var(--color-border);
+}
 
-  .footer-link {
-    color: var(--color-on-surface);
-  }
+.footer-link {
+  color: var(--color-on-surface);
+}
 
-  .books-footer__info {
-    display: flex;
-    gap: var(--space-8);
-  }
+.books-footer__info {
+  display: flex;
+  gap: var(--space-8);
+}
 
-  .books-footer__additional {
-    display: flex;
-    place-items: center;
-    gap: var(--space-2);
-  }
+.books-footer__additional {
+  display: flex;
+  place-items: center;
+  gap: var(--space-2);
+}
 
-  .books-footer__button {
-    border: none;
-    cursor: pointer;
-    overflow: visible;
-    background: transparent;
-  }
+.books-footer__button {
+  border: none;
+  cursor: pointer;
+  overflow: visible;
+  background: transparent;
 }
 
 /* Book card component */
@@ -42,12 +42,12 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
+}
 
-  .book-card__img {
-    border-radius: var(--border-radius-md);
-    object-fit: cover;
-    min-height: 250px;
-  }
+.book-card__img {
+  border-radius: var(--border-radius-md);
+  object-fit: cover;
+  min-height: 250px;
 }
 
 /* Utility classes */

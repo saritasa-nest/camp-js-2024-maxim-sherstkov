@@ -4,11 +4,11 @@
 .catalog {
   display: flex;
   gap: var(--space-6);
+}
 
-  .catalog__content {
-    display: flex;
-    flex-direction: column;
-  }
+.catalog__content {
+  display: flex;
+  flex-direction: column;
 }
 
 /* Books section */
@@ -16,22 +16,22 @@
   display: flex;
   flex-direction: column;
   position: relative;
+}
 
-  .books-category__sticky-container {
-    position: sticky;
-    padding: var(--space-6) 0;
-    top: 0;
-    background-color: var(--color-surface);
-  }
+.books-category__sticky-container {
+  position: sticky;
+  padding: var(--space-6) 0;
+  top: 0;
+  background-color: var(--color-surface);
+}
 
-  /* Books list inside fo category */
-  & > ul {
-    --grid-columns: 5;
+/* Books list inside of category */
+.books-list {
+  --grid-columns: 5;
 
-    display: grid;
-    grid-template-columns: repeat(var(--grid-columns), minmax(0, 180px));
-    gap: var(--space-4);
-  }
+  display: grid;
+  grid-template-columns: repeat(var(--grid-columns), minmax(0, 180px));
+  gap: var(--space-4);
 }
 
 /* Books filters styles */
@@ -43,14 +43,14 @@
   /* With this filters doesn't stick to the right */
   width: var(--filter-width);
   min-width: var(--filter-width);
+}
 
-  & > div {
-    position: fixed;
-    width: inherit;
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-  }
+.fixed-container {
+  position: fixed;
+  width: inherit;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
 }
 
 /* Filters form styles */
@@ -59,118 +59,116 @@
   flex-direction: column;
   gap: var(--space-6);
   place-items: flex-start;
+}
 
-  /* Search input and select common styles */
-  & > .filter-form__search,
-  & > .filter-form__select {
-    position: relative;
-    flex: 1 1 0;
-    width: 100%;
-  }
+/* Search input and select common styles */
+.filter-form__search,
+.filter-form__select {
+  position: relative;
+  flex: 1 1 0;
+  width: 100%;
+}
 
-  input::placeholder,
-  select {
-    color: var(--color-on-surface-dim);
-    opacity: 1;
-  }
+.filter-form__search input::placeholder,
+.filter-form__select select {
+  color: var(--color-on-surface-dim);
+  opacity: 1;
+}
 
-  & > .filter-form__search input,
-  & > .filter-form__select select {
-    background-color: var(--color-surface-overlay);
-    height: 48px;
-    width: 100%;
-    border: none;
-    border-radius: var(--border-radius-sm);
-    display: block;
-  }
+.filter-form__search input,
+.filter-form__select select {
+  background-color: var(--color-surface-overlay);
+  height: 48px;
+  width: 100%;
+  border: none;
+  border-radius: var(--border-radius-sm);
+  display: block;
+}
 
-  /* Search input specific styles */
-  & > .filter-form__search {
-    & > input {
-      padding: var(--space-2) 0 var(--space-2) var(--space-12);
-    }
+/* Search input specific styles */
+.filter-form__search input {
+  padding: var(--space-2) 0 var(--space-2) var(--space-12);
+}
 
-    & > i {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      left: var(--space-4);
-    }
-  }
+.filter-form__search i {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: var(--space-4);
+}
 
-  /* Select specific styles */
-  & > .filter-form__select {
-    position: relative;
+/* Select specific styles */
+.filter-form__select {
+  position: relative;
+}
 
-    & > select {
-      padding: var(--space-2) var(--space-4);
-      appearance: none;
-    }
+.filter-form__select select {
+  padding: var(--space-2) var(--space-4);
+  appearance: none;
+}
 
-    & > i {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      right: var(--space-4);
-    }
-  }
+.filter-form__select i {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: var(--space-4);
+}
 
-  /* Checkbox styles */
-  & > .filter-form__checkbox {
-    display: block;
-    position: relative;
-    cursor: pointer;
-    padding-left: var(--space-9);
-    user-select: none;
-    flex: 0 0 25%;
+/* Checkbox styles */
+.filter-form__checkbox {
+  display: block;
+  position: relative;
+  cursor: pointer;
+  padding-left: var(--space-9);
+  user-select: none;
+  flex: 0 0 25%;
+}
 
-    /* Hide default checkbox  */
-    & > input {
-      position: absolute;
-      opacity: 0;
-      cursor: pointer;
-      height: 0;
-      width: 0;
-    }
+/* Hide default checkbox  */
+.checkbox__input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
 
-    /* Create a custom checkbox */
-    .checkmark {
-      position: absolute;
-      top: 6px;
-      left: 0;
-      height: 20px;
-      width: 20px;
-      background-color: var(--color-surface);
-      border-radius: var(--border-radius-xxs);
-      border: 2px solid var(--color-border);
-    }
+/* Create a custom checkbox */
+.checkbox__mark {
+  position: absolute;
+  top: 6px;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background-color: var(--color-surface);
+  border-radius: var(--border-radius-xxs);
+  border: 2px solid var(--color-border);
+}
 
-    /* Create the checkmark/indicator (hidden when not checked) */
-    .checkmark::after {
-      content: "";
-      position: absolute;
-      display: none;
-      left: 3px;
-      top: 3px;
-      width: 10px;
-      height: 10px;
-      border-radius: 2px;
-      background-color: var(--color-primary);
-    }
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkbox__mark::after {
+  content: "";
+  position: absolute;
+  display: none;
+  left: 3px;
+  top: 3px;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  background-color: var(--color-primary);
+}
 
-    &:hover input ~ .checkmark {
-      background-color: var(--color-surface-overlay);
-    }
+.checkbox__input:checked ~ .checkbox__mark {
+  border: 2px solid var(--color-primary);
+}
 
-    input:checked ~ .checkmark {
-      border: 2px solid var(--color-primary);
-    }
+.filter-form__checkbox:hover .checkbox__input ~ .checkbox__mark {
+  background-color: var(--color-surface-overlay);
+}
 
-    /* Show the checkmark when checked */
-    & input:checked ~ .checkmark::after {
-      display: block;
-    }
-  }
+/* Show the checkmark when checked */
+.checkbox__input:checked ~ .checkbox__mark::after {
+  display: block;
 }
 
 @media screen and (max-width: 1280px) {
@@ -178,7 +176,7 @@
     --filter-width: 276px;
   }
 
-  .books-category > ul {
+  .books-list {
     --grid-columns: 4;
   }
 }
@@ -190,13 +188,13 @@
 
   .catalog__filter {
     --filter-width: 100%;
-
-    & > div {
-      position: static;
-    }
   }
 
-  .books-category > ul {
+  .fixed-container {
+    position: static;
+  }
+
+  .books-list {
     --grid-columns: 3;
   }
 
@@ -207,7 +205,7 @@
 }
 
 @media screen and (max-width: 360px) {
-  .books-category > ul {
+  .books-list {
     --grid-columns: 2;
   }
 
