@@ -139,7 +139,8 @@
 
 /* Search input specific styles */
 .filter-form__search input {
-  padding: var(--space-2) 0 var(--space-2) var(--space-12);
+  padding-block: var(--space-2);
+  padding-left: var(--space-12);
 }
 
 .filter-form__search i {
