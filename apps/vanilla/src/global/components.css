@@ -1,11 +1,11 @@
 /* Header and footer styles */
 
-.books-app-header {
+.books-header {
   padding-block: var(--space-5);
   border-bottom: 1px solid var(--color-border);
 }
 
-.books-app-footer {
+.books-footer {
   display: flex;
   justify-content: space-between;
   margin-top: var(--space-6);
@@ -17,18 +17,18 @@
     color: var(--color-on-surface);
   }
 
-  .books-app-footer__info {
+  .books-footer__info {
     display: flex;
     gap: var(--space-8);
   }
 
-  .books-app-footer__additional {
+  .books-footer__additional {
     display: flex;
     place-items: center;
     gap: var(--space-2);
   }
 
-  .books-app-footer__button {
+  .books-footer__button {
     border: none;
     cursor: pointer;
     overflow: visible;
@@ -101,11 +101,11 @@
 }
 
 @media screen and (max-width: 360px) {
-  .books-app-footer {
+  .books-footer {
     flex-direction: column;
   }
 
-  .books-app-footer__button {
+  .books-footer__button {
     align-self: flex-end;
   }
 }
