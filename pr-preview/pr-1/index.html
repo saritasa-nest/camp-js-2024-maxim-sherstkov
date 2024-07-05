@@ -8,13 +8,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
     <title>Vite App</title>
-  <script type="module" crossorigin src="/camp-js-2024-maxim-sherstkov/pr-preview/pr-1/assets/index-CgjHdPpz.js"></script>
-  <link rel="stylesheet" crossorigin href="/camp-js-2024-maxim-sherstkov/pr-preview/pr-1/assets/index-vJ0g3WXe.css">
+  <script type="module" crossorigin src="/camp-js-2024-maxim-sherstkov/pr-preview/pr-1/assets/index-D5d2DTgC.js"></script>
+  <link rel="stylesheet" crossorigin href="/camp-js-2024-maxim-sherstkov/pr-preview/pr-1/assets/index-LO9QnZLc.css">
 </head>
 
 <body class="default-layout">
     <!-- Header -->
-    <header class="books-app-header text-logo">📚 Books app</header>
+    <header class="books-header text-logo">📚 Books app</header>
     <main class="catalog">
         <!-- Books catalog -->
         <article class="catalog__content">
@@ -22,7 +22,7 @@
                 <div class="books-category__sticky-container">
                     <h2 class="text-subtitle">2020 year</h2>
                 </div>
-                <ul>
+                <ul class="books-list">
                     <li class="book-card">
                         <img class="book-card__img" src="/camp-js-2024-maxim-sherstkov/pr-preview/pr-1/assets/image%203-yQp6OZnC.png" alt="Refactoring UI book" />
                         <p class="text-body-sm">
@@ -48,7 +48,7 @@
 
                     <h2 class="text-subtitle">1980 year</h2>
                 </div>
-                <ul>
+                <ul class="books-list">
                     <li class="book-card">
                         <img class="book-card__img" src="/camp-js-2024-maxim-sherstkov/pr-preview/pr-1/assets/image%2010-qIqzmwyd.png" alt="Yokohama Kaidashi Kikou" />
                         <p class="text-body-sm">
@@ -90,7 +90,7 @@
         </article>
         <!-- Aside filters -->
         <aside class="catalog__filter">
-            <div>
+            <div class="fixed-container">
                 <h2 class="text-subtitle">filters</h2>
                 <form class="filter-form">
                     <div class="filter-form__search">
@@ -111,9 +111,9 @@
                             <option value="">Choose sort field</option>
                         </select>
                     </div>
-                    <label class="filter-form__checkbox">
-                        <input type="checkbox" name="checkboxField">
-                        <span class="checkmark"></span>
+                    <label class="filter-form__checkbox checkbox">
+                        <input class="checkbox__input" type="checkbox" name="checkboxField">
+                        <span class="checkbox__mark"></span>
                         <p class="text-body">Show comics</p>
                     </label>
                 </form>
@@ -121,9 +121,9 @@
         </aside>
     </main>
     <!-- Footer -->
-    <footer class="books-app-footer">
-        <section class="books-app-footer__info">
-            <div class="books-app-footer__additional">
+    <footer class="books-footer">
+        <section class="books-footer__info">
+            <div class="books-footer__additional">
                 <p class="text-logo">Books app</p>
                 <p class="text-body">© 2023</p>
             </div>
@@ -131,7 +131,7 @@
             </div>
         </section>
 
-        <button class="books-app-footer__button text-body">Go to top ↑</p>
+        <button class="books-footer__button text-body">Go to top ↑</p>
     </footer>
 </body>
 
