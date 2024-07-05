@@ -11,7 +11,7 @@
   }
 }
 
-/* Books section, categorized by year */
+/* Books section */
 .books-category {
   display: flex;
   flex-direction: column;
