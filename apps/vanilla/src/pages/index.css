@@ -57,6 +57,7 @@
 .catalog__filter {
   --filter-width: 320px;
 
+  padding-top: var(--space-6);
   position: relative;
 
   /* With this filters doesn't stick to the right */
