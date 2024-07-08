@@ -72,7 +72,8 @@
   padding-top: var(--space-6);
   position: relative;
 
-  /* With this filters doesn't stick to the right */
+  /* Workaround to ensure filters maintain
+  a consistent width and do not shrink */
   width: var(--filter-width);
   min-width: var(--filter-width);
 }
