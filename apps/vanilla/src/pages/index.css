@@ -163,9 +163,6 @@
 }
 
 /* Select specific styles */
-/* .filter-form__select-field {
-  position: relative;
-} */
 
 .filter-form__select-field {
   padding: var(--space-2) var(--space-4);
@@ -223,15 +220,14 @@
   background-color: var(--color-primary);
 }
 
-.checkbox__input:checked ~ .checkbox__mark {
+.checkbox:has(.checkbox__input:checked) .checkbox__mark {
   border: 2px solid var(--color-primary);
 }
 
-.filter-form__checkbox:hover .checkbox__input ~ .checkbox__mark {
+.filter-form__checkbox:hover:has(.checkbox__input) .checkbox__mark {
   background-color: var(--color-surface-overlay);
 }
 
-/* Show the checkmark when checked */
-.checkbox__input:checked ~ .checkbox__mark::after {
+.checkbox:has(.checkbox__input:checked) .checkbox__mark::after {
   display: block;
 }
