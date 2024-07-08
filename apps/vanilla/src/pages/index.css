@@ -41,13 +41,25 @@
   }
 }
 
-@media screen and (max-width: 786px) {
+@media screen and (max-width: 960px) {
   .books-list {
     --grid-columns: 3;
   }
 }
 
-@media screen and (max-width: 360px) {
+@media screen and (max-width: 786px) {
+  .books-list {
+    --grid-columns: 4;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .books-list {
+    --grid-columns: 3;
+  }
+}
+
+@media screen and (max-width: 440px) {
   .books-list {
     --grid-columns: 2;
   }
@@ -106,7 +118,7 @@
   }
 }
 
-@media screen and (max-width: 360px) {
+@media screen and (max-width: 700px) {
   .filter-form {
     flex-direction: column;
     place-items: flex-start;
