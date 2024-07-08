@@ -69,35 +69,6 @@
   text-overflow: ellipsis;
 }
 
-/* Utility classes */
-
-/* Text utlity */
-
-.text-subtitle {
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-semibold);
-  line-height: var(--line-height-lg);
-  text-transform: uppercase;
-}
-
-.text-body {
-  font-size: var(--font-size-md);
-  font-weight: var(--font-weight-regular);
-  line-height: var(--line-height-xl);
-}
-
-.text-body-sm {
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-medium);
-  line-height: var(--line-height-lg);
-}
-
-.text-logo {
-  font-size: var(--font-size-md);
-  font-weight: var(--font-weight-bold);
-  line-height: var(--line-height-lg);
-}
-
 /* Layouts */
 
 .default-layout {
