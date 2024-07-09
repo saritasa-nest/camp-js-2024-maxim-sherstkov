@@ -10,12 +10,11 @@
   justify-content: space-between;
   margin-top: var(--space-6);
   padding: var(--space-6) 0;
-  height: var(--footer-height);
   border-top: 1px solid var(--color-border);
   row-gap: var(--space-10);
 }
 
-@media screen and (max-width: 360px) {
+@media screen and (max-width: 480px) {
   .books-footer {
     flex-direction: column;
   }
@@ -28,6 +27,12 @@
 .books-footer__info {
   display: flex;
   gap: var(--space-8);
+}
+
+@media screen and (max-width: 480px) {
+  .books-footer__info {
+    justify-content: space-between;
+  }
 }
 
 .books-footer__additional {
@@ -43,7 +48,7 @@
   background: transparent;
 }
 
-@media screen and (max-width: 360px) {
+@media screen and (max-width: 480px) {
   .books-footer__button-wrapper {
     display: flex;
     justify-content: end;
