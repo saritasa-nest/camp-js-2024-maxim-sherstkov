@@ -12,9 +12,6 @@
 
 body {
   line-height: 1.5;
-
-  /* Improves font rendering in MacOS browsers such as Chrome and Safari */
-  -webkit-font-smoothing: antialiased;
 }
 
 img,
