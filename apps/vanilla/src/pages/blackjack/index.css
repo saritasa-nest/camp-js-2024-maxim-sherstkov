@@ -1,3 +1,14 @@
+@import url("../../global/index.css");
+
 body {
   background-color: antiquewhite;
+}
+
+.player-result {
+  margin-bottom: 10px;
+  padding: 10px;
+}
+
+.winner {
+  background-color: crimson;
 }
