@@ -1,9 +1,9 @@
-import { TSubscriber } from './publisher';
+import { TSubscriber } from './subscriber';
 
 /**
  * Publisher class that manages subscribers and notifies them with updates.
  */
-export class Publisher<T> {
+export default class Publisher<T> {
 	private readonly subscribers: TSubscriber<T>[] = [];
 
 	/**
@@ -32,7 +32,10 @@ export class Publisher<T> {
 	 * Notifies all subscribers with a message.
 	 * @param message - The message to notify subscribers with.
 	 */
+	//TODO delete debug log
 	public notify(message: T): void {
+		console.log(message);
+
 		this.subscribers.forEach(sub => sub.update(message));
 	}
 
@@ -42,6 +45,6 @@ export class Publisher<T> {
 	 * @returns - The subscriber index.
 	 */
 	private getSubscriberIndex(s: TSubscriber<T>): number {
-		return this.subscribers.findIndex(sub => sub === s);
+		return this.subscribers.findIndex((sub) => sub === s);
 	}
 }
