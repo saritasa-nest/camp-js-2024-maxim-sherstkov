@@ -64,8 +64,8 @@
 }
 
 .book-card__img {
-  border-radius: var(--border-radius-md);
-  min-height: 250px;
+  border-radius: var(--border-radius-xxs);
+  aspect-ratio: 4 / 6;
 }
 
 .book-card__paragraph {
