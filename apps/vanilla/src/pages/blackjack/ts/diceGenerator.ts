@@ -1,4 +1,5 @@
 import { Publisher } from './publisher';
+import { getRandomNumber } from './utils';
 
 /**
  * Dice generator that rolls a die with a specified number of sides and notifies subscribers.
@@ -20,10 +21,8 @@ export class DiceGenerator extends Publisher<number> {
 	 * @returns The result of the roll.
 	 */
 	public roll(): number {
-		const result = Math.floor(Math.random() * this.sidesCount) + 1;
+		const result = getRandomNumber(this.sidesCount);
 		this.notify(result);
-
-		// TODO delete, might be useless; delete type
 		return result;
 	}
 }
