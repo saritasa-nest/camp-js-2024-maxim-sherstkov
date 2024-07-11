@@ -1,29 +1,32 @@
-import Publisher from './publisher';
+import { Publisher } from './publisher';
 
 /**
- * Turn generator that cycles through turns.
- *
- * @class TurnGenerator
- * @typedef {TurnGenerator}
+ * Turn generator that cycles through players' turns and notifies subscribers.
  */
-export default class TurnGenerator {
-	public playersCount: number;
+export class TurnGenerator extends Publisher<number> {
+	private playersCount: number;
 
-	public currentPlayerIndex = 0;
-
-	public turnGeneratorPublisher = new Publisher<number>();
+	private currentPlayerIndex = 0;
 
 	/**
 	 * Creates an instance of TurnGenerator.
 	 * @param playersCount - The number of players.
 	 */
-	constructor(playersCount: number) {
+	public constructor(playersCount: number) {
+		super();
 		this.playersCount = playersCount;
 	}
 
-	next(): void {
-		// TODO Refactor
+	/**
+	 * Moves to the next player's turn and notifies subscribers.
+	 * @returns The index of the current player.
+	 */
+	public next(): number {
+		const playerIndex = this.currentPlayerIndex;
 		this.currentPlayerIndex = (this.currentPlayerIndex + 1) % this.playersCount;
-		this.turnGeneratorPublisher.notify(this.currentPlayerIndex);
+		this.notify(playerIndex);
+
+		// TODO might delete later with type
+		return playerIndex;
 	}
 }

@@ -1,5 +1,5 @@
-import TurnGenerator from './turnGenerator';
-import Player from './player';
+import { TurnGenerator } from './turnGenerator';
+import { Player } from './player';
 
 /**
  * Game class.
@@ -18,8 +18,8 @@ export default class Game {
 	constructor(playersCount: number, sidesCount: number) {
 		this.turnGenerator = new TurnGenerator(playersCount);
 		this.players = Array.from({ length: playersCount }, () => new Player());
-		this.turnGenerator.turnGeneratorPublisher.subscribe(this.players[0])
-			
+		this.turnGenerator.turnGeneratorPublisher.subscribe(this.players[0]);
+
 	}
 
 	/**
