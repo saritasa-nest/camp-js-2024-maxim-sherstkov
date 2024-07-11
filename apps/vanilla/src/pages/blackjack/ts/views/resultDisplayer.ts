@@ -2,9 +2,10 @@ import { TSubscriber } from '../utils/subscriber';
 
 /**
  * ResultDisplayer class that updates the UI with player results.
+ * @implements {TSubscriber<number[]>}
  */
 export class ResultDisplayer implements TSubscriber<number[]> {
-	private playerElement: HTMLElement;
+	private readonly playerElement: HTMLElement;
 
 	/**
 	 * Creates an instance of ResultDisplayer.

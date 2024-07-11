@@ -11,9 +11,6 @@ import { Publisher } from './publisher';
 
 /**
  * Game class that manages the game logic and UI updates.
- *
- * @class Game
- * @typedef {Game}
  */
 export class Game {
 	private readonly players: Player[];

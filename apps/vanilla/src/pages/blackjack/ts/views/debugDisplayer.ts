@@ -2,9 +2,10 @@ import { TSubscriber } from '../utils/subscriber';
 
 /**
  * DebugDisplayer class that updates the UI with all dice rolls for debugging.
+ * @implements {TSubscriber<number>}
  */
 export class DebugDisplayer implements TSubscriber<number> {
-	private debugElement: HTMLElement;
+	private readonly debugElement: HTMLElement;
 
 	/**
 	 * Creates an instance of DebugDisplayer.

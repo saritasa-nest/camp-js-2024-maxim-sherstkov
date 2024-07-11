@@ -1,4 +1,5 @@
 import { Game } from './core/game';
+
 const playersResultsHTMLCollection = document.getElementsByClassName('player-result');
 const playersResultsElements = Array.from(playersResultsHTMLCollection) as HTMLElement[];
 const playerCount = playersResultsElements.length;

@@ -2,9 +2,10 @@ import { TSubscriber } from '../utils/subscriber';
 
 /**
  * WinnerDisplayer class that updates the UI to indicate the winner.
+ * @implements {TSubscriber<boolean>}
  */
 export class WinnerDisplayer implements TSubscriber<boolean> {
-	private playerElement: HTMLElement;
+	private readonly playerElement: HTMLElement;
 
 	/**
 	 * Creates an instance of WinnerDisplayer.
