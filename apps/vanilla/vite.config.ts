@@ -7,23 +7,24 @@ const outDir = resolve(__dirname, '../../dist/apps/vanilla');
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  root,
-  plugins: [],
-  resolve: {
-    alias: {
-      '@js-camp/vanilla': resolve(__dirname, 'src'),
-      '@js-camp': resolve(__dirname, '../../libs'),
-    },
-  },
-  build: {
-    outDir,
-    emptyOutDir: true,
-    rollupOptions: {
-      input: [
-        resolve(root, 'index.html'),
-        resolve(root, 'book-catalog', 'index.html'),
-        resolve(root, 'blackjack', 'index.html'),
-      ],
-    },
-  },
+	root,
+	plugins: [],
+	resolve: {
+		alias: {
+			'@js-camp/vanilla': resolve(__dirname, 'src'),
+			'@js-camp': resolve(__dirname, '../../libs'),
+		},
+	},
+	build: {
+		outDir,
+		emptyOutDir: true,
+		rollupOptions: {
+			input: [
+				resolve(root, 'index.html'),
+				resolve(root, 'book-catalog', 'index.html'),
+				resolve(root, 'blackjack', 'index.html'),
+
+			],
+		},
+	},
 });

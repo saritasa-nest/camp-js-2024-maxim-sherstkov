@@ -1,28 +1,90 @@
-a,
-:link,
-.link {
-  --link-color: var(--primary-color);
+/* Header and footer styles */
 
-  color: var(--link-color);
-  text-decoration: none;
-  border-bottom: 1px solid var(--link-color);
+.books-header {
+  padding-block: var(--space-5);
+  border-bottom: 1px solid var(--color-border);
 }
 
-a:hover,
-:link:hover,
-.link:hover {
-  --link-color: var(--primary-light-color);
-}
-
-.links {
+.books-footer {
   display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
+  justify-content: space-between;
+  margin-top: var(--space-6);
+  padding: var(--space-6) 0;
+  border-top: 1px solid var(--color-border);
+  row-gap: var(--space-10);
 }
+
+@media screen and (max-width: 480px) {
+  .books-footer {
+    flex-direction: column;
+  }
+}
+
+.footer-link {
+  color: var(--color-on-surface);
+}
+
+.books-footer__info {
+  display: flex;
+  gap: var(--space-8);
+}
+
+@media screen and (max-width: 480px) {
+  .books-footer__info {
+    justify-content: space-between;
+  }
+}
+
+.books-footer__additional {
+  display: flex;
+  place-items: center;
+  gap: var(--space-2);
+}
+
+.books-footer__button {
+  border: none;
+  cursor: pointer;
+  overflow: visible;
+  background: transparent;
+}
+
+@media screen and (max-width: 480px) {
+  .books-footer__button-wrapper {
+    display: flex;
+    justify-content: end;
+  }
+}
+
+/* Book card component */
+
+.book-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.book-card__img {
+  border-radius: var(--border-radius-xxs);
+  aspect-ratio: 4 / 6;
+}
+
+.book-card__paragraph {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Layouts */
 
 .default-layout {
-  --default-layout-width: 600px;
+  --default-layout-width: 1244px;
 
-  margin: 80px auto 0;
-  max-width: var(--default-layout-width);
+  min-height: 100dvh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  background-color: var(--color-surface);
+
+  /* Making margin for mobile devices */
+  width: min(var(--default-layout-width), 100% - calc(var(--space-6) * 2));
+  margin-inline: auto;
 }
