@@ -32,10 +32,7 @@ export class Publisher<T> {
 	 * Notifies all subscribers with a message.
 	 * @param message - The message to notify subscribers with.
 	 */
-	// TODO delete debug log
 	public notify(message: T): void {
-		console.log(message);
-
 		this.subscribers.forEach(sub => sub.update(message));
 	}
 

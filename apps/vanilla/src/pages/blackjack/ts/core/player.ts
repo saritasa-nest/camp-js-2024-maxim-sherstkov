@@ -18,7 +18,7 @@ export class Player implements TSubscriber<number> {
 	 * @public
 	 * @type {Publisher<number[]>}
 	 */
-	public results: Publisher<number[]> = new Publisher<number[]>();
+	public results$: Publisher<number[]> = new Publisher<number[]>();
 
 	/**
 	 * Indicates is current player wins or not.
@@ -26,7 +26,7 @@ export class Player implements TSubscriber<number> {
 	 * @public
 	 * @type {Publisher<boolean>}
 	 */
-	public winStatus: Publisher<boolean> = new Publisher<boolean>();
+	public winStatus$: Publisher<boolean> = new Publisher<boolean>();
 
 	/**
 	 * Adds a dice result to the player's results and notifies subscribers.
@@ -34,7 +34,7 @@ export class Player implements TSubscriber<number> {
 	 */
 	private addDiceResult(result: number): void {
 		this.diceResults.push(result);
-		this.results.notify(this.diceResults);
+		this.results$.notify(this.diceResults);
 	}
 
 	/**
@@ -43,9 +43,9 @@ export class Player implements TSubscriber<number> {
 	private checkWinStatus(): void {
 		const total = this.diceResults.reduce((a, b) => a + b, 0);
 		if (total >= 21) {
-			this.winStatus.notify(true);
+			this.winStatus$.notify(true);
 		} else {
-			this.winStatus.notify(false);
+			this.winStatus$.notify(false);
 		}
 	}
 

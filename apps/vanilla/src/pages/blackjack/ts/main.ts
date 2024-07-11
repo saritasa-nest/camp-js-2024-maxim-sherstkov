@@ -1,15 +1,14 @@
 import { Game } from './core/game';
+const playersResultsHTMLCollection = document.getElementsByClassName('player-result');
+const playersResultsElements = Array.from(playersResultsHTMLCollection) as HTMLElement[];
+const playerCount = playersResultsElements.length;
 
-// TODO make grabbing 'em by tagnames depends on `player-results` in html
-const playersResultsElements = [
-	document.getElementById('player1-results'),
-	document.getElementById('player2-results'),
-];
+const debugElement = document.getElementById('debug-rolls') as HTMLElement;
 
-/* Initialize the game*/
-const game = new Game(2, 6, playersResultsElements);
+/* Initialize the game */
+const game = new Game(playerCount, 6, playersResultsElements, debugElement);
 
-/* Roll the dice button event listener */
+/* 'Roll the dice' button event listener */
 document.getElementById('roll-dice')?.addEventListener('click', () => {
 	game.playTurn();
 });
