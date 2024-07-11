@@ -1,5 +1,6 @@
+import { TSubscriber } from '../utils/subscriber';
+
 import { Publisher } from './publisher';
-import { TSubscriber } from './subscriber';
 
 /**
  * Description placeholder.

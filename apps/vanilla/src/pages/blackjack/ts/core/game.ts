@@ -1,9 +1,11 @@
+import { ResultDisplayer } from '../views/resultDisplayer';
+
+import { WinnerDisplayer } from '../views/winnerDisplayer';
+
 import { TurnGenerator } from './turnGenerator';
 import { Player } from './player';
 import { DiceGenerator } from './diceGenerator';
 import { Publisher } from './publisher';
-import { ResultDisplayer } from './resultDisplayer';
-import { WinnerDisplayer } from './winnerDisplayer';
 
 /**
  * Game class that manages the game logic and UI updates.

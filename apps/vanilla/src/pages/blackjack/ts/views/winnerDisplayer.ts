@@ -1,4 +1,4 @@
-import { TSubscriber } from './subscriber';
+import { TSubscriber } from '../utils/subscriber';
 
 /**
  * WinnerDisplayer class that updates the UI to indicate the winner.

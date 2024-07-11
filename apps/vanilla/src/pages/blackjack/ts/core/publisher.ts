@@ -1,4 +1,4 @@
-import { TSubscriber } from './subscriber';
+import { TSubscriber } from '../utils/subscriber';
 
 /**
  * Publisher class that manages subscribers and notifies them with updates.

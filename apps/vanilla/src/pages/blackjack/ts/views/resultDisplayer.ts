@@ -1,4 +1,4 @@
-import { TSubscriber } from './subscriber';
+import { TSubscriber } from '../utils/subscriber';
 
 /**
  * ResultDisplayer class that updates the UI with player results.

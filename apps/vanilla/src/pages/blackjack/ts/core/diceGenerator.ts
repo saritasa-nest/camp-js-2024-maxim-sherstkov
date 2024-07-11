@@ -1,15 +1,16 @@
+import { getRandomNumber } from '../utils/utils';
+
 import { Publisher } from './publisher';
-import { getRandomNumber } from './utils';
 
 /**
- * Dice generator that rolls a die with a specified number of sides and notifies subscribers.
+ * Dice generator that rolls a dice with a specified number of sides and notifies subscribers.
  */
 export class DiceGenerator extends Publisher<number> {
 	private sidesCount: number;
 
 	/**
 	 * Creates an instance of DiceGenerator.
-	 * @param sidesCount - The number of sides on the die.
+	 * @param sidesCount - The number of sides on the dice.
 	 */
 	public constructor(sidesCount: number) {
 		super();

@@ -1,4 +1,4 @@
-import { Game } from './game';
+import { Game } from './core/game';
 
 // TODO make grabbing 'em by tagnames depends on `player-results` in html
 const playersResultsElements = [
