@@ -2,6 +2,7 @@ import { Publisher } from './publisher';
 
 /**
  * Turn generator that cycles through players turns and notifies subscribers.
+ *
  * @augments Publisher<number>
  */
 export class TurnGenerator extends Publisher<number> {

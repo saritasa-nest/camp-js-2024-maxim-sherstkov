@@ -4,6 +4,7 @@ import { Publisher } from './publisher';
 
 /**
  * Player class that tracks dice results and win status.
+ *
  * @implements {TSubscriber<number>}
  * @augments Publisher<number>
  */
