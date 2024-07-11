@@ -51,13 +51,13 @@ export class Game {
 			update: (currentPlayerIndex: number) => {
 				const currentPlayer = this.players[currentPlayerIndex];
 
-				// Unsubscribe all players from DiceGenerator
+				/* Unsubscribe all players from DiceGenerator */
 				this.players.forEach(player => this.diceGenerator$.unsubscribe(player));
 
-				// Subscribe the current player to DiceGenerator
+				/* Subscribe the current player to DiceGenerator */
 				this.diceGenerator$.subscribe(currentPlayer);
 
-				// Roll the dice for the current player
+				/* Roll the dice for the current player */
 				const diceResult = this.diceGenerator$.roll();
 
 				/* Sends result of the roll to debug subscribers */
