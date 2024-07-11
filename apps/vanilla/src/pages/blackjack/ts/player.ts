@@ -1,6 +1,5 @@
 import { Publisher } from './publisher';
 import { TSubscriber } from './subscriber';
-import { DiceGenerator } from './diceGenerator';
 
 /**
  * Description placeholder.
@@ -56,21 +55,5 @@ export class Player implements TSubscriber<number> {
 	public update(result: number): void {
 		this.addDiceResult(result);
 		this.checkWinStatus();
-	}
-
-	/**
-	 * Subscribes to the dice generator.
-	 * @param diceGenerator - The dice generator to subscribe to.
-	 */
-	public subscribeToDiceGenerator(diceGenerator: DiceGenerator): void {
-		diceGenerator.subscribe(this);
-	}
-
-	/**
-	 * Unsubscribes from the dice generator.
-	 * @param diceGenerator - The dice generator to unsubscribe from.
-	 */
-	public unsubscribeFromDiceGenerator(diceGenerator: DiceGenerator): void {
-		diceGenerator.unsubscribe(this);
 	}
 }

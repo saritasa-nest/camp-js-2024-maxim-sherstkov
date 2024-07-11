@@ -11,7 +11,7 @@ import { WinnerDisplayer } from './winnerDisplayer';
  * @class Game
  * @typedef {Game}
  */
-export default class Game {
+export class Game {
 	private players: Player[];
 
 	private turnGenerator: TurnGenerator;
@@ -47,10 +47,10 @@ export default class Game {
 				const currentPlayer = this.players[currentPlayerIndex];
 
 				// Unsubscribe all players from DiceGenerator
-				this.players.forEach(player => player.unsubscribeFromDiceGenerator(this.diceGenerator));
+				this.players.forEach(player => this.diceGenerator.unsubscribe(player));
 
 				// Subscribe the current player to DiceGenerator
-				currentPlayer.subscribeToDiceGenerator(this.diceGenerator);
+				this.diceGenerator.subscribe(currentPlayer);
 
 				// Roll the dice for the current player
 				const diceResult = this.diceGenerator.roll();
