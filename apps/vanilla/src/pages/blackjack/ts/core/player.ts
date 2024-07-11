@@ -3,7 +3,7 @@ import { TSubscriber } from '../utils/subscriber';
 import { Publisher } from './publisher';
 
 /**
- * Description placeholder.
+ * Player class that tracks dice results and win status.
  *
  * @class Player
  * @typedef {Player}
@@ -21,7 +21,7 @@ export class Player implements TSubscriber<number> {
 	public results$: Publisher<number[]> = new Publisher<number[]>();
 
 	/**
-	 * Indicates is current player wins or not.
+	 * Indicates whether the current player is winning or not.
 	 *
 	 * @public
 	 * @type {Publisher<boolean>}

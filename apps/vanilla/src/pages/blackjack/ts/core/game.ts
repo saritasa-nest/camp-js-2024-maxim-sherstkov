@@ -16,13 +16,15 @@ import { Publisher } from './publisher';
  * @typedef {Game}
  */
 export class Game {
-	private players: Player[];
+	private readonly players: Player[];
 
-	private turnGenerator$: TurnGenerator;
+	private readonly turnGenerator$: TurnGenerator;
 
-	private diceGenerator$: DiceGenerator;
+	private readonly diceGenerator$: DiceGenerator;
 
-	private debugPublisher$: Publisher<number>;
+	private readonly debugPublisher$: Publisher<number>;
+
+	private readonly debugDisplayer: DebugDisplayer;
 
 	/**
 	 * Creates an instance of Game.
@@ -37,6 +39,7 @@ export class Game {
 		this.turnGenerator$ = new TurnGenerator(playersCount);
 		this.diceGenerator$ = new DiceGenerator(diceSidesCount);
 		this.debugPublisher$ = new Publisher<number>();
+		this.debugDisplayer = new DebugDisplayer(debugElement);
 
 		this.players.forEach((player, index) => {
 			const resultDisplayer = new ResultDisplayer(playerElements[index]);
@@ -65,12 +68,11 @@ export class Game {
 			},
 		});
 
-		const debugDisplayer = new DebugDisplayer(debugElement);
-		this.debugPublisher$.subscribe(debugDisplayer);
+		this.debugPublisher$.subscribe(this.debugDisplayer);
 	}
 
 	/**
-	 * Roll the dice.
+	 * Plays a turn by executing turnGenerator's method.
 	 */
 	public playTurn(): void {
 		this.turnGenerator$.next();

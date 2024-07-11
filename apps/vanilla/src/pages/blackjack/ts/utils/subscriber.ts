@@ -9,5 +9,5 @@ export type TSubscriber<T> = {
 	 * @param {T} message
 	 * @returns {void}
 	 */
-	readonly update: (message: T) => void;
+	update: (message: T) => void;
 };

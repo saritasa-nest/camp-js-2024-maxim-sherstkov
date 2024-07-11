@@ -1,10 +1,13 @@
 import { Publisher } from './publisher';
 
 /**
- * Turn generator that cycles through players' turns and notifies subscribers.
+ * Turn generator that cycles through players turns and notifies subscribers.
+ * @class TurnGenerator
+ * @typedef {TurnGenerator}
+ * @augments Publisher<number>
  */
 export class TurnGenerator extends Publisher<number> {
-	private playersCount: number;
+	private readonly playersCount: number;
 
 	private currentPlayerIndex = 0;
 
@@ -19,14 +22,10 @@ export class TurnGenerator extends Publisher<number> {
 
 	/**
 	 * Moves to the next player's turn and notifies subscribers.
-	 * @returns The index of the current player.
 	 */
-	public next(): number {
+	public next(): void {
 		const playerIndex = this.currentPlayerIndex;
 		this.currentPlayerIndex = (this.currentPlayerIndex + 1) % this.playersCount;
 		this.notify(playerIndex);
-
-		// TODO might delete later with type
-		return playerIndex;
 	}
 }

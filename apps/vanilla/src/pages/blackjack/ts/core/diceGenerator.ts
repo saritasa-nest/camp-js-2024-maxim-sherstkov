@@ -6,7 +6,7 @@ import { Publisher } from './publisher';
  * Dice generator that rolls a dice with a specified number of sides and notifies subscribers.
  */
 export class DiceGenerator extends Publisher<number> {
-	private sidesCount: number;
+	private readonly sidesCount: number;
 
 	/**
 	 * Creates an instance of DiceGenerator.
