@@ -10,10 +10,6 @@ import { Publisher } from './publisher';
 export class DiceGenerator extends Publisher<number> {
 	private readonly sidesCount: number;
 
-	/**
-	 * Creates an instance of DiceGenerator.
-	 * @param sidesCount - The number of sides on the dice.
-	 */
 	public constructor(sidesCount: number) {
 		super();
 		this.sidesCount = sidesCount;

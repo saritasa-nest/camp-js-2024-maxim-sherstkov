@@ -7,10 +7,6 @@ import { TSubscriber } from '../utils/subscriber';
 export class ResultDisplayer implements TSubscriber<number[]> {
 	private readonly playerElement: HTMLElement;
 
-	/**
-	 * Creates an instance of ResultDisplayer.
-	 * @param playerElement - The HTML element to display results.
-	 */
 	public constructor(playerElement: HTMLElement) {
 		this.playerElement = playerElement;
 	}

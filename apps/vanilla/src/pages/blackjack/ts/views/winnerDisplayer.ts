@@ -7,10 +7,6 @@ import { TSubscriber } from '../utils/subscriber';
 export class WinnerDisplayer implements TSubscriber<boolean> {
 	private readonly playerElement: HTMLElement;
 
-	/**
-	 * Creates an instance of WinnerDisplayer.
-	 * @param playerElement - The HTML element to indicate the winner.
-	 */
 	public constructor(playerElement: HTMLElement) {
 		this.playerElement = playerElement;
 	}

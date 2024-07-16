@@ -10,10 +10,6 @@ export class TurnGenerator extends Publisher<number> {
 
 	private currentPlayerIndex = 0;
 
-	/**
-	 * Creates an instance of TurnGenerator.
-	 * @param playersCount - The number of players.
-	 */
 	public constructor(playersCount: number) {
 		super();
 		this.playersCount = playersCount;

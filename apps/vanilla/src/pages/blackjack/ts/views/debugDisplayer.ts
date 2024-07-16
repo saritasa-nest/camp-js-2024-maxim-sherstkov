@@ -7,10 +7,6 @@ import { TSubscriber } from '../utils/subscriber';
 export class DebugDisplayer implements TSubscriber<number> {
 	private readonly debugElement: HTMLElement;
 
-	/**
-	 * Creates an instance of DebugDisplayer.
-	 * @param debugElement - The HTML element to display debug information.
-	 */
 	public constructor(debugElement: HTMLElement) {
 		this.debugElement = debugElement;
 	}
