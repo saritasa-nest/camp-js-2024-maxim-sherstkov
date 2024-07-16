@@ -32,12 +32,8 @@ export class Player implements TSubscriber<number> {
 	 * Checks if the player has won (total >= 21) and notifies subscribers.
 	 */
 	private checkWinStatus(): void {
-		const total = this.diceResults.reduce((a, b) => a + b, 0);
-		if (total >= 21) {
-			this.winStatus$.notify(true);
-		} else {
-			this.winStatus$.notify(false);
-		}
+		const total = this.diceResults.reduce((acc, curr) => acc + curr, 0);
+		this.winStatus$.notify(total >= 21);
 	}
 
 	/**
