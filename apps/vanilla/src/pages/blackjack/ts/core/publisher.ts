@@ -8,21 +8,21 @@ export class Publisher<T> {
 
 	/**
 	 * Adds a subscriber.
-	 * @param s - The subscriber to add.
+	 * @param subscriber - The subscriber to add.
 	 */
-	public subscribe(s: TSubscriber<T>): void {
-		const subIndex = this.getSubscriberIndex(s);
+	public subscribe(subscriber: TSubscriber<T>): void {
+		const subIndex = this.getSubscriberIndex(subscriber);
 		if (subIndex === -1) {
-			this.subscribers.push(s);
+			this.subscribers.push(subscriber);
 		}
 	}
 
 	/**
 	 * Removes a subscriber.
-	 * @param s - The subscriber to remove.
+	 * @param subscriber - The subscriber to remove.
 	 */
-	public unsubscribe(s: TSubscriber<T>): void {
-		const subIndex = this.getSubscriberIndex(s);
+	public unsubscribe(subscriber: TSubscriber<T>): void {
+		const subIndex = this.getSubscriberIndex(subscriber);
 		if (subIndex !== -1) {
 			this.subscribers.splice(subIndex, 1);
 		}
@@ -33,15 +33,15 @@ export class Publisher<T> {
 	 * @param message - The message to notify subscribers with.
 	 */
 	public notify(message: T): void {
-		this.subscribers.forEach(sub => sub.update(message));
+		this.subscribers.forEach(currentSubscriber => currentSubscriber.update(message));
 	}
 
 	/**
 	 * Receives subscriber index.
-	 * @param s - The subscriber whose index you want to find.
+	 * @param subscriber - The subscriber whose index you want to find.
 	 * @returns - The subscriber index.
 	 */
-	private getSubscriberIndex(s: TSubscriber<T>): number {
-		return this.subscribers.findIndex(sub => sub === s);
+	private getSubscriberIndex(subscriber: TSubscriber<T>): number {
+		return this.subscribers.findIndex(currentSubscriber => currentSubscriber === subscriber);
 	}
 }

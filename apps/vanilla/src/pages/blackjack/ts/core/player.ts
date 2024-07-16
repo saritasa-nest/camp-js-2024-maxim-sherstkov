@@ -5,21 +5,17 @@ import { Publisher } from './publisher';
 /**
  * Player class that tracks dice results and win status.
  *
- * @implements {TSubscriber<number>}
- * @augments Publisher<number>
  */
 export class Player implements TSubscriber<number> {
 	private readonly diceResults: number[] = [];
 
 	/**
 	 * Shows the result of all rolls for current player.
-	 * @type {Publisher<number[]>}
 	 */
 	public results$: Publisher<number[]> = new Publisher<number[]>();
 
 	/**
 	 * Indicates whether the current player is winning or not.
-	 * @type {Publisher<boolean>}
 	 */
 	public winStatus$: Publisher<boolean> = new Publisher<boolean>();
 

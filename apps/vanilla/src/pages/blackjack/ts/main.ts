@@ -7,7 +7,8 @@ const playerCount = playersResultsElements.length;
 const debugElement = document.getElementsByClassName('debug-rolls')[0] as HTMLElement;
 
 /* Initialize the game */
-const game = new Game(playerCount, 6, playersResultsElements, debugElement);
+const DEFAULT_DICE_COUNT = 6;
+const game = new Game(playerCount, DEFAULT_DICE_COUNT, playersResultsElements, debugElement);
 
 /* `Roll the dice` button event listener */
 document.getElementById('roll-dice')?.addEventListener('click', () => {

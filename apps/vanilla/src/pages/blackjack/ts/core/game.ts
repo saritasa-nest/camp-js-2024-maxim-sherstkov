@@ -13,7 +13,7 @@ import { Publisher } from './publisher';
  * Game class that manages the game logic and UI updates.
  */
 export class Game {
-	private readonly players: Player[];
+	private readonly players: readonly Player[];
 
 	private readonly turnGenerator$: TurnGenerator;
 
