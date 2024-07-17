@@ -4,6 +4,8 @@ import { WinnerDisplayer } from '../views/winnerDisplayer';
 
 import { HistoryDisplayer } from '../views/historyDisplayer';
 
+import { getTotalSum } from '../utils/utils';
+
 import { TurnGenerator } from './turnGenerator';
 import { Player } from './player';
 import { DiceGenerator } from './diceGenerator';
@@ -59,6 +61,12 @@ export class Game {
 
 			player.results$.subscribe(resultDisplayer);
 			player.winStatus$.subscribe(winnerDisplayer);
+
+			player.results$.subscribe({
+				update: (diceResults: number[]) => {
+					this.checkWinStatus(diceResults, player);
+				},
+			});
 		});
 
 		this.turnGenerator$.subscribe({
@@ -80,9 +88,6 @@ export class Game {
 
 				/* Sends result of the roll to history subscribers */
 				this.historyPublisher$.notify(diceResult);
-
-				/* Check if the game has ended */
-				this.checkWinStatus(currentPlayer);
 			},
 		});
 
@@ -98,14 +103,17 @@ export class Game {
 
 	/**
 	 * Checks if a player has won and ends the game if true.
+	 * @param diceResults - Player rolls results.
 	 * @param player - The player to check win status for.
 	 */
-	private checkWinStatus(player: Player): void {
-		const total = player.getTotalScore();
+	private checkWinStatus(diceResults: number[], player: Player): void {
+		const total = getTotalSum(diceResults);
 		if (total >= 21) {
 			this.isGameEnded = true;
 			player.winStatus$.notify(true);
 			this.players.forEach(currentPlayer => this.diceGenerator$.unsubscribe(currentPlayer));
+		} else {
+			player.winStatus$.notify(false);
 		}
 	}
 }

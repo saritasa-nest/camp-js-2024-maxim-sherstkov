@@ -1,5 +1,4 @@
 import { TSubscriber } from '../utils/subscriber';
-import { getTotalSum } from '../utils/utils';
 
 import { Publisher } from './publisher';
 
@@ -27,14 +26,6 @@ export class Player implements TSubscriber<number> {
 	private addDiceResult(result: number): void {
 		this.diceResults.push(result);
 		this.results$.notify(this.diceResults);
-	}
-
-	/**
-	 * Gets the total score of the player.
-	 * @returns The total score.
-	 */
-	public getTotalScore(): number {
-		return getTotalSum(this.diceResults);
 	}
 
 	/**
