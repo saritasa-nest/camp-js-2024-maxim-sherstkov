@@ -23,8 +23,8 @@ type GameConstructorData = {
 	/** Array of HTML elements to display player results. */
 	playerElements: HTMLElement[];
 
-	/** The HTML element to display debug information. */
-	debugElement: HTMLElement;
+	/** The HTML element to display history of rolls. */
+	historyElement: HTMLElement;
 };
 
 /**
@@ -38,17 +38,17 @@ export class Game {
 
 	private readonly diceGenerator$: DiceGenerator;
 
-	private readonly debugPublisher$: Publisher<number>;
+	private readonly historyPublisher$: Publisher<number>;
 
-	private readonly debugDisplayer: HistoryDisplayer;
+	private readonly historyDisplayer: HistoryDisplayer;
 
 	public constructor(constructorData: GameConstructorData) {
 		this.players = new Array(constructorData.playersCount).fill(null)
 			.map(() => new Player());
 		this.turnGenerator$ = new TurnGenerator(constructorData.playersCount);
 		this.diceGenerator$ = new DiceGenerator(constructorData.diceSidesCount);
-		this.debugPublisher$ = new Publisher<number>();
-		this.debugDisplayer = new HistoryDisplayer(constructorData.debugElement);
+		this.historyPublisher$ = new Publisher<number>();
+		this.historyDisplayer = new HistoryDisplayer(constructorData.historyElement);
 
 		this.players.forEach((player, index) => {
 			const resultDisplayer = new ResultDisplayer(constructorData.playerElements[index]);
@@ -72,12 +72,12 @@ export class Game {
 				/* Roll the dice for the current player */
 				const diceResult = this.diceGenerator$.roll();
 
-				/* Sends result of the roll to debug subscribers */
-				this.debugPublisher$.notify(diceResult);
+				/* Sends result of the roll to history subscribers */
+				this.historyPublisher$.notify(diceResult);
 			},
 		});
 
-		this.debugPublisher$.subscribe(this.debugDisplayer);
+		this.historyPublisher$.subscribe(this.historyDisplayer);
 	}
 
 	/**

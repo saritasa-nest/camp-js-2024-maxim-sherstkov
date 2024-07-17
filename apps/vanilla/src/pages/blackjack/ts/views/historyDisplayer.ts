@@ -1,14 +1,14 @@
 import { TSubscriber } from '../utils/subscriber';
 
 /**
- * HistoryDisplayer class that updates the UI with all dice rolls for debugging.
+ * HistoryDisplayer class that updates the UI with all dice rolls for historyging.
  * @implements {TSubscriber<number>}
  */
 export class HistoryDisplayer implements TSubscriber<number> {
-	private readonly debugElement: HTMLElement;
+	private readonly historyElement: HTMLElement;
 
-	public constructor(debugElement: HTMLElement) {
-		this.debugElement = debugElement;
+	public constructor(historyElement: HTMLElement) {
+		this.historyElement = historyElement;
 	}
 
 	/**
@@ -16,7 +16,7 @@ export class HistoryDisplayer implements TSubscriber<number> {
 	 * @param result - The result of the dice roll.
 	 */
 	public update(result: number): void {
-		const currentContent = this.debugElement.innerHTML;
-		this.debugElement.innerHTML = currentContent ? `${currentContent}, ${result}` : `${result}`;
+		const currentContent = this.historyElement.innerHTML;
+		this.historyElement.innerHTML = currentContent ? `${currentContent}, ${result}` : `${result}`;
 	}
 }
