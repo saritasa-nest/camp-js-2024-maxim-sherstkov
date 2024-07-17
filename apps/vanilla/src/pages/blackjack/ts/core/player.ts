@@ -29,11 +29,11 @@ export class Player implements TSubscriber<number> {
 	}
 
 	/**
-	 * Checks if the player has won (total >= 21) and notifies subscribers.
+	 * Gets the total score of the player.
+	 * @returns The total score.
 	 */
-	private checkWinStatus(): void {
-		const total = this.diceResults.reduce((acc, curr) => acc + curr, 0);
-		this.winStatus$.notify(total >= 21);
+	public getTotalScore(): number {
+		return this.diceResults.reduce((acc, curr) => acc + curr, 0);
 	}
 
 	/**
@@ -42,6 +42,5 @@ export class Player implements TSubscriber<number> {
 	 */
 	public update(result: number): void {
 		this.addDiceResult(result);
-		this.checkWinStatus();
 	}
 }

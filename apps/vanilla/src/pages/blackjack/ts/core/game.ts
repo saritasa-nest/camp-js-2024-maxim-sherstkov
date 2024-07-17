@@ -42,6 +42,8 @@ export class Game {
 
 	private readonly historyDisplayer: HistoryDisplayer;
 
+	private isGameEnded = false;
+
 	public constructor(constructorData: GameConstructorData) {
 		this.players = new Array(constructorData.playersCount).fill(null)
 			.map(() => new Player());
@@ -61,6 +63,10 @@ export class Game {
 
 		this.turnGenerator$.subscribe({
 			update: (currentPlayerIndex: number) => {
+				if (this.isGameEnded) {
+					return;
+				}
+
 				const currentPlayer = this.players[currentPlayerIndex];
 
 				/* Unsubscribe all players from DiceGenerator */
@@ -74,6 +80,9 @@ export class Game {
 
 				/* Sends result of the roll to history subscribers */
 				this.historyPublisher$.notify(diceResult);
+
+				/* Check if the game has ended */
+				this.checkWinStatus(currentPlayer);
 			},
 		});
 
@@ -85,5 +94,18 @@ export class Game {
 	 */
 	public playTurn(): void {
 		this.turnGenerator$.next();
+	}
+
+	/**
+	 * Checks if a player has won and ends the game if true.
+	 * @param player - The player to check win status for.
+	 */
+	private checkWinStatus(player: Player): void {
+		const total = player.getTotalScore();
+		if (total >= 21) {
+			this.isGameEnded = true;
+			player.winStatus$.notify(true);
+			this.players.forEach(currentPlayer => this.diceGenerator$.unsubscribe(currentPlayer));
+		}
 	}
 }
