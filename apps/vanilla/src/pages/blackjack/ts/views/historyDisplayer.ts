@@ -5,9 +5,9 @@ import { TSubscriber } from '../utils/subscriber';
  * @implements {TSubscriber<number>}
  */
 export class HistoryDisplayer implements TSubscriber<number> {
-	private readonly historyElement: HTMLElement;
+	private readonly historyElement: Element;
 
-	public constructor(historyElement: HTMLElement) {
+	public constructor(historyElement: Element) {
 		this.historyElement = historyElement;
 	}
 

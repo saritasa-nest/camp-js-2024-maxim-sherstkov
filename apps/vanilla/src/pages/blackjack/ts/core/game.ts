@@ -21,10 +21,10 @@ type GameConstructorData = {
 	diceSidesCount: number;
 
 	/** Array of HTML elements to display player results. */
-	playerElements: HTMLElement[];
+	playerElements: Element[];
 
 	/** The HTML element to display history of rolls. */
-	historyElement: HTMLElement;
+	historyElement: Element;
 };
 
 /**
