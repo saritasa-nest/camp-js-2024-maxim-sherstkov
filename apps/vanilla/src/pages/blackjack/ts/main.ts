@@ -1,10 +1,10 @@
 import { Game } from './core/game';
 
-const playersResultsHTMLCollection = document.querySelectorAll('.player-result');
+const playersResultsHTMLCollection = document.querySelectorAll<HTMLElement>('.player-result');
 const playersResultsElements = Array.from(playersResultsHTMLCollection);
 const playersCount = playersResultsElements.length;
 
-const historyElement = document.getElementsByClassName('history-rolls')[0];
+const historyElement = <HTMLElement>document.getElementsByClassName('history-rolls')[0];
 
 /* Initialize the game */
 const DEFAULT_DICE_COUNT = 6;

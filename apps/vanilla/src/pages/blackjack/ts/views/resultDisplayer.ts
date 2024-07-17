@@ -6,9 +6,9 @@ import { getTotalSum } from '../utils/utils';
  * @implements {TSubscriber<number[]>}
  */
 export class ResultDisplayer implements TSubscriber<number[]> {
-	private readonly playerElement: Element;
+	private readonly playerElement: HTMLElement;
 
-	public constructor(playerElement: Element) {
+	public constructor(playerElement: HTMLElement) {
 		this.playerElement = playerElement;
 	}
 

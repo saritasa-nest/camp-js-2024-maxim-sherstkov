@@ -5,9 +5,9 @@ import { TSubscriber } from '../utils/subscriber';
  * @implements {TSubscriber<boolean>}
  */
 export class WinnerDisplayer implements TSubscriber<boolean> {
-	private readonly playerElement: Element;
+	private readonly playerElement: HTMLElement;
 
-	public constructor(playerElement: Element) {
+	public constructor(playerElement: HTMLElement) {
 		this.playerElement = playerElement;
 	}
 
