@@ -1,4 +1,5 @@
 import { TSubscriber } from '../utils/subscriber';
+import { getTotalSum } from '../utils/utils';
 
 /**
  * ResultDisplayer class that updates the UI with player results.
@@ -16,7 +17,7 @@ export class ResultDisplayer implements TSubscriber<number[]> {
 	 * @param results - The array of dice results.
 	 */
 	public update(results: number[]): void {
-		const total = results.reduce((a, b) => a + b, 0);
+		const total = getTotalSum(results);
 		this.playerElement.innerHTML = `${results.join(', ')} (Total: ${total})`;
 	}
 }

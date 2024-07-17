@@ -1,4 +1,5 @@
 import { TSubscriber } from '../utils/subscriber';
+import { getTotalSum } from '../utils/utils';
 
 import { Publisher } from './publisher';
 
@@ -33,7 +34,7 @@ export class Player implements TSubscriber<number> {
 	 * @returns The total score.
 	 */
 	public getTotalScore(): number {
-		return this.diceResults.reduce((acc, curr) => acc + curr, 0);
+		return getTotalSum(this.diceResults);
 	}
 
 	/**

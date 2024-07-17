@@ -10,3 +10,13 @@ export function getRandomNumber(maxNumber: number): number {
 	const randomNumber = randomValue / (0xFFFFFFFF + 1);
 	return Math.floor(randomNumber * maxNumber + 1);
 }
+
+/**
+ * Calculates the sum of all numbers in an array.
+ *
+ * @param numbers - The array of numbers to sum.
+ * @returns The sum of the numbers in the array.
+ */
+export function getTotalSum(numbers: number[]): number {
+	return numbers.reduce((acc, curr) => acc + curr, 0);
+}
