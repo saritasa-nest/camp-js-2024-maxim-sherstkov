@@ -1,10 +1,10 @@
 import { TSubscriber } from '../utils/subscriber';
 
 /**
- * DebugDisplayer class that updates the UI with all dice rolls for debugging.
+ * HistoryDisplayer class that updates the UI with all dice rolls for debugging.
  * @implements {TSubscriber<number>}
  */
-export class DebugDisplayer implements TSubscriber<number> {
+export class HistoryDisplayer implements TSubscriber<number> {
 	private readonly debugElement: HTMLElement;
 
 	public constructor(debugElement: HTMLElement) {

@@ -2,7 +2,7 @@ import { ResultDisplayer } from '../views/resultDisplayer';
 
 import { WinnerDisplayer } from '../views/winnerDisplayer';
 
-import { DebugDisplayer } from '../views/debugDisplayer';
+import { HistoryDisplayer } from '../views/historyDisplayer';
 
 import { TurnGenerator } from './turnGenerator';
 import { Player } from './player';
@@ -40,7 +40,7 @@ export class Game {
 
 	private readonly debugPublisher$: Publisher<number>;
 
-	private readonly debugDisplayer: DebugDisplayer;
+	private readonly debugDisplayer: HistoryDisplayer;
 
 	public constructor(constructorData: GameConstructorData) {
 		this.players = new Array(constructorData.playersCount).fill(null)
@@ -48,7 +48,7 @@ export class Game {
 		this.turnGenerator$ = new TurnGenerator(constructorData.playersCount);
 		this.diceGenerator$ = new DiceGenerator(constructorData.diceSidesCount);
 		this.debugPublisher$ = new Publisher<number>();
-		this.debugDisplayer = new DebugDisplayer(constructorData.debugElement);
+		this.debugDisplayer = new HistoryDisplayer(constructorData.debugElement);
 
 		this.players.forEach((player, index) => {
 			const resultDisplayer = new ResultDisplayer(constructorData.playerElements[index]);
