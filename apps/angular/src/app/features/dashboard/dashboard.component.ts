@@ -1,27 +1,22 @@
 import { CommonModule } from '@angular/common';
-import { HttpClient, provideHttpClient } from '@angular/common/http';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
-import { AppConfig } from '@js-camp/angular/core/services/app-config';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 /** Example component. */
 @Component({
-	selector: 'dashboard',
+	selector: 'anime-dashboard',
 	templateUrl: './dashboard.component.html',
 	styleUrls: ['./dashboard.component.css'],
 	standalone: true,
-	imports: [CommonModule],
+	imports: [CommonModule, MatSlideToggleModule],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent {
 	private readonly animeService: AnimeService = inject(AnimeService);
 
 	/** List of anime from the API. */
 	protected readonly animeList$ = this.animeService.getAnimeList();
 
 	public constructor() {}
-
-	/** @inheritdoc */
-	public ngOnInit(): void {
-
-	}
 }

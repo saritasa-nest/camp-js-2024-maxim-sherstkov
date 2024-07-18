@@ -4,6 +4,8 @@ import { provideRouter } from '@angular/router';
 
 import { provideHttpClient } from '@angular/common/http';
 
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+
 import { environment } from './environments/environment';
 import { AppComponent } from './app/app.component';
 import { appRoutes } from './app/app.routes';
@@ -14,5 +16,5 @@ if (environment.production) {
 }
 
 bootstrapApplication(AppComponent, {
-	providers: [provideRouter(appRoutes), provideHttpClient(), AppConfig],
+	providers: [provideRouter(appRoutes), provideHttpClient(), AppConfig, provideAnimationsAsync()],
 }).catch(err => console.error(err));
