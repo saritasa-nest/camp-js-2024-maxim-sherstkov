@@ -27,6 +27,9 @@ type GameConstructorData = {
 
 	/** The HTML element to display history of rolls. */
 	historyElement: HTMLElement;
+
+	/** The button to roll the dice. */
+	diceButtonElement: HTMLElement;
 };
 
 /**
@@ -44,7 +47,11 @@ export class Game {
 
 	private readonly historyDisplayer: HistoryDisplayer;
 
-	private isGameEnded = false;
+	private isGameEnded: boolean;
+
+	private readonly rollDiceButton: HTMLElement;
+
+	private bondedPlayTurn: () => void;
 
 	public constructor(constructorData: GameConstructorData) {
 		this.players = new Array(constructorData.playersCount).fill(null)
@@ -53,6 +60,11 @@ export class Game {
 		this.diceGenerator$ = new DiceGenerator(constructorData.diceSidesCount);
 		this.historyPublisher$ = new Publisher<number>();
 		this.historyDisplayer = new HistoryDisplayer(constructorData.historyElement);
+		this.isGameEnded = false;
+		this.rollDiceButton = constructorData.diceButtonElement;
+
+		/** Bounded playTurn version for add/remove eventlistener on rollDiceButton. */
+		this.bondedPlayTurn = this.playTurn.bind(this);
 
 		this.players.forEach((player, index) => {
 			const resultDisplayer = new ResultDisplayer(constructorData.playerElements[index]);
@@ -101,6 +113,11 @@ export class Game {
 		this.turnGenerator$.next();
 	}
 
+	/** Starts the game by binding playTurn function to click event of rollDiceButton. */
+	public startGame(): void {
+		this.rollDiceButton?.addEventListener('click', this.bondedPlayTurn);
+	}
+
 	/**
 	 * Checks if a player has won and ends the game if true.
 	 * @param diceResults - Player rolls results.
@@ -112,6 +129,7 @@ export class Game {
 			this.isGameEnded = true;
 			player.winStatus$.notify(true);
 			this.players.forEach(currentPlayer => this.diceGenerator$.unsubscribe(currentPlayer));
+			this.rollDiceButton?.removeEventListener('click', this.bondedPlayTurn);
 		} else {
 			player.winStatus$.notify(false);
 		}
