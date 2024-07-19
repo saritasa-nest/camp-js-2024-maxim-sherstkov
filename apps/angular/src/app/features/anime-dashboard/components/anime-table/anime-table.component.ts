@@ -2,12 +2,13 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
+import { EmptyPipe } from '@js-camp/angular/shared/pipes/empty.pipe';
 
 /** Table of anime list component. */
 @Component({
 	selector: 'camp-anime-table',
 	standalone: true,
-	imports: [CommonModule, MatTableModule],
+	imports: [CommonModule, MatTableModule, EmptyPipe],
 	templateUrl: './anime-table.component.html',
 	styleUrl: './anime-table.component.css',
 	changeDetection: ChangeDetectionStrategy.OnPush,

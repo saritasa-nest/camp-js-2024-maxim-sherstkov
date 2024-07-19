@@ -4,7 +4,7 @@
 		<ng-container matColumnDef="image">
 			<th mat-header-cell *matHeaderCellDef> Image </th>
 			<td mat-cell *matCellDef="let element">
-			<img [src]="element.imageSrc" class="anime-image" alt="{{element.titleEnglish}}" >
+			<img [src]="element.imageSrc | empty" class="anime-image" alt="{{element.titleEnglish}}" >
 			</td>
 		</ng-container>
 		<!-- TODO make custom pipe for empty -->
@@ -13,19 +13,19 @@
 		<!-- English Title Column -->
 		<ng-container matColumnDef="titleEnglish">
 			<th mat-header-cell *matHeaderCellDef> English Title </th>
-			<td mat-cell *matCellDef="let element"> {{element.titleEnglish}} </td>
+			<td mat-cell *matCellDef="let element"> {{element.titleEnglish | empty}} </td>
 		</ng-container>
 
 		<!-- Japanese Title Column -->
 		<ng-container matColumnDef="titleJapanese">
 			<th mat-header-cell *matHeaderCellDef> Japanese Title </th>
-			<td mat-cell *matCellDef="let element"> {{element.titleJapanese}} </td>
+			<td mat-cell *matCellDef="let element"> {{element.titleJapanese | empty}} </td>
 		</ng-container>
 
 		<!-- Aired Start Column -->
 		<ng-container matColumnDef="airedStart">
 			<th mat-header-cell *matHeaderCellDef> Aired Start </th>
-			<td mat-cell *matCellDef="let element"> {{element.airedStart | date}} </td>
+			<td mat-cell *matCellDef="let element"> {{(element.airedStart | date: 'longDate') | empty}} </td>
 		</ng-container>
 
 		<!-- Type Column -->
