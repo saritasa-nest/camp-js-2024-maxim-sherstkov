@@ -7,8 +7,6 @@
 			<img [src]="element.imageSrc | empty" class="anime-image" alt="{{element.titleEnglish}}" >
 			</td>
 		</ng-container>
-		 <!-- TODO change enums for type and status -->
-		  <!-- TODO element for else statement -->
 		<!-- English Title Column -->
 		<ng-container matColumnDef="titleEnglish">
 			<th mat-header-cell *matHeaderCellDef> English Title </th>
@@ -43,5 +41,5 @@
 		<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 	</table>
 } @else {
-
+	<camp-basic-progress-spinner></camp-basic-progress-spinner>
 }
