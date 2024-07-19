@@ -5,7 +5,9 @@ import { environment } from '../../environments/environment';
 /**
  * AppConfig provides configuration settings for the application.
  */
-@Injectable()
+@Injectable({
+	providedIn: 'root',
+})
 export class AppConfig {
 	/**
 	 * URL API from environment.

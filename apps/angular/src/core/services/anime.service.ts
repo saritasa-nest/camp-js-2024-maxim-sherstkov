@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Anime } from '@js-camp/core/models/anime';
@@ -11,7 +11,7 @@ import { AnimeMapper } from '@js-camp/core/mappers/anime.mapper';
 
 import { PaginationDto } from '@js-camp/core/dtos/pagination.dto';
 
-import { AppConfig } from './app-config';
+import { UrlService } from './url.service';
 
 /** Anime service for getting anime list from API.
  * @param appConfig Config to provide environment variables.
@@ -21,9 +21,9 @@ import { AppConfig } from './app-config';
 	providedIn: 'root',
 })
 export class AnimeService {
-	private readonly animeListUrl = `${this.appConfig.apiUrl}/anime/anime/`;
+	private readonly http = inject(HttpClient);
 
-	public constructor(private readonly appConfig: AppConfig, private readonly http: HttpClient) { }
+	private readonly urlService = inject(UrlService);
 
 	/**
 	 * Get a list of anime from the API.
@@ -31,7 +31,7 @@ export class AnimeService {
 	 * @returns Observable for AnimeList.
 	 */
 	public getAnimeList(): Observable<Anime[]> {
-		return this.http.get<PaginationDto<AnimeDto>>(this.animeListUrl).pipe(
+		return this.http.get<PaginationDto<AnimeDto>>(this.urlService.animeListPath).pipe(
 			map(animeDto => animeDto.results.map(anime => AnimeMapper.fromDto(anime))),
 		);
 	}
