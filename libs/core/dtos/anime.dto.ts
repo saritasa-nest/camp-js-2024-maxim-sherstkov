@@ -64,16 +64,16 @@ export type AnimeDto = {
 	/** Broadcast time. */
 	readonly broadcast_time: string | null;
 
-	/** Studios. */
+	/** Array of studios Ids. */
 	readonly studios: readonly number[];
 
-	/** Studios data. */
+	/** Studios additional data. */
 	readonly studios_data: StudioDto;
 
-	/** Genres. */
+	/** Array of genres Ids. */
 	readonly genres: readonly number[];
 
-	/** Genres data. */
+	/** Genres additional data. */
 	readonly genres_data: GenreDto;
 
 };

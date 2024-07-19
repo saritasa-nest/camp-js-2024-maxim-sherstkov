@@ -11,11 +11,10 @@ import { AnimeMapper } from '@js-camp/core/mappers/anime.mapper';
 
 import { PaginationDto } from '@js-camp/core/dtos/pagination.dto';
 
-import { UrlService } from './url.service';
+import { ApiUrlService } from './api-url.service';
 
-/** Anime service for getting anime list from API.
- * @param appConfig Config to provide environment variables.
- * @param http HttpClient.
+/**
+ * Anime service for getting anime list from API.
  */
 @Injectable({
 	providedIn: 'root',
@@ -23,7 +22,7 @@ import { UrlService } from './url.service';
 export class AnimeService {
 	private readonly http = inject(HttpClient);
 
-	private readonly urlService = inject(UrlService);
+	private readonly urlService = inject(ApiUrlService);
 
 	/**
 	 * Get a list of anime from the API.
