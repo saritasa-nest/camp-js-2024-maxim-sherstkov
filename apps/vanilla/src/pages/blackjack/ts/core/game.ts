@@ -76,7 +76,7 @@ export class Game {
 
 			player.results$.subscribe({
 				update: (diceResults: number[]) => {
-					this.checkWinStatus(diceResults, player);
+					this.evaluateGameResult(diceResults, player);
 				},
 			});
 		});
@@ -123,15 +123,22 @@ export class Game {
 	 * @param diceResults - Player rolls results.
 	 * @param player - The player to check win status for.
 	 */
-	private checkWinStatus(diceResults: readonly number[], player: Player): void {
+	private evaluateGameResult(diceResults: readonly number[], player: Player): void {
+
 		const total = getTotalSum(diceResults);
+		this.checkGameEnd(total);
+		player.winStatus$.notify(total >= 21);
+	}
+
+	/**
+	 * Check if game has ended and then unsubscribe players from diceGenerator.
+	 * @param total Sum of results for the player.
+	 */
+	private checkGameEnd(total: number): void {
 		if (total >= 21) {
 			this.isGameEnded = true;
-			player.winStatus$.notify(true);
 			this.players.forEach(currentPlayer => this.diceGenerator$.unsubscribe(currentPlayer));
 			this.rollDiceButton?.removeEventListener('click', this.bondedPlayTurn);
-		} else {
-			player.winStatus$.notify(false);
 		}
 	}
 }
