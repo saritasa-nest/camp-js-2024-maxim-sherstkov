@@ -1,13 +1,14 @@
-import { AnimeType } from '../utils/enums/anime.enum';
+import { AnimeType } from '../models/anime-type';
+import { AnimeTypeDto } from '../dtos/anime-type.dto';
 
 /** Anime type that mapped to readable condition. */
-export const readableAnimeType = <Record<AnimeType, string>>{
-	[AnimeType.Movie]: 'Movie',
-	[AnimeType.Music]: 'Music',
-	[AnimeType.Ona]: 'ONA',
-	[AnimeType.Ova]: 'OVA',
-	[AnimeType.PromoVideo]: 'Promotional Videos',
-	[AnimeType.Special]: 'Special',
-	[AnimeType.Tv]: 'TV',
-	[AnimeType.Unknown]: 'Unknown',
+export const readableAnimeType = <Record<AnimeTypeDto, AnimeType>>{
+	[AnimeTypeDto.Movie]: AnimeType.Movie,
+	[AnimeTypeDto.Music]: AnimeType.Music,
+	[AnimeTypeDto.Ona]: AnimeType.Ona,
+	[AnimeTypeDto.Ova]: AnimeType.Ova,
+	[AnimeTypeDto.PromoVideo]: AnimeType.PromoVideo,
+	[AnimeTypeDto.Special]: AnimeType.Special,
+	[AnimeTypeDto.Tv]: AnimeType.Tv,
+	[AnimeTypeDto.Unknown]: AnimeType.Unknown,
 };

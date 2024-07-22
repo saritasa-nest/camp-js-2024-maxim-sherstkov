@@ -1,5 +1,7 @@
 import { StudioDto } from './studio.dto';
 import { GenreDto } from './genre.dto';
+import { AnimeTypeDto } from './anime-type.dto';
+import { AnimeStatusDto } from './anime-status.dto';
 
 /** Anime. */
 export type AnimeDto = {
@@ -32,10 +34,10 @@ export type AnimeDto = {
 	readonly user_score: number | null;
 
 	/** Type. */
-	readonly type: string;
+	readonly type: AnimeTypeDto;
 
 	/** Status. */
-	readonly status: string;
+	readonly status: AnimeStatusDto;
 
 	/** Source. */
 	readonly source: string;
