@@ -1,5 +1,5 @@
 @if ((animeList$ | async); as animeList) {
-	<table mat-table [dataSource]="animeList">
+	<table mat-table [dataSource]="animeList" [trackBy]="trackByAnimeId">
 		<!-- Image Column -->
 		<ng-container matColumnDef="image">
 			<th mat-header-cell *matHeaderCellDef> Image </th>

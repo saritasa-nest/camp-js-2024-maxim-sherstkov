@@ -4,6 +4,7 @@ import { MatTableModule } from '@angular/material/table';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { EmptyPipe } from '@js-camp/angular/shared/pipes/empty.pipe';
 import { BasicProgressSpinnerComponent } from '@js-camp/angular/shared/components/basic-progress-spinner/basic-progress-spinner.component';
+import { Anime } from '@js-camp/core/models/anime';
 
 /** Table of anime list component. */
 @Component({
@@ -22,4 +23,15 @@ export class AnimeTableComponent {
 
 	/** Columns names. */
 	protected readonly displayedColumns = ['image', 'titleEnglish', 'titleJapanese', 'airedStart', 'type', 'status'] as const;
+
+	/**
+	 * TrackBy function using Id of anime.
+	 *
+	 * @param _index The index of the current item.
+	 * @param item The current item of the iteration.
+	 * @returns Unique ID for item.
+	 */
+	public trackByAnimeId(_index: number, item: Anime): Anime['id'] {
+		return item.id;
+	}
 }
