@@ -4,7 +4,11 @@
 		<ng-container matColumnDef="image">
 			<th mat-header-cell *matHeaderCellDef> Image </th>
 			<td mat-cell *matCellDef="let element">
-			<img [src]="element.imageSrc | empty" class="anime-image" alt="{{element.titleEnglish}}" >
+				@if (element.imageSrc){
+					<img [src]="element.imageSrc" class="anime-image" alt="{{element.titleEnglish}}" >
+				} @else {
+					<p>No image</p>
+				}
 			</td>
 		</ng-container>
 		<!-- English Title Column -->
