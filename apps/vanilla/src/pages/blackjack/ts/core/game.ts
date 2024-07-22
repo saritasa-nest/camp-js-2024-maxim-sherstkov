@@ -23,13 +23,13 @@ type GameConstructorData = {
 	diceSidesCount: number;
 
 	/** Array of HTML elements to display player results. */
-	playerElements: HTMLElement[];
+	playerElements: HTMLDivElement[];
 
 	/** The HTML element to display history of rolls. */
-	historyElement: HTMLElement;
+	historyElement: HTMLDivElement;
 
 	/** The button to roll the dice. */
-	diceButtonElement: HTMLElement;
+	diceButtonElement: HTMLButtonElement;
 };
 
 /**
@@ -49,7 +49,7 @@ export class Game {
 
 	private isGameEnded: boolean;
 
-	private readonly rollDiceButton: HTMLElement;
+	private readonly rollDiceButton: HTMLButtonElement;
 
 	private bondedPlayTurn: () => void;
 
