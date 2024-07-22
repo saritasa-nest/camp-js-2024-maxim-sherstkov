@@ -16,4 +16,12 @@ export class AppConfig {
 	 * @readonly
 	 */
 	public readonly apiUrl = environment.apiUrl;
+
+	/**
+	 * Api-key from environment.
+	 *
+	 * @type {string}
+	 * @readonly
+	 */
+	public readonly apiKey = environment.apiKey;
 }
