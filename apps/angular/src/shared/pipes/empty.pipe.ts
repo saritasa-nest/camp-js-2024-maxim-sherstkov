@@ -1,10 +1,10 @@
-import { Pipe, PipeTransform } from "@angular/core";
+import { Pipe, PipeTransform } from '@angular/core';
 
 /** Pipe for alternative representation of empty value. */
 @Pipe({
 	name: 'empty',
 	standalone: true,
-  })
+})
 export class EmptyPipe implements PipeTransform {
 	/**
 	 * Transforms the specified empty string or nullable value into the specified placeholder.
@@ -12,25 +12,25 @@ export class EmptyPipe implements PipeTransform {
 	 * @param placeholder Specified placeholder.
 	 */
 	public transform(
-	  value: string | null | undefined,
-	  placeholder?: string
+		value: string | null | undefined,
+		placeholder?: string
 	): string;
 
 	/** @inheritdoc */
 	public transform(
-	  value: number | null | undefined,
-	  placeholder?: string
+		value: number | null | undefined,
+		placeholder?: string
 	): number | string;
 
 	/** @inheritdoc */
 	public transform(
-	  value: number | string | null | undefined,
-	  placeholder = '\u2014'
+		value: number | string | null | undefined,
+		placeholder?: string,
 	): string | number {
-	  if (value == null || value === '') {
-		return placeholder;
-	  }
-
-	  return value;
+		const defaultPlaceholder = '\u2014';
+		if (value == null || value === '') {
+			return placeholder ? placeholder : defaultPlaceholder;
+		}
+		return value;
 	}
-  }
+}
