@@ -9,4 +9,5 @@ export abstract class Immerable {
 	private readonly [immerable] = true;
 }
 
+/** Removes [immerable] property from the given type T. */
 export type OmitImmerable<T> = Omit<T, '[immerable]'>;
