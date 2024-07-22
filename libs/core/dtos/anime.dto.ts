@@ -84,8 +84,8 @@ export type AnimeDto = {
 type DateTimeRangeFieldDTO = {
 
 	/** Aired start. */
-	readonly start: string;
+	readonly start: string | null;
 
 	/** Aired start. */
-	readonly end: string;
+	readonly end: string | null;
 };
