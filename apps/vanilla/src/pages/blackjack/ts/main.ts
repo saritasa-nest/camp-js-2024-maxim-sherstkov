@@ -9,13 +9,12 @@ const diceButtonElement = <HTMLButtonElement>document.getElementById('roll-dice'
 
 /* Initialize the game */
 const DEFAULT_DICE_COUNT = 6;
-const gameConstructorData = {
+const game = new Game({
 	playersCount,
 	diceSidesCount: DEFAULT_DICE_COUNT,
 	playerElements: playersResultsElements,
 	historyElement,
 	diceButtonElement,
-};
-const game = new Game(gameConstructorData);
+});
 
 game.startGame();

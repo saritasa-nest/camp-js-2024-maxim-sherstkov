@@ -17,6 +17,6 @@ export function getRandomNumber(maxNumber: number): number {
  * @param numbers - The array of numbers to sum.
  * @returns The sum of the numbers in the array.
  */
-export function getTotalSum(numbers: number[]): number {
+export function getTotalSum(numbers: readonly number[]): number {
 	return numbers.reduce((acc, curr) => acc + curr, 0);
 }

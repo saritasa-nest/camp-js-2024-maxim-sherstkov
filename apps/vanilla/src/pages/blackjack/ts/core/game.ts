@@ -17,19 +17,19 @@ import { Publisher } from './publisher';
 type GameConstructorData = {
 
 	/** The number of players. */
-	playersCount: number;
+	readonly playersCount: number;
 
 	/** The number of sides on the dice. */
-	diceSidesCount: number;
+	readonly diceSidesCount: number;
 
 	/** Array of HTML elements to display player results. */
-	playerElements: HTMLDivElement[];
+	readonly playerElements: HTMLDivElement[];
 
 	/** The HTML element to display history of rolls. */
-	historyElement: HTMLDivElement;
+	readonly historyElement: HTMLDivElement;
 
 	/** The button to roll the dice. */
-	diceButtonElement: HTMLButtonElement;
+	readonly diceButtonElement: HTMLButtonElement;
 };
 
 /**
@@ -123,7 +123,7 @@ export class Game {
 	 * @param diceResults - Player rolls results.
 	 * @param player - The player to check win status for.
 	 */
-	private checkWinStatus(diceResults: number[], player: Player): void {
+	private checkWinStatus(diceResults: readonly number[], player: Player): void {
 		const total = getTotalSum(diceResults);
 		if (total >= 21) {
 			this.isGameEnded = true;

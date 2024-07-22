@@ -6,5 +6,5 @@
 }
 
 .winner {
-  background-color: crimson;
+  background-color: var(--error-color);
 }

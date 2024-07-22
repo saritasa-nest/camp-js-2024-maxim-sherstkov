@@ -6,7 +6,7 @@ export type TSubscriber<T> = {
 	/**
 	 * Method to receive a notification of type T from the publisher.
 	 *
-	 * @param {T} message
+	 * @param message - Message that will be sent to the method.
 	 * @returns {void}
 	 */
 	update: (message: T) => void;
