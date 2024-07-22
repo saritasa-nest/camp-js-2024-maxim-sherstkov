@@ -7,7 +7,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 	selector: 'camp-basic-progress-spinner',
 	standalone: true,
 	templateUrl: './basic-progress-spinner.component.html',
-	styleUrl: './basic-progress-spinner.component.css',
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	imports: [CommonModule, MatProgressSpinnerModule],
 })
