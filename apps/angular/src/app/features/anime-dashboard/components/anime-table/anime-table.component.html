@@ -1,4 +1,4 @@
-@if ((animeList$ | async); as animeList) {
+@if (animeList && animeList.length > 0) {
 	<table mat-table [dataSource]="animeList" [trackBy]="trackByAnimeId">
 		<!-- Image Column -->
 		<ng-container matColumnDef="image">

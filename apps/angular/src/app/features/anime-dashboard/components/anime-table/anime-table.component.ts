@@ -1,7 +1,6 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
-import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { EmptyPipe } from '@js-camp/angular/shared/pipes/empty.pipe';
 import { BasicProgressSpinnerComponent } from '@js-camp/angular/shared/components/basic-progress-spinner/basic-progress-spinner.component';
 import { Anime } from '@js-camp/core/models/anime';
@@ -16,10 +15,8 @@ import { Anime } from '@js-camp/core/models/anime';
 	imports: [CommonModule, MatTableModule, EmptyPipe, BasicProgressSpinnerComponent],
 })
 export class AnimeTableComponent {
-	private readonly animeService: AnimeService = inject(AnimeService);
-
-	/** List of anime from the API. */
-	protected readonly animeList$ = this.animeService.getAnimeList();
+	/** Anime list from parent component. */
+	@Input() public animeList: Anime[] | null = [];
 
 	/** Columns names. */
 	protected readonly displayedColumns = ['image', 'titleEnglish', 'titleJapanese', 'airedStart', 'type', 'status'] as const;

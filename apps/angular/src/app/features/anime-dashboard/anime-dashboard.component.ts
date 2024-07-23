@@ -1,5 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
+
+import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 
 import { AnimeTableComponent } from './components/anime-table/anime-table.component';
 
@@ -12,4 +14,9 @@ import { AnimeTableComponent } from './components/anime-table/anime-table.compon
 	imports: [CommonModule, AnimeTableComponent],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AnimeDashboardComponent {}
+export class AnimeDashboardComponent {
+	private readonly animeService: AnimeService = inject(AnimeService);
+
+	/** List of anime from the API. */
+	protected readonly animeList$ = this.animeService.getAnimeList();
+}
