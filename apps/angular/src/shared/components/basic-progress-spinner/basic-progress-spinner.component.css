@@ -1,0 +1,6 @@
+.spinner-container {
+  display: flex;
+  place-content: center;
+
+  /* padding-block: 50px; */
+}
