@@ -17,6 +17,6 @@ import { AnimeTableComponent } from './components/anime-table/anime-table.compon
 export class AnimeDashboardComponent {
 	private readonly animeService: AnimeService = inject(AnimeService);
 
-	/** List of anime from the API. */
+	/** Anime list. */
 	protected readonly animeList$ = this.animeService.getAnimeList();
 }

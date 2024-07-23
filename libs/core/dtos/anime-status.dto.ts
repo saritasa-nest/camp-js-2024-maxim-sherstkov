@@ -1,4 +1,4 @@
-/** Anime status options from DTO. */
+/** Anime status DTO. */
 export enum AnimeStatusDto {
 	Airing = 'AIRING',
 	Finished = 'FINISHED',

@@ -1,4 +1,4 @@
-/** Anime type options from model. */
+/** Anime type. */
 export enum AnimeType {
 	Tv = 'TV',
 	Ova = 'OVA',

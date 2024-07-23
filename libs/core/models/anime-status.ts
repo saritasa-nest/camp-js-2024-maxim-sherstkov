@@ -1,4 +1,4 @@
-/** Anime status options from model. */
+/** Anime status options. */
 export enum AnimeStatus {
 	Airing = 'Airing',
 	Finished = 'Finished',

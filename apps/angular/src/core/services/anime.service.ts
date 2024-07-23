@@ -14,7 +14,7 @@ import { PaginationDto } from '@js-camp/core/dtos/pagination.dto';
 import { ApiUrlService } from './api-url.service';
 
 /**
- * Anime service for getting anime list from API.
+ * Anime service to interact with the API.
  */
 @Injectable({
 	providedIn: 'root',
@@ -26,8 +26,6 @@ export class AnimeService {
 
 	/**
 	 * Get a list of anime from the API.
-	 *
-	 * @returns Observable for AnimeList.
 	 */
 	public getAnimeList(): Observable<Anime[]> {
 		return this.http.get<PaginationDto<AnimeDto>>(this.urlService.animeListPath).pipe(

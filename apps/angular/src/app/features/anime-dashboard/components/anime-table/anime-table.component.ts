@@ -15,7 +15,7 @@ import { Anime } from '@js-camp/core/models/anime';
 	imports: [CommonModule, MatTableModule, EmptyPipe, BasicProgressSpinnerComponent],
 })
 export class AnimeTableComponent {
-	/** Anime list from parent component. */
+	/** Anime list. */
 	@Input() public animeList: Anime[] | null = [];
 
 	/** Columns names. */

@@ -10,9 +10,9 @@ export type StudioDto = {
 	/** Time of the last modification, example: "2024-07-08T12:38:08.886672Z". */
 	readonly modified: string;
 
-	/** Studio name. */
+	/** Name. */
 	readonly name: string;
 
-	/** Studio image. */
+	/** Image. */
 	readonly image: string | null;
 };
