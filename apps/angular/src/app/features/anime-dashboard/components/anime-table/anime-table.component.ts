@@ -28,7 +28,7 @@ export class AnimeTableComponent {
 	 * @param item The current item of the iteration.
 	 * @returns Unique ID for item.
 	 */
-	public trackByAnimeId(_index: number, item: Anime): Anime['id'] {
+	protected trackByAnimeId(_index: number, item: Anime): Anime['id'] {
 		return item.id;
 	}
 }

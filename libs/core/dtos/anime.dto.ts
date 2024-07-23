@@ -4,88 +4,88 @@ import { AnimeTypeDto } from './anime-type.dto';
 import { AnimeStatusDto } from './anime-status.dto';
 
 /** Anime. */
-export type AnimeDto = {
+export type AnimeDto = Readonly<{
 
 	/** Id. */
-	readonly id: number;
+	id: number;
 
 	/** Creation time, example: "2022-05-31T14:04:24.548284Z". */
-	readonly created: string;
+	created: string;
 
 	/** Time of the last modification, example: "2024-07-08T12:38:08.886672Z". */
-	readonly modified: string;
+	modified: string;
 
 	/** Image of the anime. */
-	readonly image: string | null;
+	image: string | null;
 
 	/** Youtube trailer Id. */
-	readonly trailer_youtube_id: string;
+	trailer_youtube_id: string;
 
 	/** English title. */
-	readonly title_eng: string;
+	title_eng: string;
 
 	/** Japanese title. */
-	readonly title_jpn: string;
+	title_jpn: string;
 
 	/** Score. */
-	readonly score: number | null;
+	score: number | null;
 
 	/** User score. */
-	readonly user_score: number | null;
+	user_score: number | null;
 
 	/** Type. */
-	readonly type: AnimeTypeDto;
+	type: AnimeTypeDto;
 
 	/** Status. */
-	readonly status: AnimeStatusDto;
+	status: AnimeStatusDto;
 
 	/** Source. */
-	readonly source: string;
+	source: string;
 
 	/** Airing. */
-	readonly airing: boolean;
+	airing: boolean;
 
 	/** Aired date. */
-	readonly aired: DateTimeRangeFieldDTO;
+	aired: DateTimeRangeFieldDTO;
 
 	/** Rating. */
-	readonly rating: string;
+	rating: string;
 
 	/** Season. */
-	readonly season: string;
+	season: string;
 
 	/** Synopsis. */
-	readonly synopsis: string;
+	synopsis: string;
 
 	/** Background. */
-	readonly background: string;
+	background: string;
 
 	/** Broadcast day. */
-	readonly broadcast_day: number | null;
+	broadcast_day: number | null;
 
 	/** Broadcast time. */
-	readonly broadcast_time: string | null;
+	broadcast_time: string | null;
 
 	/** Array of studios Ids. */
-	readonly studios: readonly number[];
+	studios: readonly number[];
 
 	/** Studios additional data. */
-	readonly studios_data: StudioDto;
+	studios_data: StudioDto;
 
 	/** Array of genres Ids. */
-	readonly genres: readonly number[];
+	genres: readonly number[];
 
 	/** Genres additional data. */
-	readonly genres_data: GenreDto;
+	genres_data: GenreDto;
 
-};
+}>;
 
 /** Aired dates type. */
-type DateTimeRangeFieldDTO = {
+type DateTimeRangeFieldDTO = Readonly<{
 
 	/** Aired start. */
-	readonly start: string | null;
+	start: string | null;
 
 	/** Aired start. */
-	readonly end: string | null;
-};
+	end: string | null;
+}>;

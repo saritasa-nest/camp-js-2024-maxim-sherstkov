@@ -1,15 +1,15 @@
 /** Pagination meta info. */
-export type PaginationDto<T> = {
+export type PaginationDto<T> = Readonly<{
 
 	/** Total count of items. */
-	readonly count: number;
+	count: number;
 
 	/** Next page of items. */
-	readonly next: string;
+	next: string;
 
 	/** Previous page of items. */
-	readonly previous: string;
+	previous: string;
 
 	/** Array of items requested. */
-	readonly results: readonly T[];
-};
+	results: readonly T[];
+}>;

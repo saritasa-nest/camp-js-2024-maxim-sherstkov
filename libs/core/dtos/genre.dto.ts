@@ -1,18 +1,18 @@
 /** Genre DTO. */
-export type GenreDto = {
+export type GenreDto = Readonly<{
 
 	/** Id. */
-	readonly id: number;
+	id: number;
 
 	/** Name. */
-	readonly name: string;
+	name: string;
 
 	/** Creation time, for example, "2014-12-20T17:30:50.416Z". */
-	readonly created: string;
+	created: string;
 
 	/** Time of the last modification, for example, "2014-12-20T17:30:50.416Z". */
-	readonly modified: string;
+	modified: string;
 
 	/** DTO type. */
-	readonly type: 'GENRES';
-};
+	type: 'GENRES';
+}>;

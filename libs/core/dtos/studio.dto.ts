@@ -1,18 +1,18 @@
 /** Studio. */
-export type StudioDto = {
+export type StudioDto = Readonly<{
 
 	/** Id. */
-	readonly id: number;
+	id: number;
 
 	/** Creation time, example: "2022-05-31T14:04:24.548284Z". */
-	readonly created: string;
+	created: string;
 
 	/** Time of the last modification, example: "2024-07-08T12:38:08.886672Z". */
-	readonly modified: string;
+	modified: string;
 
 	/** Name. */
-	readonly name: string;
+	name: string;
 
 	/** Image. */
-	readonly image: string | null;
-};
+	image: string | null;
+}>;
