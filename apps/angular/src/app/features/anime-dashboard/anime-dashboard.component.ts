@@ -12,7 +12,4 @@ import { AnimeTableComponent } from './components/anime-table/anime-table.compon
 	imports: [CommonModule, AnimeTableComponent],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AnimeDashboardComponent {
-
-	public constructor() {}
-}
+export class AnimeDashboardComponent {}
