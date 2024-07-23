@@ -29,7 +29,7 @@ export class EmptyPipe implements PipeTransform {
 	): string | number {
 		const defaultPlaceholder = '\u2014';
 		if (value == null || value === '') {
-			return placeholder ? placeholder : defaultPlaceholder;
+			return placeholder ?? defaultPlaceholder;
 		}
 		return value;
 	}
