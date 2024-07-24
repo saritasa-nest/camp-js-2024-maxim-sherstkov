@@ -17,7 +17,7 @@ export class ApiKeyInterceptor implements HttpInterceptor {
 
 		/** Add a new API key header to the request. */
 		const apiKeyReq = req.clone({
-			headers: req.headers.set('Api-key', 'this.appConfig.apiKey'),
+			headers: req.headers.set('Api-key', this.appConfig.apiKey),
 		});
 
 		/** Send cloned request with header to the next handler. */
