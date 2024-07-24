@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 import { Anime } from '@js-camp/core/models/anime';
 
@@ -24,25 +24,15 @@ import { ApiUrlService } from './api-url.service';
 export class AnimeService {
 	private readonly http = inject(HttpClient);
 
-	private readonly urlService = inject(ApiUrlService);
-
-	/** Get http params.
-	 * @param page Current page index.
-	 * @param itemsPerPage Count items on a page.
-	 */
-	public getHttpParams(page: number, itemsPerPage: number): HttpParams {
-
-		return new HttpParams()
-			.set('offset', page.toString())
-			.set('limit', itemsPerPage.toString());
-	}
+	private readonly apiUrlService = inject(ApiUrlService);
 
 	/**
 	 * Get a list of anime from the API.
+	 * @param params Params of the url.
 	 */
 	public getAnimeList(): Observable<Anime[]> {
-		const params = this.getHttpParams(30, 15);
-		return this.http.get<PaginationDto<AnimeDto>>(this.urlService.animeListPath, { params }).pipe(
+		const params = this.apiUrlService.getParamsFunction();
+		return this.http.get<PaginationDto<AnimeDto>>(this.apiUrlService.animeListPath, { params }).pipe(
 			map(pagination => PaginationMapper.fromDto(
 				pagination,
 			).results.map(anime => AnimeMapper.fromDto(anime))),

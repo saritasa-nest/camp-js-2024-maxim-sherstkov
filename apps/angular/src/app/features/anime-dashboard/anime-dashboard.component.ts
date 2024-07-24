@@ -5,6 +5,8 @@ import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 
+import { ApiUrlService } from '@js-camp/angular/core/services/api-url.service';
+
 import { AnimeTableComponent } from './components/anime-table/anime-table.component';
 
 /** Anime list dashboard component. */
@@ -18,6 +20,8 @@ import { AnimeTableComponent } from './components/anime-table/anime-table.compon
 })
 export class AnimeDashboardComponent {
 	private readonly animeService: AnimeService = inject(AnimeService);
+
+	private readonly apiUrlService: ApiUrlService = inject(ApiUrlService);
 
 	/** Anime list. */
 	protected readonly animeList$ = this.animeService.getAnimeList();
