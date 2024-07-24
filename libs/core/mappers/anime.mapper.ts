@@ -1,8 +1,8 @@
 import { AnimeDto } from '../dtos/anime.dto';
 import { Anime } from '../models/anime';
 
-import { readableAnimeStatus } from './anime-status.mapper';
-import { readableAnimeType } from './anime-type.mapper';
+import { AnimeStatusMapper } from './anime-status.mapper';
+import { AnimeTypeMapper } from './anime-type.mapper';
 
 export namespace AnimeMapper {
 
@@ -17,8 +17,8 @@ export namespace AnimeMapper {
 			titleEnglish: dto.title_eng,
 			titleJapanese: dto.title_jpn,
 			airedStart: dto.aired.start === null ? null : new Date(dto.aired.start),
-			type: readableAnimeType[dto.type],
-			status: readableAnimeStatus[dto.status],
+			type: AnimeTypeMapper.fromDto(dto.type),
+			status: AnimeStatusMapper.fromDto(dto.status),
 		});
 	}
 }
