@@ -14,8 +14,8 @@ export namespace AnimeMapper {
 		return new Anime({
 			id: dto.id,
 			imageSrc: dto.image,
-			titleEnglish: dto.title_eng,
-			titleJapanese: dto.title_jpn,
+			englishTitle: dto.title_eng,
+			japaneseTitle: dto.title_jpn,
 			airedStart: dto.aired.start === null ? null : new Date(dto.aired.start),
 			type: AnimeTypeMapper.fromDto(dto.type),
 			status: AnimeStatusMapper.fromDto(dto.status),

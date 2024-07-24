@@ -13,5 +13,5 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 })
 export class BasicProgressSpinnerComponent {
 	/** Value for a top and bottom padding. */
-	@Input() public paddingBlock = '0px';
+	@Input() public padding = '0px';
 }

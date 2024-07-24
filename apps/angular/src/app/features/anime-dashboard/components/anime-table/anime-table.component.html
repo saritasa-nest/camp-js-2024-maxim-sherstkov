@@ -12,15 +12,15 @@
 			</td>
 		</ng-container>
 		<!-- English Title Column -->
-		<ng-container matColumnDef="titleEnglish">
+		<ng-container matColumnDef="englishTitle">
 			<th mat-header-cell *matHeaderCellDef> English Title </th>
-			<td mat-cell *matCellDef="let element"> {{element.titleEnglish | empty}} </td>
+			<td mat-cell *matCellDef="let element"> {{element.englishTitle | empty}} </td>
 		</ng-container>
 
 		<!-- Japanese Title Column -->
-		<ng-container matColumnDef="titleJapanese">
+		<ng-container matColumnDef="japaneseTitle">
 			<th mat-header-cell *matHeaderCellDef> Japanese Title </th>
-			<td mat-cell *matCellDef="let element"> {{element.titleJapanese | empty}} </td>
+			<td mat-cell *matCellDef="let element"> {{element.japaneseTitle | empty}} </td>
 		</ng-container>
 
 		<!-- Aired Start Column -->
@@ -45,5 +45,5 @@
 		<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 	</table>
 } @else {
-	<camp-basic-progress-spinner paddingBlock="50px"></camp-basic-progress-spinner>
+	<camp-basic-progress-spinner padding="50px"></camp-basic-progress-spinner>
 }

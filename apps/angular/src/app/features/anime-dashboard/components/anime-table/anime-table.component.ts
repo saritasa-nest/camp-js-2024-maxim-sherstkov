@@ -19,7 +19,7 @@ export class AnimeTableComponent {
 	@Input() public animeList: Anime[] | null = [];
 
 	/** Columns names. */
-	protected readonly displayedColumns = ['image', 'titleEnglish', 'titleJapanese', 'airedStart', 'type', 'status'] as const;
+	protected readonly displayedColumns = ['image', 'englishTitle', 'japaneseTitle', 'airedStart', 'type', 'status'] as const;
 
 	/**
 	 * TrackBy function using Id of anime.
