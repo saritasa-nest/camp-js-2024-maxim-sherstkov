@@ -3,6 +3,8 @@ import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+
 import { AnimeTableComponent } from './components/anime-table/anime-table.component';
 
 /** Anime list dashboard component. */
@@ -11,7 +13,7 @@ import { AnimeTableComponent } from './components/anime-table/anime-table.compon
 	templateUrl: './anime-dashboard.component.html',
 	styleUrls: ['./anime-dashboard.component.css'],
 	standalone: true,
-	imports: [CommonModule, AnimeTableComponent],
+	imports: [CommonModule, AnimeTableComponent, MatPaginator],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AnimeDashboardComponent {
@@ -19,4 +21,12 @@ export class AnimeDashboardComponent {
 
 	/** Anime list. */
 	protected readonly animeList$ = this.animeService.getAnimeList();
+
+	/** Current page index. */
+	protected currentPage = 0;
+
+	protected handlePageEvent(pageEvent: PageEvent) {
+		console.log('hndlpageevent', pageEvent);
+
+	}
 }
