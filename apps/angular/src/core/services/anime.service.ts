@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 import { Anime } from '@js-camp/core/models/anime';
 
@@ -13,7 +13,7 @@ import { PaginationDto } from '@js-camp/core/dtos/pagination.dto';
 
 import { PaginationMapper } from '@js-camp/core/mappers/pagination.mapper';
 
-import { ApiUrlService } from './api-url.service';
+import { ApiUrlService, DEFAULT_PARAMS, TQueryParams } from './api-url.service';
 
 /**
  * Anime service to interact with the API.
@@ -26,12 +26,18 @@ export class AnimeService {
 
 	private readonly apiUrlService = inject(ApiUrlService);
 
+	private testMsg: TQueryParams = DEFAULT_PARAMS;
+
 	/**
 	 * Get a list of anime from the API.
 	 * @param params Params of the url.
 	 */
 	public getAnimeList(): Observable<Anime[]> {
 		const params = this.apiUrlService.getParamsFunction();
+		const foo = DEFAULT_PARAMS;
+		this.apiUrlService.paginationParams$.subscribe(msg => {
+			this.testMsg = msg;
+		});
 		return this.http.get<PaginationDto<AnimeDto>>(this.apiUrlService.animeListPath, { params }).pipe(
 			map(pagination => PaginationMapper.fromDto(
 				pagination,
