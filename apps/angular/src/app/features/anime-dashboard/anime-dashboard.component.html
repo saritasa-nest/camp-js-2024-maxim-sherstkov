@@ -1,9 +1,9 @@
 <camp-anime-table [animeList]="animeList$ | async"></camp-anime-table>
 <mat-paginator
-	[length]="500"
-	[pageSize]="15"
+	[length]="animeTotal"
+	[pageSize]="pageSize"
 	[showFirstLastButtons]="true"
-	[pageSizeOptions]="[5, 10, 20]"
+	[pageSizeOptions]="[5, 10, 15]"
 	[pageIndex]="currentPage"
 	(page)="handlePageEvent($event)"
 >

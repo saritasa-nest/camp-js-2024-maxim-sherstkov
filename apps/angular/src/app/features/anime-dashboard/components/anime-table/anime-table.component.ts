@@ -16,7 +16,7 @@ import { Anime } from '@js-camp/core/models/anime';
 })
 export class AnimeTableComponent {
 	/** Anime list. */
-	@Input() public animeList: Anime[] | null = [];
+	@Input() public animeList: readonly Anime[] | null = [];
 
 	/** Columns names. */
 	protected readonly displayedColumns = ['image', 'titleEnglish', 'titleJapanese', 'airedStart', 'type', 'status'] as const;

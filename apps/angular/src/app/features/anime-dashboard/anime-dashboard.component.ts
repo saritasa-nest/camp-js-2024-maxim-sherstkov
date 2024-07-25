@@ -7,14 +7,20 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 
 import { ApiUrlService } from '@js-camp/angular/core/services/api-url.service';
 
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 
-import { Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable, tap } from 'rxjs';
 import { Anime } from '@js-camp/core/models/anime';
 
 import { HttpParams } from '@angular/common/http';
 
 import { AnimeTableComponent } from './components/anime-table/anime-table.component';
+
+const DEFAULT_PARAMS = {
+	limit: 15,
+	offset: 0,
+	animeTotal: 0,
+};
 
 /** Anime list dashboard component. */
 @Component({
@@ -28,25 +34,40 @@ import { AnimeTableComponent } from './components/anime-table/anime-table.compon
 export class AnimeDashboardComponent implements OnInit {
 	private readonly animeService: AnimeService = inject(AnimeService);
 
-	private readonly apiUrlService: ApiUrlService = inject(ApiUrlService);
-
 	/** Anime list. */
-	protected animeList$: Observable<Anime[]> | null = null;
+	protected animeList$: Observable<readonly Anime[]> | null = null;
 
-	// protected readonly animeList$ = this.animeService.getAnimeList();
+	/** Anime count. */
+	protected animeTotal = DEFAULT_PARAMS.animeTotal;
 
 	/** Current page index. */
-	protected currentPage = 0;
+	protected currentPage = DEFAULT_PARAMS.offset;
+
+	/** Maximum number of items per page. */
+	protected pageSize = DEFAULT_PARAMS.limit;
 
 	/** Current route. */
-	protected readonly route: ActivatedRoute = inject(ActivatedRoute);
+	protected readonly activatedRoute: ActivatedRoute = inject(ActivatedRoute);
+
+	/** Router object. */
+	protected readonly router: Router = inject(Router);
 
 	/** @inheritdoc */
 	public ngOnInit(): void {
-		this.route.queryParams.subscribe(queryParams => {
+		this.activatedRoute.queryParams.subscribe(queryParams => {
 			const params = this.getParams(queryParams);
+			console.log('new params arivved');
 
-			this.animeList$ = this.animeService.getAnimeList(params);
+			this.animeList$ = this.animeService.getAnimeList(params).pipe(
+				tap(paginatedAnimeList => {
+					this.animeTotal = paginatedAnimeList.count;
+
+					// return this.animeTotal$.next(paginatedAnimeList.count);
+				}),
+
+				// tap(val => console.log(val)),
+				map(animeList => animeList.results),
+			);
 
 			// current params into page vars
 			// this.currentpage = queryparams.page
@@ -56,19 +77,20 @@ export class AnimeDashboardComponent implements OnInit {
 
 	protected handlePageEvent(pageEvent: PageEvent) {
 		console.log('hndlpageevent', pageEvent);
+		this.router.navigate([], {
+			relativeTo: this.activatedRoute,
+			queryParams: { page: pageEvent.pageIndex },
+			queryParamsHandling: 'merge',
+		});
 
 	}
 
 	private getParams(queryParams: Params): HttpParams {
-		const DEFAULT_PARAMS = {
-			offset: 0,
-			limit: 5,
-		};
-
 		// TODO fix complex logic
 		const params = DEFAULT_PARAMS;
 		params.limit = queryParams['limit'] ? parseInt(queryParams['limit'], 10) : DEFAULT_PARAMS.limit;
 		params.offset = queryParams['page'] ? parseInt(queryParams['page'], 10) * params.limit : DEFAULT_PARAMS.offset * params.limit;
+		this.currentPage = queryParams['page'];
 
 		return new HttpParams({
 			fromObject: params,
