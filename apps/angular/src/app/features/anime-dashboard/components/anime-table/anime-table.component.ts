@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { EmptyPipe } from '@js-camp/angular/shared/pipes/empty.pipe';
-import { BasicProgressSpinnerComponent } from '@js-camp/angular/shared/components/basic-progress-spinner/basic-progress-spinner.component';
 import { Anime } from '@js-camp/core/models/anime';
 
 /** Table of anime list component. */
@@ -12,7 +11,7 @@ import { Anime } from '@js-camp/core/models/anime';
 	templateUrl: './anime-table.component.html',
 	styleUrl: './anime-table.component.css',
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	imports: [CommonModule, MatTableModule, EmptyPipe, BasicProgressSpinnerComponent],
+	imports: [CommonModule, MatTableModule, EmptyPipe],
 })
 export class AnimeTableComponent {
 	/** Anime list. */

@@ -1,12 +1,17 @@
-<camp-anime-table [animeList]="animeList$ | async"></camp-anime-table>
-<mat-paginator
-	[length]="animeTotal"
-	[pageSize]="pageSize"
-	[showFirstLastButtons]="true"
-	[pageSizeOptions]="[5, 10, 15]"
-	[pageIndex]="currentPage"
-	(page)="handlePageEvent($event)"
->
+<!-- TODO make loader here instead of table -->
+@if (isLoading){
+	<camp-basic-progress-spinner paddingBlock="50px"></camp-basic-progress-spinner>
+} @else {
+	<camp-anime-table [animeList]="animeList$ | async"></camp-anime-table>
+	<mat-paginator
+		[length]="animeTotal"
+		[pageSize]="pageSize"
+		[showFirstLastButtons]="true"
+		[pageSizeOptions]="[5, 10, 15]"
+		[pageIndex]="currentPage"
+		(page)="handlePageEvent($event)"
+	>
+	</mat-paginator>
+	}
 
 
-</mat-paginator>
