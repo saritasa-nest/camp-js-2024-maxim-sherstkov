@@ -1,8 +1,8 @@
-import { inject, Injectable, OnInit } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Anime } from '@js-camp/core/models/anime';
 import { AnimeDto } from '@js-camp/core/dtos/anime.dto';
-import { BehaviorSubject, combineLatest, map, Observable, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, map, Observable, switchMap } from 'rxjs';
 import { AnimeMapper } from '@js-camp/core/mappers/anime.mapper';
 import { PaginationDto } from '@js-camp/core/dtos/pagination.dto';
 import { PaginationMapper } from '@js-camp/core/mappers/pagination.mapper';
@@ -10,21 +10,17 @@ import { PaginationMapper } from '@js-camp/core/mappers/pagination.mapper';
 import { Pagination } from '@js-camp/core/models/pagination';
 
 import { ApiUrlService } from './api-url.service';
+import { QueryParamsService } from './query-params.service';
 
 type TPaginationParams = Readonly<{
 
 	// TODO make comment clear
 	/** The number of elements that can be on a page. */
-	limit: Number;
+	limit: number;
 
-	/** The number of items we need to skip in the request.  */
-	offset: Number;
+	/** The number of pages we need to skip in the request.  */
+	page: number;
 }>;
-
-const DEFAULT_PAGINATION_PARAMS: TPaginationParams = {
-	limit: 15,
-	offset: 0,
-};
 
 /**
  * Anime service to interact with the API.
@@ -37,11 +33,22 @@ export class AnimeService {
 
 	private readonly apiUrlService = inject(ApiUrlService);
 
+	private readonly queryParamsService = inject(QueryParamsService);
+
+	/** Default pagination params. */
+	public defaultPaginationParams: TPaginationParams = {
+		limit: 15,
+		page: 0,
+	};
+
 	/** Pagination-related parameters. */
-	private paginationParams$ = new BehaviorSubject({
-		limit: DEFAULT_PAGINATION_PARAMS.limit,
-		offset: DEFAULT_PAGINATION_PARAMS.offset,
+	private paginationParams$: BehaviorSubject<TPaginationParams> = new BehaviorSubject({
+		limit: this.defaultPaginationParams.limit,
+		page: this.defaultPaginationParams.page,
 	});
+
+	/** Pagination parameters observable for monitoring them outside the service.  */
+	public observablePaginationParams$ = this.paginationParams$.asObservable();
 
 	/**
 	 * Get a list of anime from the API.
@@ -49,12 +56,10 @@ export class AnimeService {
 	 */
 	public getAnimeList(): Observable<Pagination<Anime>> {
 		return this.paginationParams$.pipe(
-
-			// TODO refactor params to new function
 			switchMap(params => {
-				const httpParams = new HttpParams()
-					.set('limit', params.limit.toString())
-					.set('offset', params.offset.toString());
+				const httpParams = this.queryParamsService.getHttpParams(params);
+
+				this.queryParamsService.changeQueryParams(params);
 				return this.http.get<PaginationDto<AnimeDto>>(this.apiUrlService.animeListPath, { params: httpParams }).pipe(
 					map(pagination => PaginationMapper.fromDto(
 						pagination,
@@ -64,8 +69,6 @@ export class AnimeService {
 			}),
 		);
 	}
-
-	// }
 
 	// TODO delete unused constructor, and make Destroy
 	public constructor() {
@@ -81,7 +84,7 @@ export class AnimeService {
 	public changePaginationParams(params: TPaginationParams): void {
 		this.paginationParams$.next({
 			limit: params.limit,
-			offset: params.offset,
+			page: params.page,
 		});
 	}
 }

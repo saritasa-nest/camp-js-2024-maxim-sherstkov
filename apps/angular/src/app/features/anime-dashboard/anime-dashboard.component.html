@@ -1,7 +1,7 @@
 <!-- TODO make loader here instead of table -->
-@if (isLoading){
+<!-- @if (isLoading){
 	<camp-basic-progress-spinner paddingBlock="50px"></camp-basic-progress-spinner>
-} @else {
+} @else { -->
 	<camp-anime-table [animeList]="animeList$ | async"></camp-anime-table>
 	<mat-paginator
 		[length]="animeTotal"
@@ -12,6 +12,5 @@
 		(page)="handlePageEvent($event)"
 	>
 	</mat-paginator>
-	}
 
 
