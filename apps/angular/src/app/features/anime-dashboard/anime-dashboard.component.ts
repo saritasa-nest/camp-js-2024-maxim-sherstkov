@@ -8,12 +8,17 @@ import { Anime } from '@js-camp/core/models/anime';
 
 import { BasicProgressSpinnerComponent } from '@js-camp/angular/shared/components/basic-progress-spinner/basic-progress-spinner.component';
 
+import { FormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+
 import { AnimeTableComponent } from './components/anime-table/anime-table.component';
 
 const DEFAULT_PARAMS = {
 	limit: 15,
 	page: 0,
 	animeTotal: 0,
+	searchValue: '',
 };
 
 /** Anime list dashboard component. */
@@ -22,7 +27,15 @@ const DEFAULT_PARAMS = {
 	templateUrl: './anime-dashboard.component.html',
 	styleUrls: ['./anime-dashboard.component.css'],
 	standalone: true,
-	imports: [CommonModule, AnimeTableComponent, MatPaginator, BasicProgressSpinnerComponent],
+	imports: [
+		CommonModule,
+		AnimeTableComponent,
+		MatPaginator,
+		BasicProgressSpinnerComponent,
+		MatFormFieldModule,
+		MatInputModule,
+		FormsModule,
+	],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AnimeDashboardComponent implements OnInit {
@@ -40,7 +53,8 @@ export class AnimeDashboardComponent implements OnInit {
 	/** Maximum number of items per page. */
 	protected pageSize = DEFAULT_PARAMS.limit;
 
-	// protected pageSize = this.animeService.paginationParams;
+	/** Search input value. */
+	protected searchValue = DEFAULT_PARAMS.searchValue;
 
 	/** Current route. */
 	protected route: ActivatedRoute = inject(ActivatedRoute);
@@ -55,6 +69,7 @@ export class AnimeDashboardComponent implements OnInit {
 			map(animeList => animeList.results),
 		);
 
+		// TODO refactor and destroy??
 		this.animeService.observablePaginationParams$.subscribe(val => {
 			this.pageSize = val.limit;
 			this.currentPage = val.page;
@@ -87,5 +102,9 @@ export class AnimeDashboardComponent implements OnInit {
 			page: pageEvent.pageIndex,
 		});
 
+	}
+
+	protected handleSearchInput(): void {
+		this.animeService.changeSearchParam(this.searchValue);
 	}
 }
