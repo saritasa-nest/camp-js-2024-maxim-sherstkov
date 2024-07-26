@@ -1,16 +1,8 @@
 import { HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Params, Router } from '@angular/router';
-
-type TPaginationParams = Readonly<{
-
-	// TODO make comment clear
-	/** The number of elements that can be on a page. */
-	limit: number;
-
-	/** The number of pages we need to skip in the request.  */
-	page: number;
-}>;
+import { AnimeParamsMapper } from '@js-camp/core/mappers/anime-params.mapper';
+import { AnimeParams } from '@js-camp/core/models/based-params';
 
 /** Service to manage query params. */
 @Injectable({
@@ -35,11 +27,10 @@ export class QueryParamsService {
 	 * Get an instance of HTTPParams from params.
 	 * @param params Page parameters.
 	 *  */
-	public getHttpParams(params: TPaginationParams): HttpParams {
+	public getHttpParams(params: AnimeParams): HttpParams {
 		// TODO FIX type for params(mb make service only for a default params)
 
-		return new HttpParams()
-			.set('limit', params.limit.toString())
-			.set('offset', (params.page * params.limit).toString());
+		const animeParams = { ...AnimeParamsMapper.toDto(params) };
+		return new HttpParams({ fromObject: animeParams });
 	}
 }

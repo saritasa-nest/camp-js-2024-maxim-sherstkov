@@ -1,5 +1,5 @@
 import { AnimeParamsDto } from '../dtos/anime-params.dto';
-import { AnimeParams } from '../models/anime-params';
+import { AnimeParams } from '../models/based-params';
 
 export namespace AnimeParamsMapper {
 
@@ -9,8 +9,8 @@ export namespace AnimeParamsMapper {
 	 */
 	export function toDto(model: AnimeParams): AnimeParamsDto {
 		return {
-			limit: model.limit.toString(),
-			offset: (model.page * model.limit).toString(),
+			limit: model.pageSize.toString(),
+			offset: (model.pageIndex * model.pageSize).toString(),
 			search: model.searchValue,
 		};
 	}

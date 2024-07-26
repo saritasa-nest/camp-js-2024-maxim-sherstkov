@@ -2,12 +2,14 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Anime } from '@js-camp/core/models/anime';
 import { AnimeDto } from '@js-camp/core/dtos/anime.dto';
-import { BehaviorSubject, combineLatest, map, Observable, switchMap } from 'rxjs';
+import { BehaviorSubject, combineLatest, debounceTime, map, Observable, switchMap, take } from 'rxjs';
 import { AnimeMapper } from '@js-camp/core/mappers/anime.mapper';
 import { PaginationDto } from '@js-camp/core/dtos/pagination.dto';
 import { PaginationMapper } from '@js-camp/core/mappers/pagination.mapper';
 
 import { Pagination } from '@js-camp/core/models/pagination';
+
+import { AnimeParams } from '@js-camp/core/models/based-params';
 
 import { ApiUrlService } from './api-url.service';
 import { QueryParamsService } from './query-params.service';
@@ -35,35 +37,21 @@ export class AnimeService {
 
 	private readonly queryParamsService = inject(QueryParamsService);
 
-	/** Default pagination params. */
-	public defaultPaginationParams: TPaginationParams = {
-		limit: 15,
-		page: 0,
-	};
+	/** Anime parameters subject. */
+	private animeParams$: BehaviorSubject<AnimeParams> = new BehaviorSubject(new AnimeParams(AnimeParams.defaultValues));
 
-	/** Default search param. */
-	public defaultSearchParam = '';
-
-	/** Pagination-related parameters. */
-	private paginationParams$: BehaviorSubject<TPaginationParams> = new BehaviorSubject({
-		limit: this.defaultPaginationParams.limit,
-		page: this.defaultPaginationParams.page,
-	});
-
-	private searchParam$: BehaviorSubject<string> = new BehaviorSubject(this.defaultSearchParam);
-
-	/** Pagination parameters observable for monitoring them outside the service.  */
-	public observablePaginationParams$ = this.paginationParams$.asObservable();
+	/** Anime parameters observable for monitoring them outside the service. */
+	public observableAnimeParams$ = this.animeParams$.asObservable();
 
 	/**
 	 * Get a list of anime from the API.
 	 * @param params Query parameters for a request.
 	 */
 	public getAnimeList(): Observable<Pagination<Anime>> {
-		return combineLatest([this.paginationParams$, this.searchParam$]).pipe(
+		return this.animeParams$.pipe(
+			debounceTime(1000),
 			switchMap(params => {
-				const httpParams = this.queryParamsService.getHttpParams(params[0]);
-
+				const httpParams = this.queryParamsService.getHttpParams(params);
 				this.queryParamsService.changeQueryParams(params);
 				return this.http.get<PaginationDto<AnimeDto>>(this.apiUrlService.animeListPath, { params: httpParams }).pipe(
 					map(pagination => PaginationMapper.fromDto(
@@ -76,8 +64,18 @@ export class AnimeService {
 	}
 
 	// TODO delete unused constructor, and make Destroy
-	public constructor() {
-		this.paginationParams$.subscribe(val => console.log(`BehaviorSubject value: ${JSON.stringify(val)}`));
+
+	/**
+	 * Changes the anime parameters.
+	 * @param params Partial anime parameters.
+	 */
+	public changeAnimeParams(params: Partial<AnimeParams>): void {
+		this.animeParams$.pipe(
+			take(1),
+			map(currentParams => ({ ...currentParams, ...params })),
+		).subscribe(updatedParams => {
+			this.animeParams$.next(new AnimeParams(updatedParams));
+		});
 	}
 
 	/**
@@ -85,19 +83,15 @@ export class AnimeService {
 	 *
 	 * @param params Pagination parameters.
 	 */
-	public changePaginationParams(params: TPaginationParams): void {
-		this.paginationParams$.next({
-			limit: params.limit,
-			page: params.page,
-		});
+	public changePaginationParams(params: AnimeParams): void {
+		this.changeAnimeParams({ pageIndex: params.pageIndex, pageSize: params.pageSize });
 	}
 
 	/**
-	 * Changes Subject of a search parameter.
+	 * Changes the search parameter.
 	 * @param param Search value parameter.
 	 */
 	public changeSearchParam(param: string): void {
-		this.paginationParams$.next(this.defaultPaginationParams);
-		this.searchParam$.next(param);
+		this.changeAnimeParams({ searchValue: param, pageIndex: 0 });
 	}
 }
