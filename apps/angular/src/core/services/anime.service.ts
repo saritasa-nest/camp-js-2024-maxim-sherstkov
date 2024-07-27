@@ -38,7 +38,7 @@ export class AnimeService {
 	private readonly queryParamsService = inject(QueryParamsService);
 
 	/** Anime parameters subject. */
-	private animeParams$: BehaviorSubject<AnimeParams> = new BehaviorSubject(new AnimeParams(AnimeParams.defaultValues));
+	private animeParams$: BehaviorSubject<AnimeParams> = new BehaviorSubject(new AnimeParams());
 
 	/** Anime parameters observable for monitoring them outside the service. */
 	public observableAnimeParams$ = this.animeParams$.asObservable();

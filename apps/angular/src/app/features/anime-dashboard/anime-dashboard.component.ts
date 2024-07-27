@@ -3,7 +3,7 @@ import { Component, ChangeDetectionStrategy, inject, OnInit } from '@angular/cor
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute } from '@angular/router';
-import { combineLatest, map, Observable, tap } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 import { Anime } from '@js-camp/core/models/anime';
 
 import { BasicProgressSpinnerComponent } from '@js-camp/angular/shared/components/basic-progress-spinner/basic-progress-spinner.component';
@@ -15,13 +15,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { AnimeParams } from '@js-camp/core/models/based-params';
 
 import { AnimeTableComponent } from './components/anime-table/anime-table.component';
-
-const DEFAULT_PARAMS = {
-	limit: 15,
-	page: 0,
-	animeTotal: 0,
-	searchValue: '',
-};
 
 /** Anime list dashboard component. */
 @Component({
@@ -47,16 +40,16 @@ export class AnimeDashboardComponent implements OnInit {
 	protected animeList$: Observable<readonly Anime[]> | null = null;
 
 	/** Anime count. */
-	protected animeTotal = DEFAULT_PARAMS.animeTotal;
+	protected animeTotal = AnimeParams.defaultValues.animeTotal;
 
 	/** Current page index. */
-	protected currentPage = DEFAULT_PARAMS.page;
+	protected currentPage = AnimeParams.defaultValues.pageIndex;
 
 	/** Maximum number of items per page. */
-	protected pageSize = DEFAULT_PARAMS.limit;
+	protected pageSize = AnimeParams.defaultValues.pageSize;
 
 	/** Search input value. */
-	protected searchValue = DEFAULT_PARAMS.searchValue;
+	protected searchValue = AnimeParams.defaultValues.searchValue;
 
 	/** Current route. */
 	protected route: ActivatedRoute = inject(ActivatedRoute);
@@ -71,12 +64,13 @@ export class AnimeDashboardComponent implements OnInit {
 			map(animeList => animeList.results),
 		);
 
-		// TODO may refactor?
-		// combineLatest([this.animeService.observablePaginationPage$, this.animeService.observablePaginationLimit$])
-		// 	.subscribe(([page, limit]) => {
-		// 		this.currentPage = page;
-		// 		this.pageSize = limit;
-		// 	});
+		//TODO destroy
+		this.animeService.observableAnimeParams$
+			.subscribe(({pageIndex, pageSize}) => {
+				
+				this.currentPage = pageIndex;
+				this.pageSize = pageSize;
+			});
 
 	}
 
@@ -84,9 +78,9 @@ export class AnimeDashboardComponent implements OnInit {
 		const params = this.route.snapshot.queryParams;
 		console.log(params);
 
-		const pageSize = params['pageSize'] ? +params['pageSize'] : DEFAULT_PARAMS.limit;
-		const pageIndex = params['pageIndex'] ? +params['pageIndex'] : DEFAULT_PARAMS.page;
-		const searchValue = params['searchValue'] ? params['searchValue'] : DEFAULT_PARAMS.searchValue;
+		const pageSize = params['pageSize'] ? +params['pageSize'] : AnimeParams.defaultValues.pageSize;
+		const pageIndex = params['pageIndex'] ? +params['pageIndex'] : AnimeParams.defaultValues.pageIndex;
+		const searchValue = params['searchValue'] ? params['searchValue'] : AnimeParams.defaultValues.searchValue;
 
 		this.pageSize = pageSize;
 		this.currentPage = pageIndex;
