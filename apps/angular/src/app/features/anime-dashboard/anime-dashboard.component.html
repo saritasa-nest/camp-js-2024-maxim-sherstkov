@@ -17,10 +17,10 @@
 	<camp-anime-table [animeList]="animeList$ | async"></camp-anime-table>
 	<mat-paginator
 		[length]="animeTotal"
-		[pageSize]="pageSize"
+		[pageSize]="pageSize$ | async"
 		[showFirstLastButtons]="true"
 		[pageSizeOptions]="[5, 10, 15]"
-		[pageIndex]="currentPage"
+		[pageIndex]="currentPage$ | async"
 		(page)="handlePageEvent($event)"
 	>
 	</mat-paginator>

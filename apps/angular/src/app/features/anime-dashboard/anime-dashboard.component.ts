@@ -3,7 +3,7 @@ import { Component, ChangeDetectionStrategy, inject, OnInit } from '@angular/cor
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute } from '@angular/router';
-import { map, Observable, tap } from 'rxjs';
+import { map, Observable, switchMap, tap } from 'rxjs';
 import { Anime } from '@js-camp/core/models/anime';
 
 import { BasicProgressSpinnerComponent } from '@js-camp/angular/shared/components/basic-progress-spinner/basic-progress-spinner.component';
@@ -36,23 +36,29 @@ import { AnimeTableComponent } from './components/anime-table/anime-table.compon
 export class AnimeDashboardComponent implements OnInit {
 	private readonly animeService: AnimeService = inject(AnimeService);
 
+	protected route: ActivatedRoute = inject(ActivatedRoute);
+
 	/** Anime list. */
 	protected animeList$: Observable<readonly Anime[]> | null = null;
+
+	
+	/** Current page index. */
+	protected currentPage$ = this.animeService.observableAnimeParams$.pipe(
+		switchMap(async (params) => params.pageIndex)
+	)
+	
+	/** Maximum number of items per page. */
+	protected pageSize$ = this.animeService.observableAnimeParams$.pipe(
+		switchMap(async (params) => params.pageSize)
+	)
 
 	/** Anime count. */
 	protected animeTotal = AnimeParams.defaultValues.animeTotal;
 
-	/** Current page index. */
-	protected currentPage = AnimeParams.defaultValues.pageIndex;
-
-	/** Maximum number of items per page. */
-	protected pageSize = AnimeParams.defaultValues.pageSize;
-
 	/** Search input value. */
 	protected searchValue = AnimeParams.defaultValues.searchValue;
 
-	/** Current route. */
-	protected route: ActivatedRoute = inject(ActivatedRoute);
+	
 
 	/** @inheritdoc */
 	public ngOnInit(): void {
@@ -63,16 +69,6 @@ export class AnimeDashboardComponent implements OnInit {
 
 			map(animeList => animeList.results),
 		);
-
-		//TODO destroy
-		this.animeService.observableAnimeParams$
-			.subscribe(({pageIndex, pageSize, searchValue}) => {
-				
-				this.currentPage = pageIndex;
-				this.pageSize = pageSize;
-				this.searchValue = searchValue
-			});
-
 	}
 
 	public constructor() {
@@ -82,6 +78,7 @@ export class AnimeDashboardComponent implements OnInit {
 		const pageSize = params['pageSize'] ? +params['pageSize'] : AnimeParams.defaultValues.pageSize;
 		const pageIndex = params['pageIndex'] ? +params['pageIndex'] : AnimeParams.defaultValues.pageIndex;
 		const searchValue = params['searchValue'] ? params['searchValue'] : AnimeParams.defaultValues.searchValue;
+		this.searchValue = searchValue
 
 		/* Update pagination parameters in the service */
 		this.animeService.changeAnimeParams(new AnimeParams({ pageSize, pageIndex, searchValue }))
@@ -101,7 +98,7 @@ export class AnimeDashboardComponent implements OnInit {
 
 	}
 
-	/** Handles search input changes. */
+	/** Handles search form submit. */
 	protected onSearch(): void {
 		this.animeService.changeSearchParam(this.searchValue);
 	}
