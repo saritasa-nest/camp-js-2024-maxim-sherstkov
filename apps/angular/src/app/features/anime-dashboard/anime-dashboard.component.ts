@@ -66,10 +66,11 @@ export class AnimeDashboardComponent implements OnInit {
 
 		//TODO destroy
 		this.animeService.observableAnimeParams$
-			.subscribe(({pageIndex, pageSize}) => {
+			.subscribe(({pageIndex, pageSize, searchValue}) => {
 				
 				this.currentPage = pageIndex;
 				this.pageSize = pageSize;
+				this.searchValue = searchValue
 			});
 
 	}
@@ -100,12 +101,8 @@ export class AnimeDashboardComponent implements OnInit {
 
 	}
 
-	/**
-	 * Handles search input changes.
-	 *
-	 * @protected
-	 */
-	protected handleSearchInput(): void {
+	/** Handles search input changes. */
+	protected onSearch(): void {
 		this.animeService.changeSearchParam(this.searchValue);
 	}
 }

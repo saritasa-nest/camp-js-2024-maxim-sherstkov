@@ -2,15 +2,18 @@
 <!-- @if (isLoading){
 	<camp-basic-progress-spinner paddingBlock="50px"></camp-basic-progress-spinner>
 } @else { -->
+<form (ngSubmit)="onSearch()">
 	<mat-form-field appearance="fill">
 	<input
 	  matInput
 	  type="text"
 	  [(ngModel)]="searchValue"
-	  (input)="handleSearchInput()"
 	  placeholder="Search anime"
+	  name="search"
 	/>
   </mat-form-field>
+  <button mat-raised-button color="primary" type="submit">Search</button>
+</form>
 	<camp-anime-table [animeList]="animeList$ | async"></camp-anime-table>
 	<mat-paginator
 		[length]="animeTotal"
