@@ -12,4 +12,7 @@ export type AnimeParamsDto = Readonly<{
 
 	/** Sort order. */
 	ordering: string;
+
+	/** Type filter. */
+	type__in: string;
 }>;

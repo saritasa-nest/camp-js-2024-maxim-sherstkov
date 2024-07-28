@@ -14,15 +14,27 @@
   </mat-form-field>
   <button mat-raised-button color="primary" type="submit">Search</button>
 </form>
-	<camp-anime-table [animeList]="animeList$ | async"></camp-anime-table>
-	<mat-paginator
-		[length]="animeTotal"
-		[pageSize]="pageSize$ | async"
-		[showFirstLastButtons]="true"
-		[pageSizeOptions]="[5, 10, 15]"
-		[pageIndex]="currentPage$ | async"
-		(page)="handlePageEvent($event)"
+<mat-form-field>
+	<mat-select
+		[(ngModel)]="selectedTypes"
+		(selectionChange)="onFilter($event)"
+		placeholder="Type of an anime"
+		multiple
 	>
-	</mat-paginator>
+	  <mat-option *ngFor="let type of animeTypes" [value]="type">
+		{{ type }}
+	  </mat-option>
+	</mat-select>
+  </mat-form-field>
+<camp-anime-table [animeList]="animeList$ | async"></camp-anime-table>
+<mat-paginator
+	[length]="animeTotal"
+	[pageSize]="pageSize$ | async"
+	[showFirstLastButtons]="true"
+	[pageSizeOptions]="[5, 10, 15]"
+	[pageIndex]="currentPage$ | async"
+	(page)="handlePageEvent($event)"
+>
+</mat-paginator>
 
 

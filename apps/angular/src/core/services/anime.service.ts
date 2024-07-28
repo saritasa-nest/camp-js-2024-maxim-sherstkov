@@ -1,29 +1,17 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Anime } from '@js-camp/core/models/anime';
 import { AnimeDto } from '@js-camp/core/dtos/anime.dto';
-import { BehaviorSubject, combineLatest, debounceTime, map, Observable, switchMap, take } from 'rxjs';
+import { BehaviorSubject, combineLatest, debounceTime, map, Observable, Subject, switchMap, take, takeUntil } from 'rxjs';
 import { AnimeMapper } from '@js-camp/core/mappers/anime.mapper';
 import { PaginationDto } from '@js-camp/core/dtos/pagination.dto';
 import { PaginationMapper } from '@js-camp/core/mappers/pagination.mapper';
-
 import { Pagination } from '@js-camp/core/models/pagination';
-
 import { AnimeParams } from '@js-camp/core/models/based-params';
-
 import { ApiUrlService } from './api-url.service';
 import { QueryParamsService } from './query-params.service';
 import { Sort } from '@angular/material/sort';
-
-type TPaginationParams = Readonly<{
-
-	// TODO make comment clear
-	/** The number of elements that can be on a page. */
-	limit: number;
-
-	/** The number of pages we need to skip in the request.  */
-	page: number;
-}>;
+import { MatSelectChange } from '@angular/material/select';
 
 /**
  * Anime service to interact with the API.
@@ -31,12 +19,13 @@ type TPaginationParams = Readonly<{
 @Injectable({
 	providedIn: 'root',
 })
-export class AnimeService {
+export class AnimeService implements OnDestroy {
 	private readonly http = inject(HttpClient);
-
 	private readonly apiUrlService = inject(ApiUrlService);
-
 	private readonly queryParamsService = inject(QueryParamsService);
+
+	/** Subject for managing unsubscribing. */
+	private readonly destroy$ = new Subject<void>();
 
 	/** Anime parameters subject. */
 	private animeParams$: BehaviorSubject<AnimeParams> = new BehaviorSubject(new AnimeParams());
@@ -50,7 +39,7 @@ export class AnimeService {
 	 */
 	public getAnimeList(): Observable<Pagination<Anime>> {
 		return this.animeParams$.pipe(
-			debounceTime(1000),
+			debounceTime(500),
 			switchMap(params => {
 				const httpParams = this.queryParamsService.getHttpParams(params);
 				this.queryParamsService.changeQueryParams(params);
@@ -61,10 +50,9 @@ export class AnimeService {
 					)),
 				);
 			}),
+			takeUntil(this.destroy$)
 		);
 	}
-
-	// TODO delete unused constructor, and make Destroy
 
 	/**
 	 * Changes the anime parameters.
@@ -74,9 +62,8 @@ export class AnimeService {
 		this.animeParams$.pipe(
 			take(1),
 			map(currentParams => ({ ...currentParams, ...params })),
+			takeUntil(this.destroy$)
 		).subscribe(updatedParams => {
-			console.log(updatedParams);
-			
 			this.animeParams$.next(new AnimeParams(updatedParams));
 		});
 	}
@@ -94,16 +81,26 @@ export class AnimeService {
 	 * Changes the search parameters.
 	 * @param param Search value parameter.
 	 */
-	public changeSearchParams(param: string): void {
-		this.changeAnimeParams({ searchValue: param, pageIndex: 0 });
+	public changeSearchParams(searchValue: string): void {
+		this.changeAnimeParams({ searchValue: searchValue, pageIndex: AnimeParams.defaultValues.pageIndex });
 	}
 
-		/**
+	/**
 	 * Changes the sort parameters.
-	 * @param param Sort value parameter.
+	 * @sortValue sortValue Sort value parameter.
 	 */
-		public changeSortParams(param: Sort): void {
-			const sortOrder = !param.active || param.direction === 'asc' ? param.active : `-${param.active}`;
-			this.changeAnimeParams({ sortOrder });			
-		}
+	public changeSortParams(sortValue: Sort): void {
+		const sortOrder = !sortValue.active || sortValue.direction === 'asc' ? sortValue.active : `-${sortValue.active}`;
+		this.changeAnimeParams({ sortOrder });			
+	}
+
+	public changeFilterParams(filterValue: MatSelectChange){
+		this.changeAnimeParams({ filterByType: filterValue.value, pageIndex: AnimeParams.defaultValues.pageIndex });
+	}
+	
+	/** @inheritdoc */
+	public ngOnDestroy(): void {
+		this.destroy$.next();
+		this.destroy$.complete();
+	}
 }

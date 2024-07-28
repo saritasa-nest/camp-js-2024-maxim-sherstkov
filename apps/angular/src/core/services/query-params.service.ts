@@ -16,7 +16,7 @@ export class QueryParamsService {
 	 * Merge query parameters with existing.
 	 * @param params Page parameters.
 	 */
-	public changeQueryParams(params: Params): void {
+	public changeQueryParams(params: Params): void {	
 		this.router.navigate([], {
 			queryParams: params,
 			queryParamsHandling: 'merge',
@@ -28,8 +28,6 @@ export class QueryParamsService {
 	 * @param params Page parameters.
 	 *  */
 	public getHttpParams(params: AnimeParams): HttpParams {
-		// TODO FIX type for params(mb make service only for a default params)
-
 		const animeParams = { ...AnimeParamsMapper.toDto(params) };
 		return new HttpParams({ fromObject: animeParams });
 	}

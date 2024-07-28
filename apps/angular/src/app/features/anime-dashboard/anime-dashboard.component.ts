@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, ChangeDetectionStrategy, inject, OnInit } from '@angular/core';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { map, Observable, switchMap, tap } from 'rxjs';
 import { Anime } from '@js-camp/core/models/anime';
 
@@ -15,6 +15,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { AnimeParams } from '@js-camp/core/models/based-params';
 
 import { AnimeTableComponent } from './components/anime-table/anime-table.component';
+import { MatSelectChange, MatSelectModule } from '@angular/material/select';
+import { AnimeType } from '@js-camp/core/models/anime-type';
 
 /** Anime list dashboard component. */
 @Component({
@@ -30,6 +32,7 @@ import { AnimeTableComponent } from './components/anime-table/anime-table.compon
 		MatFormFieldModule,
 		MatInputModule,
 		FormsModule,
+		MatSelectModule
 	],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -58,34 +61,17 @@ export class AnimeDashboardComponent implements OnInit {
 	/** Search input value. */
 	protected searchValue = AnimeParams.defaultValues.searchValue;
 
+	/** Anime type values. */
+	protected animeTypes = Object.values(AnimeType)
+
+	/** Selected anime types for filtering. */
+	protected selectedTypes: AnimeType[] = AnimeParams.defaultValues.filterByType;
 	
 
 	/** @inheritdoc */
 	public ngOnInit(): void {
-		this.animeList$ = this.animeService.getAnimeList().pipe(
-			tap(paginatedAnimeList => {
-				this.animeTotal = paginatedAnimeList.count;
-			}),
-
-			map(animeList => animeList.results),
-		);
-	}
-
-	public constructor() {
-		const params = this.route.snapshot.queryParams;
-		console.log(params);
-
-		const pageSize = params['pageSize'] ? +params['pageSize'] : AnimeParams.defaultValues.pageSize;
-		const pageIndex = params['pageIndex'] ? +params['pageIndex'] : AnimeParams.defaultValues.pageIndex;
-		const searchValue = params['searchValue'] ? params['searchValue'] : AnimeParams.defaultValues.searchValue;
-		const sortOrder = params['sortOrder'] ? params['sortOrder'] : AnimeParams.defaultValues.sortOrder;
-
-		this.searchValue = searchValue
-
-		/* Update pagination parameters in the service */
-		this.animeService.changeAnimeParams(new AnimeParams({ pageSize, pageIndex, searchValue, sortOrder }))
-
-		// TODO make function to init
+		this.loadAnimeList()
+		this.initializeParamsFromUrl()
 	}
 
 	/**
@@ -104,4 +90,35 @@ export class AnimeDashboardComponent implements OnInit {
 	protected onSearch(): void {
 		this.animeService.changeSearchParams(this.searchValue);
 	}
+
+	/** Handles filter changes. */
+	protected onFilter(selectValue: MatSelectChange): void {
+		this.animeService.changeFilterParams(selectValue)
+	}
+
+	/** Initialize parameters from the URL and update the component state. */
+	private initializeParamsFromUrl(): void {
+		const params = this.route.snapshot.queryParams;
+		const pageSize = params['pageSize'] ? +params['pageSize'] : AnimeParams.defaultValues.pageSize;
+		const pageIndex = params['pageIndex'] ? +params['pageIndex'] : AnimeParams.defaultValues.pageIndex;
+		const searchValue = params['searchValue'] ? params['searchValue'] : AnimeParams.defaultValues.searchValue;
+		const sortOrder = params['sortOrder'] ? params['sortOrder'] : AnimeParams.defaultValues.sortOrder;
+		const filterByType = params['filterByType'] ? params['filterByType'] : AnimeParams.defaultValues.filterByType;
+	
+		this.searchValue = searchValue;
+		this.selectedTypes = filterByType;
+		
+		/* Update pagination parameters in the service */
+		this.animeService.changeAnimeParams(new AnimeParams({ pageSize, pageIndex, searchValue, sortOrder, filterByType }));
+	}
+
+	  /** Load the anime list and update the total count. */
+	  private loadAnimeList(): void {
+		this.animeList$ = this.animeService.getAnimeList().pipe(
+		  tap(paginatedAnimeList => {
+			this.animeTotal = paginatedAnimeList.count;
+		  }),
+		  map(animeList => animeList.results),
+		);
+	  }
 }
