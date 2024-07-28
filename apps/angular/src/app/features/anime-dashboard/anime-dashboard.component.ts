@@ -82,13 +82,8 @@ export class AnimeDashboardComponent implements OnInit {
 		const pageIndex = params['pageIndex'] ? +params['pageIndex'] : AnimeParams.defaultValues.pageIndex;
 		const searchValue = params['searchValue'] ? params['searchValue'] : AnimeParams.defaultValues.searchValue;
 
-		this.pageSize = pageSize;
-		this.currentPage = pageIndex;
-		this.searchValue = searchValue;
-
 		/* Update pagination parameters in the service */
-		this.animeService.changePaginationParams(new AnimeParams({ pageSize, pageIndex }));
-		this.animeService.changeSearchParam(searchValue);
+		this.animeService.changeAnimeParams(new AnimeParams({ pageSize, pageIndex, searchValue }))
 
 		// TODO make function to init
 	}

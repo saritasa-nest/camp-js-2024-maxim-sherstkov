@@ -74,6 +74,8 @@ export class AnimeService {
 			take(1),
 			map(currentParams => ({ ...currentParams, ...params })),
 		).subscribe(updatedParams => {
+			console.log(updatedParams);
+			
 			this.animeParams$.next(new AnimeParams(updatedParams));
 		});
 	}
@@ -92,6 +94,8 @@ export class AnimeService {
 	 * @param param Search value parameter.
 	 */
 	public changeSearchParam(param: string): void {
+		console.log('search');
+		
 		this.changeAnimeParams({ searchValue: param, pageIndex: 0 });
 	}
 }
