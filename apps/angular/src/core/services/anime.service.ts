@@ -13,6 +13,7 @@ import { AnimeParams } from '@js-camp/core/models/based-params';
 
 import { ApiUrlService } from './api-url.service';
 import { QueryParamsService } from './query-params.service';
+import { Sort } from '@angular/material/sort';
 
 type TPaginationParams = Readonly<{
 
@@ -90,12 +91,19 @@ export class AnimeService {
 	}
 
 	/**
-	 * Changes the search parameter.
+	 * Changes the search parameters.
 	 * @param param Search value parameter.
 	 */
-	public changeSearchParam(param: string): void {
-		console.log('search');
-		
+	public changeSearchParams(param: string): void {
 		this.changeAnimeParams({ searchValue: param, pageIndex: 0 });
 	}
+
+		/**
+	 * Changes the sort parameters.
+	 * @param param Sort value parameter.
+	 */
+		public changeSortParams(param: Sort): void {
+			const sortOrder = !param.active || param.direction === 'asc' ? param.active : `-${param.active}`;
+			this.changeAnimeParams({ sortOrder });			
+		}
 }

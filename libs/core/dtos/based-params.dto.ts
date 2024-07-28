@@ -9,4 +9,7 @@ export type AnimeParamsDto = Readonly<{
 
 	/** Search value. */
 	search: string;
+
+	/** Sort order. */
+	ordering: string;
 }>;

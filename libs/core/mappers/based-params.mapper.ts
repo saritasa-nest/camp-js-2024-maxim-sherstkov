@@ -1,4 +1,4 @@
-import { AnimeParamsDto } from '../dtos/anime-params.dto';
+import { AnimeParamsDto } from '../dtos/based-params.dto';
 import { AnimeParams } from '../models/based-params';
 
 export namespace AnimeParamsMapper {
@@ -12,6 +12,7 @@ export namespace AnimeParamsMapper {
 			limit: model.pageSize.toString(),
 			offset: (model.pageIndex * model.pageSize).toString(),
 			search: model.searchValue,
+			ordering: model.sortOrder,
 		};
 	}
 }

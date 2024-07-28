@@ -8,7 +8,8 @@ export class AnimeParams extends Immerable {
 		pageIndex: 0,
 		pageSize: 15,
 		searchValue: '',
-		animeTotal: 0
+		animeTotal: 0,
+		sortOrder: ''
 	};
 
 	/** Current page index. */
@@ -20,11 +21,15 @@ export class AnimeParams extends Immerable {
 	/** Search input value. */
 	public readonly searchValue: string;
 
+	/** Sort order. */
+	public readonly sortOrder: string;
+
 	public constructor(data: Partial<AnimeParamsData> = {}) {
 		super();
 		this.pageIndex = data.pageIndex ?? AnimeParams.defaultValues.pageIndex;
 		this.pageSize = data.pageSize ?? AnimeParams.defaultValues.pageSize;
 		this.searchValue = data.searchValue ?? AnimeParams.defaultValues.searchValue;
+		this.sortOrder = data.sortOrder ?? AnimeParams.defaultValues.sortOrder
 	}
 }
 

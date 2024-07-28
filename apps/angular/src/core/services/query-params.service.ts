@@ -1,7 +1,7 @@
 import { HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Params, Router } from '@angular/router';
-import { AnimeParamsMapper } from '@js-camp/core/mappers/anime-params.mapper';
+import { AnimeParamsMapper } from '@js-camp/core/mappers/based-params.mapper';
 import { AnimeParams } from '@js-camp/core/models/based-params';
 
 /** Service to manage query params. */

@@ -78,10 +78,12 @@ export class AnimeDashboardComponent implements OnInit {
 		const pageSize = params['pageSize'] ? +params['pageSize'] : AnimeParams.defaultValues.pageSize;
 		const pageIndex = params['pageIndex'] ? +params['pageIndex'] : AnimeParams.defaultValues.pageIndex;
 		const searchValue = params['searchValue'] ? params['searchValue'] : AnimeParams.defaultValues.searchValue;
+		const sortOrder = params['sortOrder'] ? params['sortOrder'] : AnimeParams.defaultValues.sortOrder;
+
 		this.searchValue = searchValue
 
 		/* Update pagination parameters in the service */
-		this.animeService.changeAnimeParams(new AnimeParams({ pageSize, pageIndex, searchValue }))
+		this.animeService.changeAnimeParams(new AnimeParams({ pageSize, pageIndex, searchValue, sortOrder }))
 
 		// TODO make function to init
 	}
@@ -100,6 +102,6 @@ export class AnimeDashboardComponent implements OnInit {
 
 	/** Handles search form submit. */
 	protected onSearch(): void {
-		this.animeService.changeSearchParam(this.searchValue);
+		this.animeService.changeSearchParams(this.searchValue);
 	}
 }
