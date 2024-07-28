@@ -2,39 +2,46 @@
 <!-- @if (isLoading){
 	<camp-basic-progress-spinner paddingBlock="50px"></camp-basic-progress-spinner>
 } @else { -->
-<form (ngSubmit)="onSearch()">
-	<mat-form-field appearance="fill">
-	<input
-	  matInput
-	  type="text"
-	  [(ngModel)]="searchValue"
-	  placeholder="Search anime"
-	  name="search"
-	/>
-  </mat-form-field>
-  <button mat-raised-button color="primary" type="submit">Search</button>
-</form>
-<mat-form-field>
+<form class="search-form" (ngSubmit)="onSearch()">
+	<mat-form-field class="search-form__field" appearance="fill">
+	  <input
+		class="search-form__input"
+		matInput
+		type="text"
+		[(ngModel)]="searchValue"
+		placeholder="Search anime"
+		name="search"
+	  />
+	</mat-form-field>
+	<button class="search-form__button" mat-raised-button color="primary" type="submit">Search</button>
+  </form>
+  
+  <mat-form-field class="filter-form">
 	<mat-select
-		[(ngModel)]="selectedTypes"
-		(selectionChange)="onFilter($event)"
-		placeholder="Type of an anime"
-		multiple
+	  class="filter-form__select"
+	  [(ngModel)]="selectedTypes"
+	  (selectionChange)="onFilter($event)"
+	  placeholder="Type of an anime"
+	  multiple
 	>
-	  <mat-option *ngFor="let type of animeTypes" [value]="type">
+	  <mat-option class="filter-form__option" *ngFor="let type of animeTypes" [value]="type">
 		{{ type }}
 	  </mat-option>
 	</mat-select>
   </mat-form-field>
-<camp-anime-table [animeList]="animeList$ | async"></camp-anime-table>
-<mat-paginator
+  
+  <camp-anime-table class="anime-table" [animeList]="animeList$ | async"></camp-anime-table>
+  
+  <mat-paginator
+	class="pagination"
 	[length]="animeTotal"
 	[pageSize]="pageSize$ | async"
 	[showFirstLastButtons]="true"
 	[pageSizeOptions]="[5, 10, 15]"
 	[pageIndex]="currentPage$ | async"
 	(page)="handlePageEvent($event)"
->
-</mat-paginator>
+  >
+  </mat-paginator>
+  
 
 

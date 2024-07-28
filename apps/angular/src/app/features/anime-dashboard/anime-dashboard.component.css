@@ -1,3 +1,50 @@
 :host {
   display: block;
 }
+
+/* search-form block */
+.search-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+}
+
+.search-form__field,
+.filter-form__field {
+  flex: 1;
+  min-width: 200px;
+}
+
+.search-form__input,
+.filter-form__select {
+  width: 100%;
+}
+
+.search-form__button {
+  align-self: flex-end;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  background-color: #3f51b5;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.search-form__button:hover {
+  background-color: #303f9f;
+}
+
+/* anime-table block */
+.anime-table {
+  margin-top: 2rem;
+}
+
+/* pagination block */
+.pagination {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
