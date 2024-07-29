@@ -12,6 +12,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { AnimeParams } from '@js-camp/core/models/based-params';
 import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import { AnimeType } from '@js-camp/core/models/anime-type';
+import { MatButtonModule } from '@angular/material/button';
 
 import { AnimeParamsMapper } from '@js-camp/core/mappers/based-params.mapper';
 
@@ -32,6 +33,7 @@ import { AnimeTableComponent } from './components/anime-table/anime-table.compon
 		MatInputModule,
 		FormsModule,
 		MatSelectModule,
+		MatButtonModule,
 	],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -74,6 +76,7 @@ export class AnimeDashboardComponent implements OnInit {
 
 	/**
 	 * Handles paginator changes.
+	 *
 	 * @param pageEvent Event triggered by a paginator.
 	 * */
 	protected handlePageEvent(pageEvent: PageEvent): void {
@@ -97,22 +100,6 @@ export class AnimeDashboardComponent implements OnInit {
 	protected onFilter(selectValue: MatSelectChange): void {
 		this.animeService.changeFilterParams(selectValue);
 	}
-
-	/** Initialize parameters from the URL and update the component state. */
-	// private initializeParamsFromUrl(): void {
-	// 	const params = this.route.snapshot.queryParams;
-	// 	const pageSize = params['pageSize'] ? +params['pageSize'] : AnimeParams.defaultValues.pageSize;
-	// 	const pageIndex = params['pageIndex'] ? +params['pageIndex'] : AnimeParams.defaultValues.pageIndex;
-	// 	const searchValue = params['searchValue'] ? params['searchValue'] : AnimeParams.defaultValues.searchValue;
-	// 	const sortOrder = params['sortOrder'] ? params['sortOrder'] : AnimeParams.defaultValues.sortOrder;
-	// 	const filterByType = params['filterByType'] ? params['filterByType'] : AnimeParams.defaultValues.filterByType;
-
-	// 	this.searchValue = searchValue;
-	// 	this.selectedTypes = filterByType;
-
-	// 	/* Update pagination parameters in the service */
-	// 	this.animeService.changeAnimeParams(new AnimeParams({ pageSize, pageIndex, searchValue, sortOrder, filterByType }));
-	// }
 
 	private initializeParamsFromUrl(): void {
 		const { pageSize, pageIndex, searchValue, sortOrder } = this.route.snapshot.queryParams;

@@ -16,10 +16,10 @@ import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 	imports: [CommonModule, MatTableModule, EmptyPipe, MatSortModule],
 })
 export class AnimeTableComponent {
-	
+
 	/** Anime list. */
 	@Input() public animeList: readonly Anime[] | null = [];
-	
+
 	private readonly animeService: AnimeService = inject(AnimeService);
 
 	/** Columns names. */
@@ -36,7 +36,12 @@ export class AnimeTableComponent {
 		return item.id;
 	}
 
-	protected handleSortChange(event: Sort){
-		this.animeService.changeSortParams(event)
+	/**
+	 * Handles the change in sorting.
+	 *
+	 * @param event - The event object containing the sorting information.
+	 */
+	protected handleSortChange(event: Sort): void {
+		this.animeService.changeSortParams(event);
 	}
 }

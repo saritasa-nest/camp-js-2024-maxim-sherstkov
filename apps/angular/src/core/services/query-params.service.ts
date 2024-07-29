@@ -16,7 +16,7 @@ export class QueryParamsService {
 	 * Merge query parameters with existing.
 	 * @param params Page parameters.
 	 */
-	public changeQueryParams(params: Params): void {	
+	public changeQueryParams(params: Params): void {
 		this.router.navigate([], {
 			queryParams: params,
 			queryParamsHandling: 'merge',
