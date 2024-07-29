@@ -1,6 +1,6 @@
 @if (animeList) {
 	@if (animeList.length === 0){
-		<p class="anime-list__empty-message"> No animes to display. </p>
+		<p class="anime-list__empty-message"> No anime to display. </p>
 	} @else {
 		<table mat-table [dataSource]="animeList" matSort (matSortChange)="handleSortChange($event)" [trackBy]="trackByAnimeId">
 			<!-- Image Column -->
