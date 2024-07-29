@@ -1,30 +1,29 @@
 <section class="dashboard">
 	<div class="dashboard__filters">
-		<mat-form-field class="filter-form" appearance="outline" subscriptSizing="dynamic">
+		<mat-form-field appearance="outline" subscriptSizing="dynamic">
 			<mat-select
-			[(ngModel)]="selectedTypes"
-			(selectionChange)="onFilter($event)"
-			placeholder="Type of an anime"
-			multiple
+				[(ngModel)]="selectedTypes"
+				(selectionChange)="onFilter($event)"
+				placeholder="Type of an anime"
+				multiple
 			>
-			<mat-option class="filter-form__option" *ngFor="let type of animeTypes" [value]="type">
-				{{ type }}
-			</mat-option>
-		</mat-select>
-	</mat-form-field>
-	<form class="search-form" (ngSubmit)="onSearch()">
-		<mat-form-field class="search-form__field" appearance="outline" subscriptSizing="dynamic">
-		<input
-			class="search-form__input"
-			matInput
-			type="text"
-			[(ngModel)]="searchValue"
-			placeholder="Search an anime"
-			name="search"
-		/>
+				<mat-option *ngFor="let type of animeTypes" [value]="type">
+					{{ type }}
+				</mat-option>
+			</mat-select>
 		</mat-form-field>
-		<button mat-stroked-button type="submit">Search</button>
-	</form>
+		<form class="search-form" (ngSubmit)="onSearch()">
+			<mat-form-field appearance="outline" subscriptSizing="dynamic">
+				<input
+					matInput
+					type="text"
+					[(ngModel)]="searchValue"
+					placeholder="Search an anime"
+					name="search"
+				/>
+			</mat-form-field>
+			<button mat-stroked-button type="submit">Search</button>
+		</form>
 	</div>
 	<camp-anime-table class="anime-table" [animeList]="animeList$ | async"></camp-anime-table>
 	<mat-paginator
