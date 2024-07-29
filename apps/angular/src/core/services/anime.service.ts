@@ -2,7 +2,7 @@ import { inject, Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Anime } from '@js-camp/core/models/anime';
 import { AnimeDto } from '@js-camp/core/dtos/anime.dto';
-import { BehaviorSubject, map, Observable, Subject, switchMap, take, takeUntil } from 'rxjs';
+import { BehaviorSubject, map, Observable, Subject, switchMap, take, takeUntil, tap } from 'rxjs';
 import { AnimeMapper } from '@js-camp/core/mappers/anime.mapper';
 import { PaginationDto } from '@js-camp/core/dtos/pagination.dto';
 import { PaginationMapper } from '@js-camp/core/mappers/pagination.mapper';
@@ -36,10 +36,17 @@ export class AnimeService implements OnDestroy {
 	/** Anime parameters observable for monitoring them outside the service. */
 	public observableAnimeParams$ = this.animeParams$.asObservable();
 
+	/** Loading state subject. */
+	private isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
+	/** Loading state observable for monitoring it outside the service. */
+	public observableIsLoading$ = this.isLoading$.asObservable();
+
 	/** Get a list of anime from the API. */
 	public getAnimeList(): Observable<Pagination<Anime>> {
 		return this.animeParams$.pipe(
 			switchMap(params => {
+				this.isLoading$.next(true);
 				const httpParams = this.queryParamsService.getHttpParams(params);
 				this.queryParamsService.changeQueryParams(params);
 				return this.http.get<PaginationDto<AnimeDto>>(this.apiUrlService.animeListPath, { params: httpParams }).pipe(
@@ -47,6 +54,7 @@ export class AnimeService implements OnDestroy {
 						pagination,
 						animeDto => AnimeMapper.fromDto(animeDto),
 					)),
+					tap(() => this.isLoading$.next(false)),
 				);
 			}),
 			takeUntil(this.destroy$),
