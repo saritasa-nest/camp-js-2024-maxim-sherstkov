@@ -40,4 +40,3 @@ export namespace AnimeTypeMapper {
 		return ANIME_TYPE_MAP_TO_DTO[model];
 	}
 }
-

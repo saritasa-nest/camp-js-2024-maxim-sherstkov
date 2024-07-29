@@ -11,7 +11,7 @@ export class AnimeParams extends Immerable {
 		searchValue: '',
 		animeTotal: 0,
 		sortOrder: '',
-		filterByType: []
+		filterByType: [],
 	};
 
 	/** Current page index. */
@@ -26,6 +26,7 @@ export class AnimeParams extends Immerable {
 	/** Sort order. */
 	public readonly sortOrder: string;
 
+	/** Filter values. */
 	public readonly filterByType: AnimeType[];
 
 	public constructor(data: Partial<AnimeParamsData> = {}) {
@@ -33,8 +34,8 @@ export class AnimeParams extends Immerable {
 		this.pageIndex = data.pageIndex ?? AnimeParams.defaultValues.pageIndex;
 		this.pageSize = data.pageSize ?? AnimeParams.defaultValues.pageSize;
 		this.searchValue = data.searchValue ?? AnimeParams.defaultValues.searchValue;
-		this.sortOrder = data.sortOrder ?? AnimeParams.defaultValues.sortOrder
-		this.filterByType = data.filterByType ?? AnimeParams.defaultValues.filterByType
+		this.sortOrder = data.sortOrder ?? AnimeParams.defaultValues.sortOrder;
+		this.filterByType = data.filterByType ?? AnimeParams.defaultValues.filterByType;
 	}
 }
 
