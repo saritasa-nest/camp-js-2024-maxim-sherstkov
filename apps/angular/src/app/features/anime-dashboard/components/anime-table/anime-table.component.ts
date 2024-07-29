@@ -5,6 +5,7 @@ import { EmptyPipe } from '@js-camp/angular/shared/pipes/empty.pipe';
 import { Anime } from '@js-camp/core/models/anime';
 import { MatSortModule, Sort } from '@angular/material/sort';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
+import { BasicProgressSpinnerComponent } from '@js-camp/angular/shared/components/basic-progress-spinner/basic-progress-spinner.component';
 
 /** Table of anime list component. */
 @Component({
@@ -13,7 +14,7 @@ import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 	templateUrl: './anime-table.component.html',
 	styleUrl: './anime-table.component.css',
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	imports: [CommonModule, MatTableModule, EmptyPipe, MatSortModule],
+	imports: [CommonModule, MatTableModule, EmptyPipe, MatSortModule, BasicProgressSpinnerComponent],
 })
 export class AnimeTableComponent {
 
@@ -23,7 +24,7 @@ export class AnimeTableComponent {
 	private readonly animeService: AnimeService = inject(AnimeService);
 
 	/** Columns names. */
-	protected readonly displayedColumns = ['image', 'titleEnglish', 'titleJapanese', 'airedStart', 'type', 'status'] as const;
+	protected readonly displayedColumns = ['image', 'englishTitle', 'japaneseTitle', 'airedStart', 'type', 'status'] as const;
 
 	/**
 	 * TrackBy function using Id of anime.
