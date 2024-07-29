@@ -1,11 +1,15 @@
 import { Game } from './core/game';
 
-const playersResultsHTMLCollection = document.querySelectorAll<HTMLDivElement>('.player-result');
+const playersResultsHTMLCollection = document.querySelectorAll('.player-result');
 const playersResultsElements = Array.from(playersResultsHTMLCollection);
 const playersCount = playersResultsElements.length;
 
-const historyElement = <HTMLDivElement>document.getElementById('history-rolls');
-const diceButtonElement = <HTMLButtonElement>document.getElementById('roll-dice');
+const historyElement = document.getElementById('history-rolls');
+const diceButtonElement = document.getElementById('roll-dice');
+
+if (!historyElement || !diceButtonElement) {
+	throw new Error('History or dice element not found');
+}
 
 /* Initialize the game */
 const DEFAULT_DICE_COUNT = 6;

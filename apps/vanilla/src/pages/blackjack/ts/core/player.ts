@@ -1,12 +1,11 @@
-import { TSubscriber } from '../utils/subscriber';
+import { Subscriber } from '../utils/subscriber';
 
 import { Publisher } from './publisher';
 
 /**
  * Player class that tracks dice results and win status.
- *
  */
-export class Player implements TSubscriber<number> {
+export class Player implements Subscriber<number> {
 	private readonly diceResults: number[] = [];
 
 	/**
@@ -28,10 +27,7 @@ export class Player implements TSubscriber<number> {
 		this.results$.notify(this.diceResults);
 	}
 
-	/**
-	 * Handles updates from DiceGenerator (dice roll results).
-	 * @param result - The result of the dice roll.
-	 */
+	/** @inheritdoc */
 	public update(result: number): void {
 		this.addDiceResult(result);
 	}

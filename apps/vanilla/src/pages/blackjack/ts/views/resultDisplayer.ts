@@ -1,23 +1,30 @@
-import { TSubscriber } from '../utils/subscriber';
+import { Subscriber } from '../utils/subscriber';
 import { getTotalSum } from '../utils/utils';
 
 /**
- * ResultDisplayer class that updates the UI with player results.
- * @implements {TSubscriber<number[]>}
+ * ResultDisplayer class that provides methods to update the UI with player results.
+ * @implements {Subscriber<number[]>}
  */
-export class ResultDisplayer implements TSubscriber<number[]> {
-	private readonly playerElement: HTMLElement;
+export class ResultDisplayer implements Subscriber<number[]> {
+	private readonly playerElement: Element;
 
-	public constructor(playerElement: HTMLElement) {
+	private resultsContent = '';
+
+	public constructor(playerElement: Element) {
 		this.playerElement = playerElement;
 	}
 
-	/**
-	 * Updates the UI with player results.
-	 * @param results - The array of dice results.
-	 */
+	/** @inheritdoc */
 	public update(results: number[]): void {
 		const total = getTotalSum(results);
-		this.playerElement.innerHTML = `${results.join(', ')} (Total: ${total})`;
+		this.resultsContent = `${results.join(', ')} (Total: ${total})`;
+		this.render();
+	}
+
+	/**
+	 * Renders results content.
+	 */
+	private render(): void {
+		this.playerElement.innerHTML = this.resultsContent;
 	}
 }

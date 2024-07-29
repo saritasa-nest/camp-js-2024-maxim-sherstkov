@@ -1,22 +1,28 @@
-import { TSubscriber } from '../utils/subscriber';
+import { Subscriber } from '../utils/subscriber';
 
 /**
- * HistoryDisplayer class that updates the UI with all dice rolls for historyging.
- * @implements {TSubscriber<number>}
+ * HistoryDisplayer class that provides methods to update the UI with all rolls.
+ * @implements {Subscriber<number>}
  */
-export class HistoryDisplayer implements TSubscriber<number> {
+export class HistoryDisplayer implements Subscriber<number> {
 	private readonly historyElement: HTMLElement;
+
+	private historyContent = '';
 
 	public constructor(historyElement: HTMLElement) {
 		this.historyElement = historyElement;
 	}
 
-	/**
-	 * Updates the UI with a dice roll result.
-	 * @param result - The result of the dice roll.
-	 */
+	/** @inheritdoc */
 	public update(result: number): void {
-		const currentContent = this.historyElement.innerHTML;
-		this.historyElement.innerHTML = currentContent ? `${currentContent}, ${result}` : `${result}`;
+		this.historyContent = this.historyContent ? `${this.historyContent}, ${result}` : `${result}`;
+		this.render();
+	}
+
+	/**
+	 * Renders the history content.
+	 */
+	private render(): void {
+		this.historyElement.innerHTML = this.historyContent;
 	}
 }

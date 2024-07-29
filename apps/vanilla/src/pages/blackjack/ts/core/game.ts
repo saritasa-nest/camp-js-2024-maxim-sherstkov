@@ -1,9 +1,6 @@
 import { ResultDisplayer } from '../views/resultDisplayer';
-
 import { WinnerDisplayer } from '../views/winnerDisplayer';
-
 import { HistoryDisplayer } from '../views/historyDisplayer';
-
 import { getTotalSum } from '../utils/utils';
 
 import { TurnGenerator } from './turnGenerator';
@@ -23,13 +20,13 @@ type GameConstructorData = {
 	readonly diceSidesCount: number;
 
 	/** Array of HTML elements to display player results. */
-	readonly playerElements: HTMLDivElement[];
+	readonly playerElements: Element[];
 
 	/** The HTML element to display history of rolls. */
-	readonly historyElement: HTMLDivElement;
+	readonly historyElement: HTMLElement;
 
 	/** The button to roll the dice. */
-	readonly diceButtonElement: HTMLButtonElement;
+	readonly diceButtonElement: HTMLElement;
 };
 
 /**
@@ -49,7 +46,7 @@ export class Game {
 
 	private isGameEnded: boolean;
 
-	private readonly rollDiceButton: HTMLButtonElement;
+	private readonly rollDiceButton: HTMLElement;
 
 	private bondedPlayTurn: () => void;
 
@@ -66,10 +63,57 @@ export class Game {
 		/** Bounded playTurn version for add/remove eventlistener on rollDiceButton. */
 		this.bondedPlayTurn = this.playTurn.bind(this);
 
-		this.players.forEach((player, index) => {
-			const resultDisplayer = new ResultDisplayer(constructorData.playerElements[index]);
+		this.subscribePlayers(constructorData.playerElements);
+		this.subscribeToTurnGenerator();
 
-			const winnerDisplayer = new WinnerDisplayer(constructorData.playerElements[index]);
+		this.historyPublisher$.subscribe(this.historyDisplayer);
+	}
+
+	/**
+	 * Plays a turn by executing turnGenerator's method.
+	 */
+	public playTurn(): void {
+		this.turnGenerator$.next();
+	}
+
+	/** Starts the game. */
+	public startGame(): void {
+		this.rollDiceButton?.addEventListener('click', this.bondedPlayTurn);
+	}
+
+	/**
+	 * Evaluates a player's game result.
+	 * @param diceResults The player's dice rolls.
+	 * @param player The player to evaluate.
+	 */
+	private evaluateGameResult(diceResults: readonly number[], player: Player): void {
+		const total = getTotalSum(diceResults);
+		this.checkGameEnd(total);
+		player.winStatus$.notify(total >= 21);
+	}
+
+	/**
+	 * Checks game status.
+	 *
+	 * NOTE: Check if game has ended and then unsubscribe players from diceGenerator.
+	 * @param total Sum of results for the player.
+	 */
+	private checkGameEnd(total: number): void {
+		if (total >= 21) {
+			this.isGameEnded = true;
+			this.players.forEach(currentPlayer => this.diceGenerator$.unsubscribe(currentPlayer));
+			this.rollDiceButton?.removeEventListener('click', this.bondedPlayTurn);
+		}
+	}
+
+	/**
+	 * Subscribes players to their result and win status displayers.
+	 * @param playerElements Array of HTML elements to display results.
+	 */
+	private subscribePlayers(playerElements: Element[]): void {
+		this.players.forEach((player, index) => {
+			const resultDisplayer = new ResultDisplayer(playerElements[index]);
+			const winnerDisplayer = new WinnerDisplayer(playerElements[index]);
 
 			player.results$.subscribe(resultDisplayer);
 			player.winStatus$.subscribe(winnerDisplayer);
@@ -80,7 +124,12 @@ export class Game {
 				},
 			});
 		});
+	}
 
+	/**
+	 * Subscribes to the turn generator.
+	 */
+	private subscribeToTurnGenerator(): void {
 		this.turnGenerator$.subscribe({
 			update: (currentPlayerIndex: number) => {
 				if (this.isGameEnded) {
@@ -102,43 +151,5 @@ export class Game {
 				this.historyPublisher$.notify(diceResult);
 			},
 		});
-
-		this.historyPublisher$.subscribe(this.historyDisplayer);
-	}
-
-	/**
-	 * Plays a turn by executing turnGenerator's method.
-	 */
-	public playTurn(): void {
-		this.turnGenerator$.next();
-	}
-
-	/** Starts the game by binding playTurn function to click event of rollDiceButton. */
-	public startGame(): void {
-		this.rollDiceButton?.addEventListener('click', this.bondedPlayTurn);
-	}
-
-	/**
-	 * Checks if a player has won and ends the game if true.
-	 * @param diceResults - Player rolls results.
-	 * @param player - The player to check win status for.
-	 */
-	private evaluateGameResult(diceResults: readonly number[], player: Player): void {
-
-		const total = getTotalSum(diceResults);
-		this.checkGameEnd(total);
-		player.winStatus$.notify(total >= 21);
-	}
-
-	/**
-	 * Check if game has ended and then unsubscribe players from diceGenerator.
-	 * @param total Sum of results for the player.
-	 */
-	private checkGameEnd(total: number): void {
-		if (total >= 21) {
-			this.isGameEnded = true;
-			this.players.forEach(currentPlayer => this.diceGenerator$.unsubscribe(currentPlayer));
-			this.rollDiceButton?.removeEventListener('click', this.bondedPlayTurn);
-		}
 	}
 }

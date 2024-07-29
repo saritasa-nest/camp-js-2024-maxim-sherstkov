@@ -1,23 +1,32 @@
-import { TSubscriber } from '../utils/subscriber';
+import { Subscriber } from '../utils/subscriber';
 
 /**
- * WinnerDisplayer class that updates the UI to indicate the winner.
- * @implements {TSubscriber<boolean>}
+ * WinnerDisplayer class that provides methods to update the UI to indicate the winner.
+ * @implements {Subscriber<boolean>}
  */
-export class WinnerDisplayer implements TSubscriber<boolean> {
-	private readonly playerElement: HTMLElement;
+export class WinnerDisplayer implements Subscriber<boolean> {
+	private readonly playerElement: Element;
 
-	public constructor(playerElement: HTMLElement) {
+	private isWinner = false;
+
+	public constructor(playerElement: Element) {
 		this.playerElement = playerElement;
 	}
 
-	/**
-	 * Updates the UI to indicate the winner.
-	 * @param isWinner - The win status.
-	 */
+	/** @inheritdoc */
 	public update(isWinner: boolean): void {
-		if (isWinner) {
+		this.isWinner = isWinner;
+		this.render();
+	}
+
+	/**
+	 * Renders the win status.
+	 */
+	private render(): void {
+		if (this.isWinner) {
 			this.playerElement.classList.add('winner');
+		} else {
+			this.playerElement.classList.remove('winner');
 		}
 	}
 }

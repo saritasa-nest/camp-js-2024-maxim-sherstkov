@@ -1,10 +1,17 @@
 @import url("../../global/index.css");
 
 .player-result {
-  margin-bottom: 10px;
-  padding: 10px;
+  margin-bottom: var(--space-4);
+  padding: var(--space-4);
 }
 
 .winner {
   background-color: var(--error-color);
+}
+
+.content-section {
+  height: 50px;
+  border: 1px solid var(--error-color);
+  margin-bottom: var(--space-2);
+  padding: var(--space-3);
 }
