@@ -31,16 +31,16 @@ export class AnimeService implements OnDestroy {
 	private readonly destroy$ = new Subject<void>();
 
 	/** Anime parameters subject. */
-	private animeParams$: BehaviorSubject<AnimeParams> = new BehaviorSubject(new AnimeParams());
+	private readonly animeParams$: BehaviorSubject<AnimeParams> = new BehaviorSubject(new AnimeParams());
 
 	/** Anime parameters observable for monitoring them outside the service. */
-	public observableAnimeParams$ = this.animeParams$.asObservable();
+	public readonly observableAnimeParams$ = this.animeParams$.asObservable();
 
 	/** Loading state subject. */
-	private isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+	private readonly isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
 	/** Loading state observable for monitoring it outside the service. */
-	public observableIsLoading$ = this.isLoading$.asObservable();
+	public readonly observableIsLoading$ = this.isLoading$.asObservable();
 
 	/** Get a list of anime from the API. */
 	public getAnimeList(): Observable<Pagination<Anime>> {

@@ -3,7 +3,7 @@ import { Component, ChangeDetectionStrategy, inject, OnInit } from '@angular/cor
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute } from '@angular/router';
-import { map, Observable, tap } from 'rxjs';
+import { BehaviorSubject, first, map, Observable, tap } from 'rxjs';
 import { Anime } from '@js-camp/core/models/anime';
 import { BasicProgressSpinnerComponent } from '@js-camp/angular/shared/components/basic-progress-spinner/basic-progress-spinner.component';
 import { FormsModule } from '@angular/forms';
@@ -57,16 +57,16 @@ export class AnimeDashboardComponent implements OnInit {
 	);
 
 	/** Loading state from the service. */
-	protected isLoading$ = this.animeService.observableIsLoading$;
+	protected readonly isLoading$ = this.animeService.observableIsLoading$;
 
 	/** Anime count. */
-	protected animeTotal = AnimeParams.defaultValues.animeTotal;
+	protected readonly animeTotal$ = new BehaviorSubject(AnimeParams.defaultValues.animeTotal);
 
 	/** Search input value. */
-	protected searchValue = AnimeParams.defaultValues.searchValue;
+	protected readonly searchValue$ = new BehaviorSubject(AnimeParams.defaultValues.searchValue);
 
 	/** Anime type values. */
-	protected animeTypes = Object.values(AnimeType);
+	protected readonly animeTypes = Object.values(AnimeType);
 
 	/** Selected anime types for filtering. */
 	protected selectedTypes: AnimeType[] = AnimeParams.defaultValues.filterByType;
@@ -92,7 +92,11 @@ export class AnimeDashboardComponent implements OnInit {
 
 	/** Handles search form submit. */
 	protected onSearch(): void {
-		this.animeService.changeSearchParams(this.searchValue);
+		this.searchValue$.pipe(
+			first(),
+		).subscribe(searchValue => {
+			this.animeService.changeSearchParams(searchValue);
+		});
 	}
 
 	/**
@@ -111,7 +115,13 @@ export class AnimeDashboardComponent implements OnInit {
 		/** Gets array of filterByType. */
 		const filterByType = this.route.snapshot.queryParamMap.getAll('filterByType');
 
-		this.searchValue = searchValue || defaultValues.searchValue;
+		this.searchValue$.pipe(
+			first(),
+		).subscribe(value => {
+			this.searchValue$.next(value);
+		});
+
+		// this.searchValue = searchValue || defaultValues.searchValue;
 		this.selectedTypes = AnimeParamsMapper.toArrayAnimeType(filterByType);
 
 		this.animeService.changeAnimeParams({
@@ -127,7 +137,7 @@ export class AnimeDashboardComponent implements OnInit {
 	private loadAnimeList(): void {
 		this.animeList$ = this.animeService.getAnimeList().pipe(
 			tap(paginatedAnimeList => {
-				this.animeTotal = paginatedAnimeList.count;
+				this.animeTotal$.next(paginatedAnimeList.count);
 			}),
 			map(animeList => animeList.results),
 		);

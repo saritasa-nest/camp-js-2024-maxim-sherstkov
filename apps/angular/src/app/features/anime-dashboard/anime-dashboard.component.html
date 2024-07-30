@@ -15,30 +15,31 @@
 					</mat-option>
 				</mat-select>
 			</mat-form-field>
-			<form class="search-form" (ngSubmit)="onSearch()">
-				<mat-form-field appearance="outline" subscriptSizing="dynamic">
-					<input
+				<form class="search-form" (ngSubmit)="onSearch()">
+					<mat-form-field appearance="outline" subscriptSizing="dynamic">
+						<input
 						matInput
 						type="text"
-						[(ngModel)]="searchValue"
+						[(ngModel)]="searchValue$"
 						placeholder="Search an anime"
 						name="search"
-					/>
-				</mat-form-field>
-				<button mat-stroked-button type="submit">Search</button>
-			</form>
+						/>
+					</mat-form-field>
+					<button mat-stroked-button type="submit">Search</button>
+				</form>
 		</div>
 	}
-	<camp-anime-table class="anime-table" [animeList]="animeList$ | async"></camp-anime-table>
+
+	<camp-anime-table class="anime-table" [animeList]="animeList$ | async" />
+
 	<mat-paginator
 		class="pagination"
-		[length]="animeTotal"
+		[length]="animeTotal$ | async"
 		[pageSize]="pageSize$ | async"
 		[showFirstLastButtons]="true"
 		[pageSizeOptions]="[5, 10, 15]"
 		[pageIndex]="currentPage$ | async"
 		(page)="handlePageEvent($event)"
 		[disabled]="isLoading$ | async"
-	>
-	</mat-paginator>
+	/>
 </section>
