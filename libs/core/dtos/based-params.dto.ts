@@ -1,10 +1,10 @@
 /** Anime params. */
 export type AnimeParamsDto = Readonly<{
 
-	/** Maximum number of items from server. */
+	/** Maximum number of items. */
 	limit: string;
 
-	/** Items skipped by the server. */
+	/** Items count skipped. */
 	offset: string;
 
 	/** Search value. */

@@ -17,5 +17,4 @@ export class ApiUrlService {
 	public constructor() {
 		this.animeListPath = `${this.appConfig.apiUrl}/anime/anime/`;
 	}
-
 }
