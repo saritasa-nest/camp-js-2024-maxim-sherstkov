@@ -1,0 +1,27 @@
+.login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  gap: 100px;
+}
+
+.login__card {
+  display: flex;
+  gap: var(--space-3);
+  padding: var(--space-6);
+  width: 350px;
+}
+
+.login__input-field {
+  width: 100%;
+}
+
+.mat-mdc-card-content:last-child {
+  padding: 0;
+}
+
+.login__actions {
+  display: flex;
+  justify-content: flex-end;
+}
