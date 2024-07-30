@@ -1,14 +1,15 @@
 import { Subscriber } from '../utils/subscriber';
 
 /**
- * Publisher class that manages subscribers and notifies them with updates.
+ * Publisher class that can manage subscribers and notifies them with updates.
  */
 export class Publisher<T> {
 	private readonly subscribers: Subscriber<T>[] = [];
 
 	/**
 	 * Adds a subscriber.
-	 * @param subscriber - The subscriber to add.
+	 *
+	 * @param subscriber The subscriber to add.
 	 */
 	public subscribe(subscriber: Subscriber<T>): void {
 		const subIndex = this.getSubscriberIndex(subscriber);
@@ -19,7 +20,8 @@ export class Publisher<T> {
 
 	/**
 	 * Removes a subscriber.
-	 * @param subscriber - The subscriber to remove.
+	 *
+	 * @param subscriber The subscriber to remove.
 	 */
 	public unsubscribe(subscriber: Subscriber<T>): void {
 		const subIndex = this.getSubscriberIndex(subscriber);
@@ -30,7 +32,8 @@ export class Publisher<T> {
 
 	/**
 	 * Notifies all subscribers with a message.
-	 * @param message - The message to notify subscribers with.
+	 *
+	 * @param message The message to notify subscribers with.
 	 */
 	public notify(message: T): void {
 		this.subscribers.forEach(currentSubscriber => currentSubscriber.update(message));
@@ -38,6 +41,7 @@ export class Publisher<T> {
 
 	/**
 	 * Receives subscriber index.
+	 *
 	 * @param subscriber - The subscriber whose index you want to find.
 	 * @returns - The subscriber index.
 	 */

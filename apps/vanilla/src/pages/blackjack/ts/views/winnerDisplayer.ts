@@ -2,7 +2,6 @@ import { Subscriber } from '../utils/subscriber';
 
 /**
  * WinnerDisplayer class that provides methods to update the UI to indicate the winner.
- * @implements {Subscriber<boolean>}
  */
 export class WinnerDisplayer implements Subscriber<boolean> {
 	private readonly playerElement: Element;

@@ -3,7 +3,6 @@ import { getTotalSum } from '../utils/utils';
 
 /**
  * ResultDisplayer class that provides methods to update the UI with player results.
- * @implements {Subscriber<number[]>}
  */
 export class ResultDisplayer implements Subscriber<number[]> {
 	private readonly playerElement: Element;

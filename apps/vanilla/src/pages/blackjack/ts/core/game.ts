@@ -1,6 +1,7 @@
 import { ResultDisplayer } from '../views/resultDisplayer';
 import { WinnerDisplayer } from '../views/winnerDisplayer';
 import { HistoryDisplayer } from '../views/historyDisplayer';
+
 import { getTotalSum } from '../utils/utils';
 
 import { TurnGenerator } from './turnGenerator';
@@ -31,6 +32,7 @@ type GameConstructorData = {
 
 /**
  * Game class that manages the game logic and UI updates.
+ *
  * @param GameConstructorData - Params needed for the Game class instance.
  */
 export class Game {
@@ -70,7 +72,7 @@ export class Game {
 	}
 
 	/**
-	 * Plays a turn by executing turnGenerator's method.
+	 * Plays a turn.
 	 */
 	public playTurn(): void {
 		this.turnGenerator$.next();
@@ -83,6 +85,7 @@ export class Game {
 
 	/**
 	 * Evaluates a player's game result.
+	 *
 	 * @param diceResults The player's dice rolls.
 	 * @param player The player to evaluate.
 	 */
@@ -108,6 +111,7 @@ export class Game {
 
 	/**
 	 * Subscribes players to their result and win status displayers.
+	 *
 	 * @param playerElements Array of HTML elements to display results.
 	 */
 	private subscribePlayers(playerElements: Element[]): void {

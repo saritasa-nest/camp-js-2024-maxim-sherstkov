@@ -11,7 +11,7 @@ if (!historyElement || !diceButtonElement) {
 	throw new Error('History or dice element not found');
 }
 
-/* Initialize the game */
+/* Initialize the game. */
 const DEFAULT_DICE_COUNT = 6;
 const game = new Game({
 	playersCount,

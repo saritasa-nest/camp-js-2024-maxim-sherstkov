@@ -3,7 +3,7 @@ import { Subscriber } from '../utils/subscriber';
 import { Publisher } from './publisher';
 
 /**
- * Player class that tracks dice results and win status.
+ * Player class that can tracks dice results and win status.
  */
 export class Player implements Subscriber<number> {
 	private readonly diceResults: number[] = [];
@@ -20,6 +20,7 @@ export class Player implements Subscriber<number> {
 
 	/**
 	 * Adds a dice result to the player's results and notifies subscribers.
+	 *
 	 * @param result - The result of the dice roll.
 	 */
 	private addDiceResult(result: number): void {

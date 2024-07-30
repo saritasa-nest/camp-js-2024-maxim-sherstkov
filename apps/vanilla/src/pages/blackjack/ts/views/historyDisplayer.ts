@@ -2,7 +2,6 @@ import { Subscriber } from '../utils/subscriber';
 
 /**
  * HistoryDisplayer class that provides methods to update the UI with all rolls.
- * @implements {Subscriber<number>}
  */
 export class HistoryDisplayer implements Subscriber<number> {
 	private readonly historyElement: HTMLElement;
