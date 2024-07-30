@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '@js-camp/angular/core/services/auth.service';
 import { Router } from '@angular/router';
 import { Login } from '@js-camp/core/models/login';
@@ -10,6 +10,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { merge } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 /**
  * Login page component.
@@ -30,13 +31,10 @@ import { merge } from 'rxjs';
 		MatIconModule,
 	],
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
 	// TODO mb change docs?
 	/** Login form group. */
 	protected loginForm: FormGroup;
-
-	/** Hide password flag. */
-	protected hidePassword = signal(true);
 
 	private readonly fb: FormBuilder = inject(FormBuilder);
 
@@ -44,49 +42,94 @@ export class LoginComponent {
 
 	private readonly router = inject(Router);
 
+	// TODO check readonly for signal
+
+	/** Hide password flag. */
+	protected hidePassword = signal(true);
+
+	/** Email error message. */
+	protected emailErrorMessage = signal('');
+
+	/** Password error message. */
+	protected passwordErrorMessage = signal('');
+
 	public constructor() {
 		this.loginForm = this.fb.group({
-			email: ['', Validators.required],
+			email: ['', [Validators.required, Validators.email]],
 			password: ['', Validators.required],
 		});
-
-		merge(this.email.statusChanges, this.email.valueChanges)
-			.pipe(takeUntilDestroyed())
-			.subscribe(() => this.updateEmailErrorMessage());
-
-	  	merge(this.password.statusChanges, this.password.valueChanges)
-			.pipe(takeUntilDestroyed())
-			.subscribe(() => this.updatePasswordErrorMessage());
 	}
 
-	/** Email getter. */
-	protected get email() {
-		return this.loginForm.get('email');
+	/** @inheritdoc */
+	public ngOnInit(): void {
+		this.loginForm.valueChanges.subscribe(val => {
+			console.log(val);
+
+		});
+		merge(this.loginForm.valueChanges, this.loginForm.statusChanges)
+
+			// TODO destroy
+			// .pipe(takeUntilDestroyed())
+			.subscribe(() => {
+				this.updateEmailErrorMessage();
+				this.updatePasswordErrorMessage();
+			});
 	}
 
-	/** Password getter. */
-	protected get password() {
-		return this.loginForm.get('password');
+	// /** Email getter. */
+	// public get email(): AbstractControl | null {
+	// 	return this.loginForm.get('email');
+	// }
+
+	// /** Password getter. */
+	// protected get password(): AbstractControl | null {
+	// 	return this.loginForm.get('password');
+	// }
+
+	/**
+	 * Updates email error message.
+	 */
+	protected updateEmailErrorMessage(): void {
+		console.log(this.loginForm.controls['email']);
+
+		if (this.loginForm.controls['email'].hasError('required')) {
+			this.emailErrorMessage.set('You must enter a value');
+		} else if (this.loginForm.controls['email'].hasError('email')) {
+			this.emailErrorMessage.set('Not a valid email');
+		} else {
+			this.emailErrorMessage.set('');
+		}
+	}
+
+	/**
+	 * Updates password error message.
+	 */
+	protected updatePasswordErrorMessage(): void {
+		if (this.loginForm.controls['password'].hasError('required')) {
+			this.passwordErrorMessage.set('You have to enter a password');
+		} else {
+			this.passwordErrorMessage.set('');
+		}
 	}
 
 	/**
 	 * Logs  user with the provided credentials.
 	 */
 	public onSubmit(): void {
-		const val = this.loginForm.value;
-
-		if (this.loginForm.valid) {
-			const credentials = new Login(this.loginForm.value);
-			this.authService.login(credentials)
-				.subscribe(
-					response => {
-						console.log('User is logged in');
-						console.log(response);
-
-						// this.router.navigateByUrl('/');
-					},
-				);
+		if (this.loginForm.invalid) {
+			return;
 		}
+		const credentials = new Login(this.loginForm.value);
+		this.authService.login(credentials)
+			.subscribe(
+				response => {
+					console.log('User is logged in');
+					console.log(response);
+
+					// this.router.navigateByUrl('/');
+				},
+			);
+
 	}
 
 	/** Email control getter. */
@@ -103,7 +146,4 @@ export class LoginComponent {
 		this.hidePassword.set(!this.hidePassword());
 		event.stopPropagation();
 	}
-}
-function takeUntilDestroyed(): any {
-	throw new Error('Function not implemented.');
 }
