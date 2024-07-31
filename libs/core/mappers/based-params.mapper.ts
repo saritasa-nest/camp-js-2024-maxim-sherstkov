@@ -9,7 +9,7 @@ export namespace AnimeParamsMapper {
 	/**
 	 * Converts a string array to AnimeType array.
 	 *
-	 * @param array The string array or single string to convert.
+	 * @param array The string array to convert.
 	 */
 	export function toArrayAnimeType(array: string[]): AnimeType[] {
 		const animeTypeValues = Object.values(AnimeType);
