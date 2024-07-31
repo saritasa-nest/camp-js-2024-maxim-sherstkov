@@ -24,6 +24,6 @@ export class ResultDisplayer implements Subscriber<number[]> {
 	 * Renders results content.
 	 */
 	private render(): void {
-		this.playerElement.innerHTML = this.resultsContent;
+		this.playerElement.textContent = this.resultsContent;
 	}
 }

@@ -22,6 +22,6 @@ export class HistoryDisplayer implements Subscriber<number> {
 	 * Renders the history content.
 	 */
 	private render(): void {
-		this.historyElement.innerHTML = this.historyContent;
+		this.historyElement.textContent = this.historyContent;
 	}
 }
