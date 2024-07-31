@@ -5,28 +5,30 @@
 		<div class="dashboard__filters">
 			<mat-form-field appearance="outline" subscriptSizing="dynamic">
 				<mat-select
-					[(ngModel)]="selectedTypes"
 					(selectionChange)="onFilter($event)"
 					placeholder="Type of an anime"
+					[formControl]="select"
 					multiple
 				>
-					<mat-option *ngFor="let type of animeTypes" [value]="type">
-						{{ type }}
-					</mat-option>
+					@for (type of animeTypes; track type){
+						<mat-option [value]="type">
+							{{ type }}
+						</mat-option>
+					}
 				</mat-select>
 			</mat-form-field>
-				<form class="search-form" (ngSubmit)="onSearch()">
-					<mat-form-field appearance="outline" subscriptSizing="dynamic">
-						<input
+			<form class="search-form" (ngSubmit)="onSearch()">
+				<mat-form-field appearance="outline" subscriptSizing="dynamic">
+					<input
 						matInput
 						type="text"
-						[(ngModel)]="searchValue$"
 						placeholder="Search an anime"
 						name="search"
-						/>
-					</mat-form-field>
-					<button mat-stroked-button type="submit">Search</button>
-				</form>
+						[formControl]="search"
+					/>
+				</mat-form-field>
+				<button mat-stroked-button type="submit">Search</button>
+			</form>
 		</div>
 	}
 
