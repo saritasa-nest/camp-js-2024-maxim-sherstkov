@@ -19,6 +19,6 @@ export class ApiUrlService {
 
 	public constructor() {
 		this.animeListPath = `${this.appConfig.apiUrl}/anime/anime/`;
-		this.loginPath = `${this.appConfig.apiUrl}/auth/login`;
+		this.loginPath = `${this.appConfig.apiUrl}/auth/login/`;
 	}
 }
