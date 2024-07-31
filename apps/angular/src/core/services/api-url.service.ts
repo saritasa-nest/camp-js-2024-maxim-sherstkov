@@ -17,8 +17,12 @@ export class ApiUrlService {
 	/** Path to API to login. */
 	public readonly loginPath: string;
 
+	/** Path to API to register. */
+	public readonly registerPath: string;
+
 	public constructor() {
 		this.animeListPath = `${this.appConfig.apiUrl}/anime/anime/`;
 		this.loginPath = `${this.appConfig.apiUrl}/auth/login/`;
+		this.registerPath = `${this.appConfig.apiUrl}/auth/register/`;
 	}
 }

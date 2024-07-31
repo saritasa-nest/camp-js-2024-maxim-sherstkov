@@ -12,9 +12,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { Subject, takeUntil } from 'rxjs';
 import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
 
-/**
- * Login page component.
- */
+/** Login page component. */
 @Component({
 	selector: 'camp-login',
 	standalone: true,
