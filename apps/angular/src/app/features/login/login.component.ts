@@ -50,7 +50,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 	protected readonly hidePassword = signal(true);
 
 	/** Email error message. */
-	protected readonly emailMessage = signal('');
+	protected readonly emailErrorMessage = signal('');
 
 	private readonly validationMessages: { [key: string]: string; } = {
 		required: 'Please fill the required field.',
@@ -62,7 +62,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 		const emailControl = this.loginForm.get('email') as AbstractControl;
 		emailControl.valueChanges.pipe(
 			takeUntil(this.destroy$),
-		).subscribe(_ => this.setMessage(emailControl));
+		).subscribe(_ => this.setEmailErrorMessage(emailControl));
 
 	}
 
@@ -113,10 +113,10 @@ export class LoginComponent implements OnInit, OnDestroy {
 	 *
 	 * @param c The control to check for errors.
 	 */
-	private setMessage(c: AbstractControl): void {
-		this.emailMessage.set('');
+	private setEmailErrorMessage(c: AbstractControl): void {
+		this.emailErrorMessage.set('');
 		if ((c.touched || c.dirty) && c.errors) {
-			this.emailMessage.set(
+			this.emailErrorMessage.set(
 				Object.keys(c.errors).map(
 					key => this.validationMessages[key],
 				)
