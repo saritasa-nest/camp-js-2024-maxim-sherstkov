@@ -17,7 +17,13 @@
   width: 100%;
 }
 
-.mat-mdc-card-content:last-child {
+.login__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.login__content:last-child {
   padding: 0;
 }
 
