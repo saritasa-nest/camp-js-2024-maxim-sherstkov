@@ -15,5 +15,11 @@ export const appRoutes: Routes = [
 			c => c.LoginComponent,
 		),
 	},
+	{
+		path: URL_PATHS.register,
+		loadComponent: () => import('./features/register/register.component').then(
+			c => c.RegisterComponent,
+		),
+	},
 	{ path: '**', redirectTo: URL_PATHS.home },
 ];

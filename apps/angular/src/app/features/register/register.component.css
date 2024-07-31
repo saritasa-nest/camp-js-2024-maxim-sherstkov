@@ -1,0 +1,33 @@
+.register {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  gap: 100px;
+}
+
+.register__card {
+  display: flex;
+  gap: var(--space-3);
+  padding: var(--space-6);
+  width: 350px;
+}
+
+.register__input-field {
+  width: 100%;
+}
+
+.register__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.register__content:last-child {
+  padding: 0;
+}
+
+.register__actions {
+  display: flex;
+  justify-content: flex-end;
+}
