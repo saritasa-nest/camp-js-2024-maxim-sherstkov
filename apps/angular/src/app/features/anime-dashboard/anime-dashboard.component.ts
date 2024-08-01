@@ -40,18 +40,18 @@ export class AnimeDashboardComponent implements OnInit {
 	private readonly animeService: AnimeService = inject(AnimeService);
 
 	/** Current route. */
-	protected route: ActivatedRoute = inject(ActivatedRoute);
+	protected readonly route: ActivatedRoute = inject(ActivatedRoute);
 
 	/** Anime list. */
 	protected readonly animeList$;
 
 	/** Current page index. */
-	protected currentPage$ = this.animeService.observableAnimeParams$.pipe(
+	protected readonly currentPage$ = this.animeService.observableAnimeParams$.pipe(
 		map(params => params.pageIndex),
 	);
 
 	/** Maximum number of items per page. */
-	protected pageSize$ = this.animeService.observableAnimeParams$.pipe(
+	protected readonly pageSize$ = this.animeService.observableAnimeParams$.pipe(
 		map(params => params.pageSize),
 	);
 
@@ -65,10 +65,10 @@ export class AnimeDashboardComponent implements OnInit {
 	protected readonly animeTypes = Object.values(AnimeType);
 
 	/** Search input control. */
-	protected readonly search = new FormControl('');
+	protected readonly searchControl = new FormControl('');
 
 	/** Filter input control. */
-	protected readonly select = new FormControl([] as AnimeType[]);
+	protected readonly selectControl = new FormControl<AnimeType[]>([]);
 
 	public constructor() {
 		this.animeList$ = this.animeService.getAnimeList().pipe(
@@ -99,7 +99,7 @@ export class AnimeDashboardComponent implements OnInit {
 
 	/** Handles search form submit. */
 	protected onSearch(): void {
-		this.animeService.changeSearchParams(this.search.value ?? AnimeParams.defaultValues.searchValue);
+		this.animeService.changeSearchParams(this.searchControl.value ?? AnimeParams.defaultValues.searchValue);
 	}
 
 	/**
@@ -119,8 +119,8 @@ export class AnimeDashboardComponent implements OnInit {
 
 		const selectedTypes = AnimeParamsMapper.toArrayAnimeType(filterByType);
 
-		this.select.setValue(selectedTypes);
-		this.search.setValue(searchValue);
+		this.selectControl.setValue(selectedTypes);
+		this.searchControl.setValue(searchValue);
 
 		this.animeService.changeAnimeParams({
 			pageSize,

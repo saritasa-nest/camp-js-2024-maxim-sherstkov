@@ -7,7 +7,7 @@
 				<mat-select
 					(selectionChange)="onFilter($event)"
 					placeholder="Type of an anime"
-					[formControl]="select"
+					[formControl]="selectControl"
 					multiple
 				>
 					@for (type of animeTypes; track type){
@@ -24,7 +24,7 @@
 						type="text"
 						placeholder="Search an anime"
 						name="search"
-						[formControl]="search"
+						[formControl]="searchControl"
 					/>
 				</mat-form-field>
 				<button mat-stroked-button type="submit">Search</button>
