@@ -1,8 +1,8 @@
-import { inject, Injectable, OnDestroy } from '@angular/core';
+import { DestroyRef, inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Anime } from '@js-camp/core/models/anime';
 import { AnimeDto } from '@js-camp/core/dtos/anime.dto';
-import { BehaviorSubject, map, Observable, Subject, switchMap, take, takeUntil, tap } from 'rxjs';
+import { BehaviorSubject, map, Observable, switchMap, take, tap } from 'rxjs';
 import { AnimeMapper } from '@js-camp/core/mappers/anime.mapper';
 import { PaginationDto } from '@js-camp/core/dtos/pagination.dto';
 import { PaginationMapper } from '@js-camp/core/mappers/pagination.mapper';
@@ -10,6 +10,7 @@ import { Pagination } from '@js-camp/core/models/pagination';
 import { AnimeParams } from '@js-camp/core/models/based-params';
 import { Sort } from '@angular/material/sort';
 import { MatSelectChange } from '@angular/material/select';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { ApiUrlService } from './api-url.service';
 import { QueryParamsService } from './query-params.service';
@@ -20,15 +21,14 @@ import { QueryParamsService } from './query-params.service';
 @Injectable({
 	providedIn: 'root',
 })
-export class AnimeService implements OnDestroy {
+export class AnimeService {
 	private readonly http = inject(HttpClient);
 
 	private readonly apiUrlService = inject(ApiUrlService);
 
 	private readonly queryParamsService = inject(QueryParamsService);
 
-	/** Subject for managing unsubscribing. */
-	private readonly destroy$ = new Subject<void>();
+	private readonly destroyRef = inject(DestroyRef);
 
 	/** Anime parameters subject. */
 	private readonly animeParams$: BehaviorSubject<AnimeParams> = new BehaviorSubject(new AnimeParams());
@@ -45,6 +45,7 @@ export class AnimeService implements OnDestroy {
 	/** Get a list of anime from the API. */
 	public getAnimeList(): Observable<Pagination<Anime>> {
 		return this.animeParams$.pipe(
+			takeUntilDestroyed(this.destroyRef),
 			switchMap(params => {
 				this.isLoading$.next(true);
 				const httpParams = this.queryParamsService.getHttpParams(params);
@@ -57,7 +58,6 @@ export class AnimeService implements OnDestroy {
 					tap(() => this.isLoading$.next(false)),
 				);
 			}),
-			takeUntil(this.destroy$),
 		);
 	}
 
@@ -67,9 +67,9 @@ export class AnimeService implements OnDestroy {
 	 */
 	public changeAnimeParams(params: Partial<AnimeParams>): void {
 		this.animeParams$.pipe(
+			takeUntilDestroyed(this.destroyRef),
 			take(1),
 			map(currentParams => ({ ...currentParams, ...params })),
-			takeUntil(this.destroy$),
 		).subscribe(updatedParams => {
 			this.animeParams$.next(new AnimeParams(updatedParams));
 		});
@@ -106,11 +106,5 @@ export class AnimeService implements OnDestroy {
 	 */
 	public changeFilterParams(filterValue: MatSelectChange): void {
 		this.changeAnimeParams({ filterByType: filterValue.value, pageIndex: AnimeParams.defaultValues.pageIndex });
-	}
-
-	/** @inheritdoc */
-	public ngOnDestroy(): void {
-		this.destroy$.next();
-		this.destroy$.complete();
 	}
 }

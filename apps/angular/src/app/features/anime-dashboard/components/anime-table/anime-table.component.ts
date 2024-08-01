@@ -38,11 +38,11 @@ export class AnimeTableComponent {
 	}
 
 	/**
-	 * Handles the change in sorting.
+	 * Handles the sort change.
 	 *
-	 * @param event - The event object containing the sorting information.
+	 * @param sort New sort value.
 	 */
-	protected handleSortChange(event: Sort): void {
-		this.animeService.changeSortParams(event);
+	protected handleSortChange(sort: Sort): void {
+		this.animeService.changeSortParams(sort);
 	}
 }

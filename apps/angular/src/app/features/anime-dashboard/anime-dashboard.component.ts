@@ -134,14 +134,4 @@ export class AnimeDashboardComponent implements OnInit {
 			filterByType: selectedTypes,
 		});
 	}
-
-	/** Load the anime list and update the total count. */
-	// private loadAnimeList(): void {
-	// 	this.animeList$ = this.animeService.getAnimeList().pipe(
-	// 		tap(paginatedAnimeList => {
-	// 			this.animeTotal$.next(paginatedAnimeList.count);
-	// 		}),
-	// 		map(animeList => animeList.results),
-	// 	);
-	// }
 }
