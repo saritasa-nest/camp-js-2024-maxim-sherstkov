@@ -31,23 +31,23 @@ export class AnimeService {
 	private readonly destroyRef = inject(DestroyRef);
 
 	/** Anime parameters subject. */
-	private readonly animeParams$: BehaviorSubject<AnimeParams> = new BehaviorSubject(new AnimeParams());
+	private readonly _animeParams$ = new BehaviorSubject(new AnimeParams());
 
 	/** Anime parameters observable for monitoring them outside the service. */
-	public readonly observableAnimeParams$ = this.animeParams$.asObservable();
+	public readonly animeParams$ = this._animeParams$.asObservable();
 
 	/** Loading state subject. */
-	private readonly isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+	private readonly _isLoading$ = new BehaviorSubject(false);
 
 	/** Loading state observable for monitoring it outside the service. */
-	public readonly observableIsLoading$ = this.isLoading$.asObservable();
+	public readonly isLoading$ = this._isLoading$.asObservable();
 
 	/** Get a list of anime from the API. */
 	public getAnimeList(): Observable<Pagination<Anime>> {
-		return this.animeParams$.pipe(
+		return this._animeParams$.pipe(
 			takeUntilDestroyed(this.destroyRef),
 			switchMap(params => {
-				this.isLoading$.next(true);
+				this._isLoading$.next(true);
 				const httpParams = this.queryParamsService.getHttpParams(params);
 				this.queryParamsService.changeQueryParams(params);
 				return this.http.get<PaginationDto<AnimeDto>>(this.apiUrlService.animeListPath, { params: httpParams }).pipe(
@@ -55,7 +55,7 @@ export class AnimeService {
 						pagination,
 						animeDto => AnimeMapper.fromDto(animeDto),
 					)),
-					tap(() => this.isLoading$.next(false)),
+					tap(() => this._isLoading$.next(false)),
 				);
 			}),
 		);
@@ -66,12 +66,12 @@ export class AnimeService {
 	 * @param params Partial anime parameters.
 	 */
 	public changeAnimeParams(params: Partial<AnimeParams>): void {
-		this.animeParams$.pipe(
+		this._animeParams$.pipe(
 			takeUntilDestroyed(this.destroyRef),
 			take(1),
 			map(currentParams => ({ ...currentParams, ...params })),
 		).subscribe(updatedParams => {
-			this.animeParams$.next(new AnimeParams(updatedParams));
+			this._animeParams$.next(new AnimeParams(updatedParams));
 		});
 	}
 

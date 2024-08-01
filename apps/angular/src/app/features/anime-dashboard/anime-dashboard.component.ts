@@ -49,17 +49,17 @@ export class AnimeDashboardComponent implements OnInit {
 	protected readonly animeList$;
 
 	/** Current page index. */
-	protected readonly currentPage$ = this.animeService.observableAnimeParams$.pipe(
+	protected readonly currentPage$ = this.animeService.animeParams$.pipe(
 		map(params => params.pageIndex),
 	);
 
 	/** Maximum number of items per page. */
-	protected readonly pageSize$ = this.animeService.observableAnimeParams$.pipe(
+	protected readonly pageSize$ = this.animeService.animeParams$.pipe(
 		map(params => params.pageSize),
 	);
 
 	/** Loading state from the service. */
-	protected readonly isLoading$ = this.animeService.observableIsLoading$;
+	protected readonly isLoading$ = this.animeService.isLoading$;
 
 	/** Anime count. */
 	protected readonly animeTotal$ = new BehaviorSubject(AnimeParams.defaultValues.animeTotal);
