@@ -15,6 +15,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { AnimeParamsMapper } from '@js-camp/core/mappers/anime-params.mapper';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
+import { PageParamsService } from '@js-camp/angular/core/services/page-params.service';
+
 import { AnimeTableComponent } from './components/anime-table/anime-table.component';
 
 /** Anime list dashboard component. */
@@ -38,28 +40,30 @@ import { AnimeTableComponent } from './components/anime-table/anime-table.compon
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AnimeDashboardComponent implements OnInit {
-	private readonly animeService: AnimeService = inject(AnimeService);
+	private readonly animeService = inject(AnimeService);
+
+	private readonly pageParamsService = inject(PageParamsService);
+
+	private readonly destroyRef = inject(DestroyRef);
 
 	/** Current route. */
 	protected readonly route: ActivatedRoute = inject(ActivatedRoute);
-
-	private readonly destroyRef = inject(DestroyRef);
 
 	/** Anime list. */
 	protected readonly animeList$;
 
 	/** Current page index. */
-	protected readonly currentPage$ = this.animeService.animeParams$.pipe(
+	protected readonly currentPage$ = this.pageParamsService.animeParams$.pipe(
 		map(params => params.pageIndex),
 	);
 
 	/** Maximum number of items per page. */
-	protected readonly pageSize$ = this.animeService.animeParams$.pipe(
+	protected readonly pageSize$ = this.pageParamsService.animeParams$.pipe(
 		map(params => params.pageSize),
 	);
 
 	/** Loading state from the service. */
-	protected readonly isLoading$ = this.animeService.isLoading$;
+	// protected readonly isLoading$ = this.animeService.isLoading$;
 
 	/** Anime count. */
 	protected readonly animeTotal$ = new BehaviorSubject(AnimeQuery.DEFAULT_VALUES.animeTotal);
@@ -94,7 +98,7 @@ export class AnimeDashboardComponent implements OnInit {
 	 * @param pageEvent Event triggered by a paginator.
 	 * */
 	protected handlePageEvent(pageEvent: PageEvent): void {
-		this.animeService.changePaginationParams(new AnimeQuery({
+		this.pageParamsService.changePaginationParams(new AnimeQuery({
 			pageSize: pageEvent.pageSize,
 			pageIndex: pageEvent.pageIndex,
 		}));
@@ -103,7 +107,7 @@ export class AnimeDashboardComponent implements OnInit {
 
 	/** Handles search form submit. */
 	protected onSearch(): void {
-		this.animeService.changeSearchParams(this.searchControl.value ?? AnimeQuery.DEFAULT_VALUES.searchValue);
+		this.pageParamsService.changeSearchParams(this.searchControl.value ?? AnimeQuery.DEFAULT_VALUES.searchValue);
 	}
 
 	/**
@@ -112,7 +116,7 @@ export class AnimeDashboardComponent implements OnInit {
 	 * @param selectValue Select element value.
 	 */
 	protected onFilter(selectValue: MatSelectChange): void {
-		this.animeService.changeFilterParams(selectValue);
+		this.pageParamsService.changeFilterParams(selectValue);
 	}
 
 	private initializeParamsFromUrl(): void {
@@ -126,7 +130,7 @@ export class AnimeDashboardComponent implements OnInit {
 		this.selectControl.setValue(selectedTypes);
 		this.searchControl.setValue(searchValue);
 
-		this.animeService.changeAnimeParams({
+		this.pageParamsService.changeAnimeParams({
 			pageSize,
 			pageIndex,
 			searchValue,

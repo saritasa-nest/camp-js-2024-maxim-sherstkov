@@ -4,8 +4,8 @@ import { MatTableModule } from '@angular/material/table';
 import { EmptyPipe } from '@js-camp/angular/shared/pipes/empty.pipe';
 import { Anime } from '@js-camp/core/models/anime';
 import { MatSortModule, Sort } from '@angular/material/sort';
-import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { BasicProgressSpinnerComponent } from '@js-camp/angular/shared/components/basic-progress-spinner/basic-progress-spinner.component';
+import { PageParamsService } from '@js-camp/angular/core/services/page-params.service';
 
 /** Table of anime list component. */
 @Component({
@@ -22,7 +22,7 @@ export class AnimeTableComponent {
 	@Input()
 	public animeList: readonly Anime[] = [];
 
-	private readonly animeService: AnimeService = inject(AnimeService);
+	private readonly pageParamsService = inject(PageParamsService);
 
 	/** Columns names. */
 	protected readonly displayedColumns = ['image', 'englishTitle', 'japaneseTitle', 'airedStart', 'type', 'status'] as const;
@@ -43,6 +43,6 @@ export class AnimeTableComponent {
 	 * @param sort New sort value.
 	 */
 	protected handleSortChange(sort: Sort): void {
-		this.animeService.changeSortParams(sort);
+		this.pageParamsService.changeSortParams(sort);
 	}
 }

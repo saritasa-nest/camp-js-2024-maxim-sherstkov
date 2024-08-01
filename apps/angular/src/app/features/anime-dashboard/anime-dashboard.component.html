@@ -1,5 +1,6 @@
 <section class="dashboard">
-	@if (isLoading$ | async){
+	@if (false){
+		<!-- @if (isLoading$ | async){ -->
 		<camp-basic-progress-spinner></camp-basic-progress-spinner>
 	} @else {
 		<div class="dashboard__filters">
@@ -42,6 +43,7 @@
 		[pageSizeOptions]="[5, 10, 15]"
 		[pageIndex]="currentPage$ | async"
 		(page)="handlePageEvent($event)"
-		[disabled]="isLoading$ | async"
+		[disabled]="false"
 	/>
+	<!-- [disabled]="isLoading$ | async" -->
 </section>
