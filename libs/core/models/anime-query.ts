@@ -28,7 +28,7 @@ export class AnimeQuery extends Immerable {
 	public readonly sortOrder: string;
 
 	/** Filter values. */
-	public readonly filterByType: AnimeType[];
+	public readonly filterByType: readonly AnimeType[];
 
 	public constructor(data: Partial<AnimeParamsData> = AnimeQuery.DEFAULT_VALUES) {
 		super();

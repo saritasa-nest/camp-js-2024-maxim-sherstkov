@@ -24,9 +24,7 @@ export namespace AnimeParamsMapper {
 	 * @param model AnimeParams model.
 	 */
 	export function toDto(model: AnimeQuery): AnimeHttpDto {
-		const typeFilter = Array.isArray(model.filterByType) ?
-			model.filterByType.map(type => AnimeTypeMapper.toDto(type)).join(',') :
-			AnimeTypeMapper.toDto(model.filterByType);
+		const typeFilterString = model.filterByType.map(type => AnimeTypeMapper.toDto(type)).join(',');
 		return {
 			limit: model.pageSize.toString(),
 			offset: (model.pageIndex * model.pageSize).toString(),
@@ -35,7 +33,7 @@ export namespace AnimeParamsMapper {
 
 			/** Disable rule because 'type__in' is a DTO name of a field. */
 			// eslint-disable-next-line @typescript-eslint/naming-convention
-			type__in: typeFilter,
+			type__in: typeFilterString,
 		};
 	}
 
