@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit, Signal, signal, WritableSignal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '@js-camp/angular/core/services/auth.service';
@@ -9,7 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
-import { Subject, takeUntil } from 'rxjs';
+import { last, Subject, takeUntil } from 'rxjs';
 import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
 
 /** Register page component. */
@@ -56,21 +56,38 @@ export class RegisterComponent implements OnInit, OnDestroy {
 	/** Email error message. */
 	protected readonly emailErrorMessage = signal('');
 
+	protected readonly firstNameErrorMessage = signal('');
+
+	protected readonly lastNameErrorMessage = signal('');
+
+	protected readonly errorMessages: { [key: string]: WritableSignal<string>; } = {
+		email: signal(''),
+		firstName: signal(''),
+		lastName: signal(''),
+		password: signal(''),
+		confirmPassword: signal(''),
+		passwordGroup: signal(''),
+	};
+
 	/** Hide password flag. */
 	protected readonly hidePassword = signal(true);
 
 	private readonly validationMessages: { [key: string]: string; } = {
 		required: 'Please fill the required field.',
 		email: 'Please enter a valid email address.',
+		minlength: 'The field is too short.',
+		maxlength: 'The field exceeds the maximum length requirement.',
+		match: 'The password fields do not match.',
 	};
 
 	/** @inheritdoc */
 	public ngOnInit(): void {
-		const emailControl = this.registerForm.get('email') as AbstractControl;
-		emailControl.valueChanges.pipe(
-			takeUntil(this.destroy$),
-		).subscribe(_ => this.setEmailErrorMessage(emailControl));
-
+		this.setupErrorMessages('email', this.errorMessages['email']);
+		this.setupErrorMessages('firstName', this.errorMessages['firstName']);
+		this.setupErrorMessages('lastName', this.errorMessages['lastName']);
+		this.setupErrorMessages('passwordGroup.password', this.errorMessages['password']);
+		this.setupErrorMessages('passwordGroup.confirmPassword', this.errorMessages['confirmPassword']);
+		this.setupErrorMessages('passwordGroup', this.errorMessages['passwordGroup']);
 	}
 
 	/** @inheritdoc */
@@ -89,6 +106,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
 		const confirmControl = c.get('confirmPassword') as AbstractControl;
 
 		if (passwordControl.pristine || confirmControl.pristine) {
+
 			return null;
 		}
 
@@ -121,19 +139,36 @@ export class RegisterComponent implements OnInit, OnDestroy {
 	}
 
 	/**
-	 * Sets the email message.
+	 * Sets up error messages for a form control.
 	 *
-	 * @param c The control to check for errors.
+	 * @param controlName Control name.
+	 * @param errorMessageSignal The signal to store the error message.
 	 */
-	private setEmailErrorMessage(c: AbstractControl): void {
-		this.emailErrorMessage.set('');
+	private setupErrorMessages(controlName: string, errorMessageSignal: WritableSignal<string>): void {
+		const control = this.registerForm.get(controlName) as AbstractControl;
+
+		control.valueChanges.pipe(
+			takeUntil(this.destroy$),
+		).subscribe(_ => this.setErrorMessage(control, errorMessageSignal));
+	}
+
+	/**
+	 * Sets the error message for a control.
+	 *
+	 * @param c The control.
+	 * @param errorMessageSignal The signal to store the error message.
+	 */
+	private setErrorMessage(c: AbstractControl, errorMessageSignal: WritableSignal<string>): void {
+		errorMessageSignal.set('');
 		if ((c.touched || c.dirty) && c.errors) {
-			this.emailErrorMessage.set(
+			errorMessageSignal.set(
 				Object.keys(c.errors).map(
 					key => this.validationMessages[key],
 				)
 					.join(' '),
 			);
+			console.log(errorMessageSignal());
+
 		}
 	}
 
