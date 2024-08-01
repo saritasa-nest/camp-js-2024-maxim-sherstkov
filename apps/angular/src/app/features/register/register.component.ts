@@ -9,6 +9,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { BehaviorSubject, Subject, take } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
+import { Registration } from '@js-camp/core/models/registration';
 
 import { ConfirmValidParentMatcher, CustomValidators, errorMessages } from '../auth/custom-validators';
 
@@ -29,7 +32,7 @@ import { ConfirmValidParentMatcher, CustomValidators, errorMessages } from '../a
 		MatIconModule,
 	],
 })
-export class RegisterComponent implements OnDestroy {
+export class RegisterComponent {
 
 	private destroy$ = new Subject<void>();
 
@@ -59,19 +62,22 @@ export class RegisterComponent implements OnDestroy {
 	/** Hide password flag. */
 	protected readonly hidePassword$ = new BehaviorSubject<boolean>(true);
 
-	/** @inheritdoc */
-	public ngOnDestroy(): void {
-		this.destroy$.next();
-		this.destroy$.complete();
-	}
-
 	/**
 	 * Registers  user with the provided credentials.
 	 */
 	public onSubmit(): void {
 		if (this.registerForm.invalid) {
-
+			return;
 		}
+		const credentials = new Registration({ ...this.registerForm.value, password: this.registerForm.value.passwordGroup.password });
+		this.authService.register(credentials)
+			.pipe(takeUntilDestroyed())
+			.subscribe(
+				response => {
+					console.log(response);
+
+				},
+			);
 
 	}
 

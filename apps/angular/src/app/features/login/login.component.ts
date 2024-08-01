@@ -11,6 +11,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { Subject, takeUntil } from 'rxjs';
 import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 /** Login page component. */
 @Component({
@@ -81,7 +82,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 		}
 		const credentials = new Login(this.loginForm.value);
 		this.authService.login(credentials)
-			.pipe(takeUntil(this.destroy$))
+			.pipe(takeUntilDestroyed())
 			.subscribe(
 				response => {
 					console.log('User is logged in');
