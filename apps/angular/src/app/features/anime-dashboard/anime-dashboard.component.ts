@@ -3,8 +3,7 @@ import { Component, ChangeDetectionStrategy, inject, OnInit } from '@angular/cor
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute } from '@angular/router';
-import { BehaviorSubject, map, Observable, tap } from 'rxjs';
-import { Anime } from '@js-camp/core/models/anime';
+import { BehaviorSubject, map, tap } from 'rxjs';
 import { BasicProgressSpinnerComponent } from '@js-camp/angular/shared/components/basic-progress-spinner/basic-progress-spinner.component';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
@@ -44,7 +43,7 @@ export class AnimeDashboardComponent implements OnInit {
 	protected route: ActivatedRoute = inject(ActivatedRoute);
 
 	/** Anime list. */
-	protected animeList$: Observable<readonly Anime[]> | null = null;
+	protected readonly animeList$;
 
 	/** Current page index. */
 	protected currentPage$ = this.animeService.observableAnimeParams$.pipe(
@@ -71,9 +70,17 @@ export class AnimeDashboardComponent implements OnInit {
 	/** Filter input control. */
 	protected readonly select = new FormControl([] as AnimeType[]);
 
+	public constructor() {
+		this.animeList$ = this.animeService.getAnimeList().pipe(
+			tap(paginatedAnimeList => {
+				this.animeTotal$.next(paginatedAnimeList.count);
+			}),
+			map(animeList => animeList.results),
+		);
+	}
+
 	/** @inheritdoc */
 	public ngOnInit(): void {
-		this.loadAnimeList();
 		this.initializeParamsFromUrl();
 	}
 
@@ -125,12 +132,12 @@ export class AnimeDashboardComponent implements OnInit {
 	}
 
 	/** Load the anime list and update the total count. */
-	private loadAnimeList(): void {
-		this.animeList$ = this.animeService.getAnimeList().pipe(
-			tap(paginatedAnimeList => {
-				this.animeTotal$.next(paginatedAnimeList.count);
-			}),
-			map(animeList => animeList.results),
-		);
-	}
+	// private loadAnimeList(): void {
+	// 	this.animeList$ = this.animeService.getAnimeList().pipe(
+	// 		tap(paginatedAnimeList => {
+	// 			this.animeTotal$.next(paginatedAnimeList.count);
+	// 		}),
+	// 		map(animeList => animeList.results),
+	// 	);
+	// }
 }
