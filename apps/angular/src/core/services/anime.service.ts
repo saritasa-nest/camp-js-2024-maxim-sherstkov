@@ -7,10 +7,11 @@ import { AnimeMapper } from '@js-camp/core/mappers/anime.mapper';
 import { PaginationDto } from '@js-camp/core/dtos/pagination.dto';
 import { PaginationMapper } from '@js-camp/core/mappers/pagination.mapper';
 import { Pagination } from '@js-camp/core/models/pagination';
-import { AnimeParams } from '@js-camp/core/models/based-params';
+import { AnimeQuery } from '@js-camp/core/models/anime-query';
 import { Sort } from '@angular/material/sort';
 import { MatSelectChange } from '@angular/material/select';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { AnimeParamsMapper } from '@js-camp/core/mappers/anime-params.mapper';
 
 import { ApiUrlService } from './api-url.service';
 import { QueryParamsService } from './query-params.service';
@@ -31,7 +32,7 @@ export class AnimeService {
 	private readonly destroyRef = inject(DestroyRef);
 
 	/** Anime parameters subject. */
-	private readonly _animeParams$ = new BehaviorSubject(new AnimeParams());
+	private readonly _animeParams$ = new BehaviorSubject(new AnimeQuery());
 
 	/** Anime parameters observable for monitoring them outside the service. */
 	public readonly animeParams$ = this._animeParams$.asObservable();
@@ -48,7 +49,7 @@ export class AnimeService {
 			takeUntilDestroyed(this.destroyRef),
 			switchMap(params => {
 				this._isLoading$.next(true);
-				const httpParams = this.queryParamsService.getHttpParams(params);
+				const httpParams = AnimeParamsMapper.toAnimeHttp(params);
 				this.queryParamsService.changeQueryParams(params);
 				return this.http.get<PaginationDto<AnimeDto>>(this.apiUrlService.animeListPath, { params: httpParams }).pipe(
 					map(pagination => PaginationMapper.fromDto(
@@ -65,13 +66,13 @@ export class AnimeService {
 	 * Changes the anime parameters.
 	 * @param params Partial anime parameters.
 	 */
-	public changeAnimeParams(params: Partial<AnimeParams>): void {
+	public changeAnimeParams(params: Partial<AnimeQuery>): void {
 		this._animeParams$.pipe(
 			takeUntilDestroyed(this.destroyRef),
 			take(1),
 			map(currentParams => ({ ...currentParams, ...params })),
 		).subscribe(updatedParams => {
-			this._animeParams$.next(new AnimeParams(updatedParams));
+			this._animeParams$.next(new AnimeQuery(updatedParams));
 		});
 	}
 
@@ -79,7 +80,7 @@ export class AnimeService {
 	 * Changes Subject of a pagination parameters.
 	 * @param params Pagination parameters.
 	 */
-	public changePaginationParams(params: AnimeParams): void {
+	public changePaginationParams(params: AnimeQuery): void {
 		this.changeAnimeParams({ pageIndex: params.pageIndex, pageSize: params.pageSize });
 	}
 
@@ -88,7 +89,7 @@ export class AnimeService {
 	 * @param searchValue Search value parameter.
 	 */
 	public changeSearchParams(searchValue: string): void {
-		this.changeAnimeParams({ searchValue, pageIndex: AnimeParams.defaultValues.pageIndex });
+		this.changeAnimeParams({ searchValue, pageIndex: AnimeQuery.DEFAULT_VALUES.pageIndex });
 	}
 
 	/**
@@ -105,6 +106,6 @@ export class AnimeService {
 	 * @param filterValue The new filter value.
 	 */
 	public changeFilterParams(filterValue: MatSelectChange): void {
-		this.changeAnimeParams({ filterByType: filterValue.value, pageIndex: AnimeParams.defaultValues.pageIndex });
+		this.changeAnimeParams({ filterByType: filterValue.value, pageIndex: AnimeQuery.DEFAULT_VALUES.pageIndex });
 	}
 }

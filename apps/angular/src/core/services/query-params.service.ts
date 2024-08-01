@@ -1,8 +1,5 @@
-import { HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Params, Router } from '@angular/router';
-import { AnimeParamsMapper } from '@js-camp/core/mappers/based-params.mapper';
-import { AnimeParams } from '@js-camp/core/models/based-params';
 
 /** Service to manage query params. */
 @Injectable({
@@ -21,14 +18,5 @@ export class QueryParamsService {
 			queryParams: params,
 			queryParamsHandling: 'merge',
 		});
-	}
-
-	/**
-	 * Get an instance of HTTPParams from params.
-	 * @param params Page parameters.
-	 *  */
-	public getHttpParams(params: AnimeParams): HttpParams {
-		const animeParams = { ...AnimeParamsMapper.toDto(params) };
-		return new HttpParams({ fromObject: animeParams });
 	}
 }

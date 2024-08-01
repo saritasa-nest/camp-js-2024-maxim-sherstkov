@@ -1,5 +1,5 @@
 /** Anime params. */
-export type AnimeParamsDto = Readonly<{
+export type AnimeHttpDto = Readonly<{
 
 	/** Maximum number of items. */
 	limit: string;

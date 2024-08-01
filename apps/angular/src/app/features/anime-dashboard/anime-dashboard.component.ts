@@ -8,11 +8,11 @@ import { BasicProgressSpinnerComponent } from '@js-camp/angular/shared/component
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { AnimeParams } from '@js-camp/core/models/based-params';
+import { AnimeQuery } from '@js-camp/core/models/anime-query';
 import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import { AnimeType } from '@js-camp/core/models/anime-type';
 import { MatButtonModule } from '@angular/material/button';
-import { AnimeParamsMapper } from '@js-camp/core/mappers/based-params.mapper';
+import { AnimeParamsMapper } from '@js-camp/core/mappers/anime-params.mapper';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { AnimeTableComponent } from './components/anime-table/anime-table.component';
@@ -62,7 +62,7 @@ export class AnimeDashboardComponent implements OnInit {
 	protected readonly isLoading$ = this.animeService.isLoading$;
 
 	/** Anime count. */
-	protected readonly animeTotal$ = new BehaviorSubject(AnimeParams.defaultValues.animeTotal);
+	protected readonly animeTotal$ = new BehaviorSubject(AnimeQuery.DEFAULT_VALUES.animeTotal);
 
 	/** Anime type values. */
 	protected readonly animeTypes = Object.values(AnimeType);
@@ -94,7 +94,7 @@ export class AnimeDashboardComponent implements OnInit {
 	 * @param pageEvent Event triggered by a paginator.
 	 * */
 	protected handlePageEvent(pageEvent: PageEvent): void {
-		this.animeService.changePaginationParams(new AnimeParams({
+		this.animeService.changePaginationParams(new AnimeQuery({
 			pageSize: pageEvent.pageSize,
 			pageIndex: pageEvent.pageIndex,
 		}));
@@ -103,7 +103,7 @@ export class AnimeDashboardComponent implements OnInit {
 
 	/** Handles search form submit. */
 	protected onSearch(): void {
-		this.animeService.changeSearchParams(this.searchControl.value ?? AnimeParams.defaultValues.searchValue);
+		this.animeService.changeSearchParams(this.searchControl.value ?? AnimeQuery.DEFAULT_VALUES.searchValue);
 	}
 
 	/**
@@ -121,7 +121,7 @@ export class AnimeDashboardComponent implements OnInit {
 		/** Gets array of filterByType. */
 		const filterByType = this.route.snapshot.queryParamMap.getAll('filterByType');
 
-		const selectedTypes = AnimeParamsMapper.toArrayAnimeType(filterByType);
+		const selectedTypes = AnimeParamsMapper.toAnimeType(filterByType);
 
 		this.selectControl.setValue(selectedTypes);
 		this.searchControl.setValue(searchValue);
