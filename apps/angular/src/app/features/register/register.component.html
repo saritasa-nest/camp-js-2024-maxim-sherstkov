@@ -9,7 +9,7 @@
 				<mat-label>Email</mat-label>
 				<input matInput formControlName="email" type="email" >
 					<mat-error>
-						<span>{{emailErrorMessage()}}</span>
+						<span>{{errorMessages['email']()}}</span>
 					</mat-error>
 			</mat-form-field>
 
@@ -18,7 +18,7 @@
 				<mat-label>First name</mat-label>
 				<input matInput formControlName="firstName" type="text" >
 					<mat-error>
-						<!-- <span>{{emailErrorMessage()}}</span> -->
+						<span>{{errorMessages['firstName']()}}</span>
 					</mat-error>
 			</mat-form-field>
 
@@ -27,7 +27,7 @@
 				<mat-label>Last name</mat-label>
 				<input matInput formControlName="lastName" type="text" >
 					<mat-error>
-						<!-- <span>{{emailErrorMessage()}}</span> -->
+						<span>{{errorMessages['lastName']()}}</span>
 					</mat-error>
 			</mat-form-field>
 
@@ -46,8 +46,8 @@
 					>
 						<mat-icon>{{hidePassword() ? 'visibility_off' : 'visibility'}}</mat-icon>
 					</button>
-					<mat-error *ngIf="passwordGroup.get('password')?.invalid && (passwordGroup.get('password')?.touched || passwordGroup.get('password')?.dirty)">
-						<span *ngIf="passwordGroup.get('password')?.errors?.['required']">Password is required.</span>
+					<mat-error>
+						<span>{{errorMessages['password']()}}</span>
 					</mat-error>
 				</mat-form-field>
 
@@ -64,9 +64,10 @@
 					>
 						<mat-icon>{{hidePassword() ? 'visibility_off' : 'visibility'}}</mat-icon>
 					</button>
-					<!-- <mat-error *ngIf="password.invalid && (password.touched || password.dirty)">
-						<span *ngIf="password.errors?.['required']">Password is required.</span>
-					</mat-error> -->
+					<mat-error>
+						<span>{{errorMessages['confirmPassword']()}}</span>
+						<span>{{errorMessages['passwordGroup']()}}</span>
+					</mat-error>
 				</mat-form-field>
 			</div>
 			<!-- Submit button -->
