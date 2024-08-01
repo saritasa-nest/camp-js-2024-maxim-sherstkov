@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, ChangeDetectionStrategy, inject, OnInit } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, OnInit, DestroyRef } from '@angular/core';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute } from '@angular/router';
-import { BehaviorSubject, map, tap } from 'rxjs';
+import { BehaviorSubject, map } from 'rxjs';
 import { BasicProgressSpinnerComponent } from '@js-camp/angular/shared/components/basic-progress-spinner/basic-progress-spinner.component';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
@@ -13,6 +13,7 @@ import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import { AnimeType } from '@js-camp/core/models/anime-type';
 import { MatButtonModule } from '@angular/material/button';
 import { AnimeParamsMapper } from '@js-camp/core/mappers/based-params.mapper';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { AnimeTableComponent } from './components/anime-table/anime-table.component';
 
@@ -41,6 +42,8 @@ export class AnimeDashboardComponent implements OnInit {
 
 	/** Current route. */
 	protected readonly route: ActivatedRoute = inject(ActivatedRoute);
+
+	private readonly destroyRef = inject(DestroyRef);
 
 	/** Anime list. */
 	protected readonly animeList$;
@@ -71,16 +74,17 @@ export class AnimeDashboardComponent implements OnInit {
 	protected readonly selectControl = new FormControl<AnimeType[]>([]);
 
 	public constructor() {
-		this.animeList$ = this.animeService.getAnimeList().pipe(
-			tap(paginatedAnimeList => {
-				this.animeTotal$.next(paginatedAnimeList.count);
-			}),
-			map(animeList => animeList.results),
-		);
+		this.animeList$ = this.animeService.getAnimeList();
 	}
 
 	/** @inheritdoc */
 	public ngOnInit(): void {
+		this.animeList$.pipe(
+			takeUntilDestroyed(this.destroyRef),
+		).subscribe(animeList => {
+			this.animeTotal$.next(animeList.count);
+		});
+
 		this.initializeParamsFromUrl();
 	}
 

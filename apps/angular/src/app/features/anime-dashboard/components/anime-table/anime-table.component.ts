@@ -19,7 +19,8 @@ import { BasicProgressSpinnerComponent } from '@js-camp/angular/shared/component
 export class AnimeTableComponent {
 
 	/** Anime list. */
-	@Input() public animeList: readonly Anime[] | null = [];
+	@Input()
+	public animeList: readonly Anime[] = [];
 
 	private readonly animeService: AnimeService = inject(AnimeService);
 

@@ -32,7 +32,7 @@
 		</div>
 	}
 
-	<camp-anime-table class="anime-table" [animeList]="animeList$ | async" />
+	<camp-anime-table class="anime-table" [animeList]="(animeList$ | async)?.results ?? []" />
 
 	<mat-paginator
 		class="pagination"
