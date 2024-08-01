@@ -6,6 +6,8 @@ import { map, Observable, shareReplay } from 'rxjs';
 import { JwtTokenDto } from '@js-camp/core/dtos/jwt-token.dto';
 import { JwtTokenMapper } from '@js-camp/core/mappers/jwt-token.mapper';
 
+import { Registration } from '@js-camp/core/models/registration';
+
 import { ApiUrlService } from './api-url.service';
 
 /** Authorization service. */
@@ -20,11 +22,25 @@ export class AuthService {
 	/**
 	 * Logs  user with the provided credentials.
 	 *
-	 * @param email The email.
-	 * @param password The password.
+	 * @param loginData Login data of user.
 	 */
-	public login({ email, password }: Login): Observable<JwtToken> {
-		return this.http.post<JwtTokenDto>(this.urlService.loginPath, { email, password }).pipe(
+	public login(loginData: Login): Observable<JwtToken> {
+		return this.http.post<JwtTokenDto>(this.urlService.loginPath, loginData).pipe(
+			map(token => JwtTokenMapper.fromDto(token)),
+			shareReplay({
+				refCount: true,
+				bufferSize: 1,
+			}),
+		);
+	}
+
+	/**
+	 * Registers  user with the provided credentials.
+	 *
+	 * @param registerData Registration data of user.
+	 */
+	public register(registerData: Registration): Observable<JwtToken> {
+		return this.http.post<JwtTokenDto>(this.urlService.registerPath, registerData).pipe(
 			map(token => JwtTokenMapper.fromDto(token)),
 			shareReplay({
 				refCount: true,
