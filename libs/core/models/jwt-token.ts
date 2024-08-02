@@ -4,15 +4,15 @@ import { Immerable, OmitImmerable } from './immerable';
 export class JwtToken extends Immerable {
 
 	/** Refresh token. */
-	public readonly refreshToken: string;
+	public readonly refresh: string;
 
 	/** Access token. */
-	public readonly accessToken: string;
+	public readonly access: string;
 
 	public constructor(data: JwtTokenConstructorData) {
 		super();
-		this.refreshToken = data.refreshToken;
-		this.accessToken = data.accessToken;
+		this.refresh = data.refresh;
+		this.access = data.access;
 	}
 }
 
