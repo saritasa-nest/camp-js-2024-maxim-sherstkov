@@ -14,7 +14,6 @@ import { AnimeType } from '@js-camp/core/models/anime-type';
 import { MatButtonModule } from '@angular/material/button';
 import { AnimeParamsMapper } from '@js-camp/core/mappers/anime-params.mapper';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-
 import { PageParamsService } from '@js-camp/angular/core/services/page-params.service';
 
 import { AnimeTableComponent } from './components/anime-table/anime-table.component';

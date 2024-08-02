@@ -1,6 +1,5 @@
 import { AnimeType } from './anime-type';
 import { AnimeStatus } from './anime-status';
-
 import { Immerable, OmitImmerable } from './immerable';
 
 /** Anime. */
@@ -40,3 +39,13 @@ export class Anime extends Immerable {
 }
 
 type AnimeConstructorData = OmitImmerable<Anime>;
+
+/** Anime enum without `id`. */
+export enum AnimeEnum {
+	ImageSource = 'imageSource',
+	EnglishTitle = 'title_eng',
+	JapaneseTitle = 'title_jpn',
+	AiredStart = 'aired__startswith',
+	Type = 'type',
+	Status = 'status',
+}

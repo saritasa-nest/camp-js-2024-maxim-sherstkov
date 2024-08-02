@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, Input } from '@angular/core
 import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { EmptyPipe } from '@js-camp/angular/shared/pipes/empty.pipe';
-import { Anime } from '@js-camp/core/models/anime';
+import { Anime, AnimeEnum } from '@js-camp/core/models/anime';
 import { MatSortModule, Sort } from '@angular/material/sort';
 import { BasicProgressSpinnerComponent } from '@js-camp/angular/shared/components/basic-progress-spinner/basic-progress-spinner.component';
 import { PageParamsService } from '@js-camp/angular/core/services/page-params.service';
@@ -24,8 +24,11 @@ export class AnimeTableComponent {
 
 	private readonly pageParamsService = inject(PageParamsService);
 
+	/** Anime enum. */
+	protected readonly animeEnum = AnimeEnum;
+
 	/** Columns names. */
-	protected readonly displayedColumns = ['image', 'englishTitle', 'japaneseTitle', 'airedStart', 'type', 'status'] as const;
+	protected readonly displayedColumns = Object.values(AnimeEnum);
 
 	/**
 	 * TrackBy function using Id of anime.

@@ -2,19 +2,15 @@ import { DestroyRef, inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Anime } from '@js-camp/core/models/anime';
 import { AnimeDto } from '@js-camp/core/dtos/anime.dto';
-import { BehaviorSubject, map, Observable, switchMap, take, tap } from 'rxjs';
+import { map, Observable, switchMap } from 'rxjs';
 import { AnimeMapper } from '@js-camp/core/mappers/anime.mapper';
 import { PaginationDto } from '@js-camp/core/dtos/pagination.dto';
 import { PaginationMapper } from '@js-camp/core/mappers/pagination.mapper';
 import { Pagination } from '@js-camp/core/models/pagination';
-import { AnimeQuery } from '@js-camp/core/models/anime-query';
-import { Sort } from '@angular/material/sort';
-import { MatSelectChange } from '@angular/material/select';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AnimeParamsMapper } from '@js-camp/core/mappers/anime-params.mapper';
 
 import { ApiUrlService } from './api-url.service';
-import { QueryParamsService } from './query-params.service';
 import { PageParamsService } from './page-params.service';
 
 /**

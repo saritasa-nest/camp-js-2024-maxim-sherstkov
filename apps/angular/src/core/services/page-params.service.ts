@@ -7,6 +7,9 @@ import { BehaviorSubject, take, map } from 'rxjs';
 
 import { QueryParamsService } from './query-params.service';
 
+/**
+ * Page parameters service.
+ */
 @Injectable({
 	providedIn: 'root',
 })
