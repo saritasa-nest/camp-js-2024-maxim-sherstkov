@@ -12,8 +12,8 @@ export class StorageService {
 	 * @param key The key of the item.
 	 * @param value The value of the item.
 	 */
-	public setItem(key: string, value: string): void {
-		localStorage.setItem(key, value);
+	public setItem<T = unknown>(key: string, value: T): void {
+		localStorage.setItem(key, JSON.stringify(value));
 	}
 
 	/**
@@ -21,8 +21,8 @@ export class StorageService {
 	 *
 	 * @param key The key of the item to retrieve.
 	 */
-	public getItem(key: string): string | null {
-		return localStorage.getItem(key);
+	public getItem<T = unknown>(key: string): T | null {
+		return JSON.parse(localStorage.getItem(key) ?? 'null');
 	}
 
 	/**

@@ -9,8 +9,8 @@ export namespace JwtTokenMapper {
 	 */
 	export function fromDto(dto: JwtTokenDto): JwtToken {
 		return new JwtToken({
-			refreshToken: dto.refresh,
-			accessToken: dto.access,
+			refresh: dto.refresh,
+			access: dto.access,
 		});
 	}
 }

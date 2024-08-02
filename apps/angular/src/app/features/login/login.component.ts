@@ -12,6 +12,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { Subject, takeUntil } from 'rxjs';
 import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { TokenService } from '@js-camp/angular/core/services/token.service';
 
 /** Login page component. */
 @Component({
@@ -39,6 +40,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 
 	private readonly authService = inject(AuthService);
 
+	private readonly tokenService = inject(TokenService);
+
 	private readonly router = inject(Router);
 
 	/** Login form control group. */
@@ -60,10 +63,17 @@ export class LoginComponent implements OnInit, OnDestroy {
 
 	/** @inheritdoc */
 	public ngOnInit(): void {
-		const emailControl = this.loginForm.get('email') as AbstractControl;
-		emailControl.valueChanges.pipe(
-			takeUntil(this.destroy$),
-		).subscribe(_ => this.setEmailErrorMessage(emailControl));
+		// const emailControl = this.loginForm.get('email') as AbstractControl;
+		// emailControl.valueChanges.pipe(
+		// 	takeUntil(this.destroy$),
+		// ).subscribe(_ => this.setEmailErrorMessage(emailControl));
+		this.tokenService.getToken().subscribe(token => {
+			if (token) {
+				console.log('Token received:', token);
+			} else {
+				console.log('No token found');
+			}
+		});
 
 	}
 
@@ -82,7 +92,6 @@ export class LoginComponent implements OnInit, OnDestroy {
 		}
 		const credentials = new Login(this.loginForm.value);
 		this.authService.login(credentials)
-			.pipe(takeUntilDestroyed())
 			.subscribe(
 				response => {
 					console.log('User is logged in');
