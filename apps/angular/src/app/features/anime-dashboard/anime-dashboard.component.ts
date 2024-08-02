@@ -46,7 +46,7 @@ export class AnimeDashboardComponent implements OnInit {
 	private readonly destroyRef = inject(DestroyRef);
 
 	/** Current route. */
-	protected readonly route: ActivatedRoute = inject(ActivatedRoute);
+	protected readonly route = inject(ActivatedRoute);
 
 	/** Anime list. */
 	protected readonly animeList$;

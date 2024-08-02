@@ -35,7 +35,6 @@ export class AnimeService {
 		return this.animeParams$.pipe(
 			takeUntilDestroyed(this.destroyRef),
 			switchMap(params => {
-				// this._isLoading$.next(true);
 				const httpParams = AnimeParamsMapper.toAnimeHttp(params);
 
 				return this.http.get<PaginationDto<AnimeDto>>(this.apiUrlService.animeListPath, { params: httpParams }).pipe(
@@ -43,8 +42,6 @@ export class AnimeService {
 						pagination,
 						animeDto => AnimeMapper.fromDto(animeDto),
 					)),
-
-					// tap(() => this._isLoading$.next(false)),
 				);
 			}),
 		);

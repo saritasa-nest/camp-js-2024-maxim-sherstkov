@@ -38,7 +38,7 @@
 			[pageSizeOptions]="[5, 10, 15]"
 			[pageIndex]="currentPage$ | async"
 			(page)="handlePageEvent($event)"
-			[disabled]="animeList.results.length !== 0"
+			[disabled]="animeList.results.length === 0"
 		/>
 	} @else {
 		<camp-basic-progress-spinner></camp-basic-progress-spinner>
