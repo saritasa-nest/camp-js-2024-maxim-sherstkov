@@ -28,9 +28,10 @@
 				<button mat-stroked-button type="submit">Search</button>
 			</form>
 		</div>
+		<div>
 
-		<camp-anime-table class="anime-table" [animeList]="animeList.results" />
-		<mat-paginator
+			<camp-anime-table class="anime-table" [animeList]="animeList.results" />
+			<mat-paginator
 			class="pagination"
 			[length]="animeTotal$ | async"
 			[pageSize]="pageSize$ | async"
@@ -39,7 +40,8 @@
 			[pageIndex]="currentPage$ | async"
 			(page)="handlePageEvent($event)"
 			[disabled]="animeList.results.length === 0"
-		/>
+			/>
+		</div>
 	} @else {
 		<camp-basic-progress-spinner></camp-basic-progress-spinner>
 	}

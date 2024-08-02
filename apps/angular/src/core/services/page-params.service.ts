@@ -67,7 +67,13 @@ export class PageParamsService {
 	 * @param sortValue SortValue Sort value parameter.
 	 */
 	public changeSortParams(sortValue: Sort): void {
-		const sortOrder = !sortValue.active || sortValue.direction === 'asc' ? sortValue.active : `-${sortValue.active}`;
+		let sortOrder = '';
+		if (sortValue.direction === 'asc') {
+			sortOrder = sortValue.active;
+		}
+		if (sortValue.direction === 'desc') {
+			sortOrder = `-${sortValue.active}`;
+		}
 		this.changeAnimeParams({ sortOrder });
 	}
 

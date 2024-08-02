@@ -2,7 +2,7 @@
 @if (animeList.length === 0){
 	<p class="anime-list__empty-message"> No anime to display. </p>
 } @else {
-	<table mat-table [dataSource]="animeList" matSort (matSortChange)="handleSortChange($event)" [trackBy]="trackByAnimeId">
+	<table mat-table [dataSource]="animeList" matSort [matSortActive]="(sortOrder$ | async)?.active ?? ''" [matSortDirection]="(sortOrder$ | async)?.direction ?? ''" (matSortChange)="handleSortChange($event)" [trackBy]="trackByAnimeId">
 		<!-- Image Column -->
 		<ng-container [matColumnDef]="animeEnum.ImageSource">
 			<th mat-header-cell *matHeaderCellDef> Image </th>
