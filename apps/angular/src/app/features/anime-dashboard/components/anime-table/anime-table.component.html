@@ -1,47 +1,46 @@
-@if (animeList) {
-	@if (animeList.length === 0){
-		<p class="anime-list__empty-message"> No anime to display. </p>
-	} @else {
-		<table mat-table [dataSource]="animeList" matSort (matSortChange)="handleSortChange($event)" [trackBy]="trackByAnimeId">
-			<!-- Image Column -->
-			<ng-container [matColumnDef]="animeEnum.ImageSource">
-				<th mat-header-cell *matHeaderCellDef> Image </th>
-				<td mat-cell *matCellDef="let element">
-					@if (element.imageSrc){
-						<img [src]="element.imageSrc" class="anime-image" [alt]="element.titleEnglish" >
-					} @else {
-						<p>No image</p>
-					}
-				</td>
-			</ng-container>
-			<!-- English Title Column -->
-			<ng-container [matColumnDef]="animeEnum.EnglishTitle">
-				<th mat-header-cell *matHeaderCellDef [mat-sort-header]="animeEnum.EnglishTitle"> English Title </th>
-				<td mat-cell *matCellDef="let element"> {{element.titleEnglish | empty}} </td>
-			</ng-container>
-			<!-- Japanese Title Column -->
-			<ng-container [matColumnDef]="animeEnum.JapaneseTitle">
-				<th mat-header-cell *matHeaderCellDef> Japanese Title </th>
-				<td mat-cell *matCellDef="let element"> {{element.japaneseTitle | empty}} </td>
-			</ng-container>
-			<!-- Aired Start Column -->
-			<ng-container [matColumnDef]="animeEnum.AiredStart">
-				<th mat-header-cell *matHeaderCellDef [mat-sort-header]="animeEnum.AiredStart"> Aired Start </th>
-				<td mat-cell *matCellDef="let element"> {{(element.airedStart | date: 'longDate') | empty}} </td>
-			</ng-container>
-			<!-- Type Column -->
-			<ng-container [matColumnDef]="animeEnum.Type">
-				<th mat-header-cell *matHeaderCellDef> Type </th>
-				<td mat-cell *matCellDef="let element"> {{element.type}} </td>
-			</ng-container>
-			<!-- Status Column -->
-			<ng-container [matColumnDef]="animeEnum.Status">
-				<th mat-header-cell *matHeaderCellDef [mat-sort-header]="animeEnum.Status"> Status </th>
-				<td mat-cell *matCellDef="let element"> {{element.status}} </td>
-			</ng-container>
 
-			<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-			<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-		</table>
-	}
+@if (animeList.length === 0){
+	<p class="anime-list__empty-message"> No anime to display. </p>
+} @else {
+	<table mat-table [dataSource]="animeList" matSort (matSortChange)="handleSortChange($event)" [trackBy]="trackByAnimeId">
+		<!-- Image Column -->
+		<ng-container [matColumnDef]="animeEnum.ImageSource">
+			<th mat-header-cell *matHeaderCellDef> Image </th>
+			<td mat-cell *matCellDef="let element">
+				@if (element.imageSrc){
+					<img [src]="element.imageSrc" class="anime-image" [alt]="element.titleEnglish" >
+				} @else {
+					<p>No image</p>
+				}
+			</td>
+		</ng-container>
+		<!-- English Title Column -->
+		<ng-container [matColumnDef]="animeEnum.EnglishTitle">
+			<th mat-header-cell *matHeaderCellDef [mat-sort-header]="animeEnum.EnglishTitle"> English Title </th>
+			<td mat-cell *matCellDef="let element"> {{element.titleEnglish | empty}} </td>
+		</ng-container>
+		<!-- Japanese Title Column -->
+		<ng-container [matColumnDef]="animeEnum.JapaneseTitle">
+			<th mat-header-cell *matHeaderCellDef> Japanese Title </th>
+			<td mat-cell *matCellDef="let element"> {{element.japaneseTitle | empty}} </td>
+		</ng-container>
+		<!-- Aired Start Column -->
+		<ng-container [matColumnDef]="animeEnum.AiredStart">
+			<th mat-header-cell *matHeaderCellDef [mat-sort-header]="animeEnum.AiredStart"> Aired Start </th>
+			<td mat-cell *matCellDef="let element"> {{(element.airedStart | date: 'longDate') | empty}} </td>
+		</ng-container>
+		<!-- Type Column -->
+		<ng-container [matColumnDef]="animeEnum.Type">
+			<th mat-header-cell *matHeaderCellDef> Type </th>
+			<td mat-cell *matCellDef="let element"> {{element.type}} </td>
+		</ng-container>
+		<!-- Status Column -->
+		<ng-container [matColumnDef]="animeEnum.Status">
+			<th mat-header-cell *matHeaderCellDef [mat-sort-header]="animeEnum.Status"> Status </th>
+			<td mat-cell *matCellDef="let element"> {{element.status}} </td>
+		</ng-container>
+
+		<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+		<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+	</table>
 }

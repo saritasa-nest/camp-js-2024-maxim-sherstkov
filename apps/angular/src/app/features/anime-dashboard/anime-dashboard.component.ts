@@ -61,9 +61,6 @@ export class AnimeDashboardComponent implements OnInit {
 		map(params => params.pageSize),
 	);
 
-	/** Loading state from the service. */
-	// protected readonly isLoading$ = this.animeService.isLoading$;
-
 	/** Anime count. */
 	protected readonly animeTotal$ = new BehaviorSubject(AnimeQuery.DEFAULT_VALUES.animeTotal);
 
