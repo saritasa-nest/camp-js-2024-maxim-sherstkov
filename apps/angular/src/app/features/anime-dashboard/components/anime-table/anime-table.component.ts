@@ -5,7 +5,7 @@ import { EmptyPipe } from '@js-camp/angular/shared/pipes/empty.pipe';
 import { Anime, AnimeFieldEnum } from '@js-camp/core/models/anime';
 import { MatSortModule, Sort } from '@angular/material/sort';
 import { BasicProgressSpinnerComponent } from '@js-camp/angular/shared/components/basic-progress-spinner/basic-progress-spinner.component';
-import { SortOrder } from '@js-camp/core/models/sort-order';
+import { SortParameters } from '@js-camp/core/models/sort-order';
 import { BehaviorSubject } from 'rxjs';
 
 /** Table of anime list component. */
@@ -37,7 +37,7 @@ export class AnimeTableComponent {
 	protected readonly displayedColumns = Object.values(AnimeFieldEnum);
 
 	/** Sorting order subject. */
-	protected readonly sortOrder$ = new BehaviorSubject({ active: '', direction: '' } as SortOrder);
+	protected readonly sortOrder$ = new BehaviorSubject({ active: '', direction: '' } as SortParameters);
 
 	/**
 	 * TrackBy function using Id of anime.

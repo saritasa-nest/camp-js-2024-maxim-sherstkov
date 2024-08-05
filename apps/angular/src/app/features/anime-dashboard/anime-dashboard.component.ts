@@ -21,7 +21,7 @@ import { Anime } from '@js-camp/core/models/anime';
 
 import { Sort } from '@angular/material/sort';
 
-import { SortOrder } from '@js-camp/core/models/sort-order';
+import { SortParameters } from '@js-camp/core/models/sort-order';
 
 import { AnimeTableComponent } from './components/anime-table/anime-table.component';
 
@@ -157,7 +157,7 @@ export class AnimeDashboardComponent implements OnInit {
 		});
 	}
 
-	private parseSortOrder(sortOrder: string): SortOrder {
+	private parseSortOrder(sortOrder: string): SortParameters {
 		const direction = sortOrder.startsWith('-') ? 'desc' : 'asc';
 
 		const activeField = sortOrder.startsWith('-') ? sortOrder.slice(1) : sortOrder;

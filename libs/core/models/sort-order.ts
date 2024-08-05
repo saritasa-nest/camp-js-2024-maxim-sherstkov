@@ -1,7 +1,7 @@
 import { SortDirection } from '@angular/material/sort';
 
-/** Sorting order object. */
-export type SortOrder = {
+/** Parameters for sorting data. */
+export type SortParameters = {
 
 	/**
 	 * Sorting field by which data is to be sorted (like 'name' or 'date').
@@ -10,7 +10,6 @@ export type SortOrder = {
 
 	/**
 	 * Sorting direction (ascending, descending or no order).
-	 *
 	 */
 	direction: SortDirection;
 };
