@@ -11,7 +11,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AnimeParamsMapper } from '@js-camp/core/mappers/anime-params.mapper';
 
 import { ApiUrlService } from './api-url.service';
-import { PageParamsService } from './page-params.service';
+import { PageAnimeParamsService } from './page-anime-params.service';
 
 /**
  * Anime service to interact with the API.
@@ -24,11 +24,11 @@ export class AnimeService {
 
 	private readonly apiUrlService = inject(ApiUrlService);
 
-	private readonly pageParamsService = inject(PageParamsService);
+	private readonly pageParamsService = inject(PageAnimeParamsService);
 
 	private readonly destroyRef = inject(DestroyRef);
 
-	private readonly animeParams$ = this.pageParamsService.animeParams$;
+	private readonly animeParams$ = this.pageParamsService.getAnimeParams();
 
 	/** Get a list of anime from the API. */
 	public getAnimeList(): Observable<Pagination<Anime>> {

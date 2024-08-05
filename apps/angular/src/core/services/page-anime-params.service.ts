@@ -3,17 +3,17 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatSelectChange } from '@angular/material/select';
 import { Sort } from '@angular/material/sort';
 import { AnimeQuery } from '@js-camp/core/models/anime-query';
-import { BehaviorSubject, take, map } from 'rxjs';
+import { BehaviorSubject, take, map, Observable } from 'rxjs';
 
 import { QueryParamsService } from './query-params.service';
 
 /**
- * Page parameters service.
+ * Page anime parameters service.
  */
 @Injectable({
 	providedIn: 'root',
 })
-export class PageParamsService {
+export class PageAnimeParamsService {
 
 	private readonly destroyRef = inject(DestroyRef);
 
@@ -21,9 +21,6 @@ export class PageParamsService {
 
 	/** Anime parameters subject. */
 	private readonly _animeParams$ = new BehaviorSubject(new AnimeQuery());
-
-	/** Anime parameters observable for monitoring them outside the service. */
-	public readonly animeParams$ = this._animeParams$.asObservable();
 
 	/** Loading state subject. */
 	private readonly _isLoading$ = new BehaviorSubject(false);
@@ -64,6 +61,10 @@ export class PageParamsService {
 
 	/**
 	 * Changes the sort parameters.
+	 *
+	 * NOTE: This method constructs a `sortOrder` string that indicates the field and direction for sorting.
+	 * The sorting directive containing the field to sort by (`active`)	and the direction (`asc` or `desc`).
+	 *
 	 * @param sortValue SortValue Sort value parameter.
 	 */
 	public changeSortParams(sortValue: Sort): void {
@@ -83,5 +84,12 @@ export class PageParamsService {
 	 */
 	public changeFilterParams(filterValue: MatSelectChange): void {
 		this.changeAnimeParams({ filterByType: filterValue.value, pageIndex: AnimeQuery.DEFAULT_VALUES.pageIndex });
+	}
+
+	/**
+	 * Returns an Observable of the current AnimeQuery parameters.
+	 */
+	public getAnimeParams(): Observable<AnimeQuery> {
+		return this._animeParams$.asObservable();
 	}
 }

@@ -14,7 +14,7 @@ import { AnimeType } from '@js-camp/core/models/anime-type';
 import { MatButtonModule } from '@angular/material/button';
 import { AnimeParamsMapper } from '@js-camp/core/mappers/anime-params.mapper';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { PageParamsService } from '@js-camp/angular/core/services/page-params.service';
+import { PageAnimeParamsService } from '@js-camp/angular/core/services/page-anime-params.service';
 
 import { Pagination } from '@js-camp/core/models/pagination';
 import { Anime } from '@js-camp/core/models/anime';
@@ -48,7 +48,7 @@ import { AnimeTableComponent } from './components/anime-table/anime-table.compon
 export class AnimeDashboardComponent implements OnInit {
 	private readonly animeService = inject(AnimeService);
 
-	private readonly pageParamsService = inject(PageParamsService);
+	private readonly pageParamsService = inject(PageAnimeParamsService);
 
 	private readonly destroyRef = inject(DestroyRef);
 
@@ -58,18 +58,20 @@ export class AnimeDashboardComponent implements OnInit {
 	/** Anime list. */
 	protected readonly animeList$: Observable<Pagination<Anime>>;
 
+	private readonly animeParams$ = this.pageParamsService.getAnimeParams();
+
 	/** Current page index. */
-	protected readonly currentPage$ = this.pageParamsService.animeParams$.pipe(
+	protected readonly currentPage$ = this.animeParams$.pipe(
 		map(params => params.pageIndex),
 	);
 
 	/** Maximum number of items per page. */
-	protected readonly pageSize$ = this.pageParamsService.animeParams$.pipe(
+	protected readonly pageSize$ = this.animeParams$.pipe(
 		map(params => params.pageSize),
 	);
 
 	/** Current sort order. */
-	protected readonly sortOrder$ = this.pageParamsService.animeParams$.pipe(
+	protected readonly sortOrder$ = this.animeParams$.pipe(
 		map(params => this.parseSortOrder(params.sortOrder)),
 	);
 
