@@ -3,7 +3,7 @@ import { Component, ChangeDetectionStrategy, inject, OnInit, DestroyRef } from '
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute } from '@angular/router';
-import { BehaviorSubject, map } from 'rxjs';
+import { BehaviorSubject, map, Observable } from 'rxjs';
 import { BasicProgressSpinnerComponent } from '@js-camp/angular/shared/components/basic-progress-spinner/basic-progress-spinner.component';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
@@ -15,6 +15,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { AnimeParamsMapper } from '@js-camp/core/mappers/anime-params.mapper';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { PageParamsService } from '@js-camp/angular/core/services/page-params.service';
+
+import { Pagination } from '@js-camp/core/models/pagination';
+import { Anime } from '@js-camp/core/models/anime';
+
+import { Sort } from '@angular/material/sort';
+
+import { SortOrder } from '@js-camp/core/models/sort-order';
 
 import { AnimeTableComponent } from './components/anime-table/anime-table.component';
 
@@ -49,7 +56,7 @@ export class AnimeDashboardComponent implements OnInit {
 	protected readonly route = inject(ActivatedRoute);
 
 	/** Anime list. */
-	protected readonly animeList$;
+	protected readonly animeList$: Observable<Pagination<Anime>>;
 
 	/** Current page index. */
 	protected readonly currentPage$ = this.pageParamsService.animeParams$.pipe(
@@ -59,6 +66,11 @@ export class AnimeDashboardComponent implements OnInit {
 	/** Maximum number of items per page. */
 	protected readonly pageSize$ = this.pageParamsService.animeParams$.pipe(
 		map(params => params.pageSize),
+	);
+
+	/** Current sort order. */
+	protected readonly sortOrder$ = this.pageParamsService.animeParams$.pipe(
+		map(params => this.parseSortOrder(params.sortOrder)),
 	);
 
 	/** Anime count. */
@@ -115,6 +127,14 @@ export class AnimeDashboardComponent implements OnInit {
 		this.pageParamsService.changeFilterParams(selectValue);
 	}
 
+	/**
+	 * Handles sort changes.
+	 * @param sort New sort value.
+	 *  */
+	protected handleSortChange(sort: Sort): void {
+		this.pageParamsService.changeSortParams(sort);
+	}
+
 	private initializeParamsFromUrl(): void {
 		const { pageSize, pageIndex, searchValue, sortOrder } = this.route.snapshot.queryParams;
 
@@ -133,5 +153,16 @@ export class AnimeDashboardComponent implements OnInit {
 			sortOrder,
 			filterByType: selectedTypes,
 		});
+	}
+
+	private parseSortOrder(sortOrder: string): SortOrder {
+		const direction = sortOrder.startsWith('-') ? 'desc' : 'asc';
+
+		const activeField = sortOrder.startsWith('-') ? sortOrder.slice(1) : sortOrder;
+
+		return {
+			active: activeField,
+			direction,
+		};
 	}
 }

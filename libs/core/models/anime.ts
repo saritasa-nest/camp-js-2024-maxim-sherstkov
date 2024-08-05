@@ -41,7 +41,7 @@ export class Anime extends Immerable {
 type AnimeConstructorData = OmitImmerable<Anime>;
 
 /** Anime enum without `id`. */
-export enum AnimeEnum {
+export enum AnimeFieldEnum {
 	ImageSource = 'imageSource',
 	EnglishTitle = 'title_eng',
 	JapaneseTitle = 'title_jpn',

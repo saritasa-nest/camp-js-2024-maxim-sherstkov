@@ -30,7 +30,7 @@
 		</div>
 		<div>
 
-			<camp-anime-table class="anime-table" [animeList]="animeList.results" />
+			<camp-anime-table class="anime-table" [animeList]="animeList.results" matSort [sortParams]="(sortOrder$ | async) ?? {active: '', direction: ''}" (sortChange)="handleSortChange($event)"/>
 			<mat-paginator
 			class="pagination"
 			[length]="animeTotal$ | async"
