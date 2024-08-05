@@ -63,17 +63,22 @@ export class LoginComponent implements OnInit, OnDestroy {
 
 	/** @inheritdoc */
 	public ngOnInit(): void {
+		// this.tokenService._token$.subscribe(token => {
+		// 	console.log('Login token:', token);
+
+		// });
+
 		// const emailControl = this.loginForm.get('email') as AbstractControl;
 		// emailControl.valueChanges.pipe(
 		// 	takeUntil(this.destroy$),
 		// ).subscribe(_ => this.setEmailErrorMessage(emailControl));
-		this.tokenService.getToken().subscribe(token => {
-			if (token) {
-				console.log('Token received:', token);
-			} else {
-				console.log('No token found');
-			}
-		});
+		// this.tokenService.getToken().subscribe(token => {
+		// 	if (token) {
+		// 		console.log('Token received:', token);
+		// 	} else {
+		// 		console.log('No token found');
+		// 	}
+		// });
 
 	}
 

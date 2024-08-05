@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { JwtToken } from '@js-camp/core/models/jwt-token';
 import { Login } from '@js-camp/core/models/login';
-import { map, Observable, shareReplay, tap } from 'rxjs';
+import { map, Observable, shareReplay, switchMap, tap } from 'rxjs';
 import { JwtTokenDto } from '@js-camp/core/dtos/jwt-token.dto';
 import { JwtTokenMapper } from '@js-camp/core/mappers/jwt-token.mapper';
 
@@ -30,6 +30,8 @@ export class AuthService {
 	public login(loginData: Login): Observable<JwtToken> {
 		return this.http.post<JwtTokenDto>(this.urlService.loginPath, loginData).pipe(
 			map(token => JwtTokenMapper.fromDto(token)),
+			switchMap(token => this.tokenService.setToken(token)),
+			tap(token => this.tokenService.setToken(token)),
 			shareReplay({
 				refCount: true,
 				bufferSize: 1,
