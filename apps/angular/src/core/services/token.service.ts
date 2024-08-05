@@ -1,19 +1,19 @@
 import { inject, Injectable } from '@angular/core';
 import { JwtToken } from '@js-camp/core/models/jwt-token';
-import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
+import { BehaviorSubject, map, mapTo, Observable, ReplaySubject, tap } from 'rxjs';
 
-import { StorageService } from './storage.service';
+import { LocalStorageService } from './local-storage.service';
 const TOKEN_KEY = 'access_token';
 
 @Injectable({
 	providedIn: 'root',
 })
 export class TokenService {
-	private readonly storageService = inject(StorageService);
+	private readonly storageService = inject(LocalStorageService);
 
-	private readonly _token$ = new BehaviorSubject<JwtToken | null>(null);
+	public readonly _token$: Observable<JwtToken | null>;
 
-	private readonly token$ = this._token$.asObservable();
+	// private readonly token$ = this._token$.asObservable();
 
 	public constructor() {
 		// this.setToken(new JwtToken({
@@ -21,7 +21,8 @@ export class TokenService {
 		// 	refresh: 'test_refresh',
 		// }));
 
-		this.getTokenFromStorage();
+		// this.getTokenFromStorage();
+		this._token$ = this.storageService.get<JwtToken>(TOKEN_KEY);
 	}
 
 	/**
@@ -29,10 +30,10 @@ export class TokenService {
 	 *
 	 * @param token The JWT token to set.
 	 */
-	public setToken(token: JwtToken): void {
-		this.storageService.setItem(TOKEN_KEY, JSON.stringify(token));
-		this._token$.next(token);
-		console.log(token);
+	public setToken(token: JwtToken): Observable<JwtToken> {
+		// this._token$.next(token);
+
+		return this.storageService.save(TOKEN_KEY, token).pipe(map(() => token));
 
 	}
 
@@ -42,8 +43,9 @@ export class TokenService {
 	 * @returns The JWT token if exists, otherwise null.
 	 */
 	private getTokenFromStorage(): void {
-		const tokenString = this.storageService.getItem<JwtToken>(TOKEN_KEY);
-		this._token$.next(tokenString);
+		const tokenString$ = this.storageService.get<JwtToken>(TOKEN_KEY);
+
+		// this._token$.next(tokenString$);
 	}
 
 	/**
@@ -51,7 +53,11 @@ export class TokenService {
 	 *
 	 * @returns The current JWT token as observable.
 	 */
-	public getToken(): Observable<JwtToken | null> {
-		return this.token$;
-	}
+	// public getToken(): Observable<JwtToken | null> {
+	// 	return this.token$;
+	// }
+
+	// private initializeToken(token: JwtToken | null): void {
+
+	// }
 }
