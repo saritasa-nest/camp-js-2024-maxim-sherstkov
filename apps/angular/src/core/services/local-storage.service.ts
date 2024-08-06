@@ -19,8 +19,6 @@ export class LocalStorageService {
 		return defer(() => {
 			localStorage.setItem(key, JSON.stringify(data));
 			this.valueChangedSubject$.next(key);
-			console.log('saving');
-
 			return of(undefined);
 		});
 	}
