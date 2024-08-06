@@ -1,22 +1,18 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnDestroy, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '@js-camp/angular/core/services/auth.service';
-import { Router } from '@angular/router';
 import { Login } from '@js-camp/core/models/login';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
-import { BehaviorSubject, catchError, of, Subject, take, takeUntil } from 'rxjs';
+import { BehaviorSubject, take } from 'rxjs';
 import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { TokenService } from '@js-camp/angular/core/services/token.service';
 
-import { Registration } from '@js-camp/core/models/registration';
-
-import { ConfirmValidParentMatcher, CustomValidators, errorMessages } from '../../../core/utils/custom-validators';
+import { ConfirmValidParentMatcher, errorMessages } from '../../../core/utils/custom-validators';
 
 /** Login page component. */
 @Component({
