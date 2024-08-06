@@ -85,10 +85,10 @@ export namespace AnimeParamsMapper {
 	 */
 	export function toQueryParams(animeQuery: AnimeQuery): Params {
 		return {
-			pageSize: animeQuery.pageSize.toString(),
-			pageIndex: animeQuery.pageIndex.toString(),
+			pageSize: animeQuery.pageSize,
+			pageIndex: animeQuery.pageIndex,
 			searchValue: animeQuery.searchValue,
-			filterByType: animeQuery.filterByType.map(type => AnimeTypeMapper.toDto(type)),
+			filterByType: animeQuery.filterByType,
 			sort: toAnimeSort(animeQuery.sort),
 		};
 	}
