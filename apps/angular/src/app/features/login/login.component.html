@@ -7,24 +7,24 @@
 			<mat-label>Email</mat-label>
 			<input matInput formControlName="email" type="email" >
 				<mat-error>
-					<span>{{emailErrorMessage()}}</span>
-			  	</mat-error>
+					<span>{{errorMessages['email']}}</span>
+				</mat-error>
 			</mat-form-field>
 		  <mat-form-field appearance="outline" class="login__input-field">
 			<mat-label>Password</mat-label>
-			<input matInput formControlName="password" [type]="hidePassword() ? 'password' : 'text'">
+			<input matInput formControlName="password" [type]="(hidePassword$ | async) ? 'password' : 'text'">
 			<button
-				mat-icon-button
-				matSuffix
-				(click)="clickHidePassword($event)"
-				type="button"
-				[attr.aria-label]="'Hide password'"
-				[attr.aria-pressed]="hidePassword()"
-			>
-			  <mat-icon>{{hidePassword() ? 'visibility_off' : 'visibility'}}</mat-icon>
-			</button>
-			<mat-error *ngIf="password.invalid && (password.touched || password.dirty)">
-			  <span *ngIf="password.errors?.['required']">Password is required.</span>
+						mat-icon-button
+						matSuffix
+						(click)="clickHidePassword($event)"
+						type="button"
+						[attr.aria-label]="'Hide password'"
+						[attr.aria-pressed]="hidePassword$ | async"
+					>
+						<mat-icon>{{(hidePassword$ | async) ? 'visibility_off' : 'visibility'}}</mat-icon>
+					</button>
+			<mat-error>
+				<span>{{errorMessages['password']}}</span>
 			</mat-error>
 		  </mat-form-field>
 		  <div class="login__actions">
