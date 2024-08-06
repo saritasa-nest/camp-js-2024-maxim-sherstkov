@@ -3,7 +3,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatSelectChange } from '@angular/material/select';
 import { Sort } from '@angular/material/sort';
 import { AnimeQuery } from '@js-camp/core/models/anime-query';
-import { BehaviorSubject, take, map, Observable } from 'rxjs';
+import { BehaviorSubject, take, map } from 'rxjs';
 
 import { QueryParamsService } from './query-params.service';
 
@@ -21,6 +21,9 @@ export class PageAnimeParamsService {
 
 	/** Anime parameters subject. */
 	private readonly _animeParams$ = new BehaviorSubject(new AnimeQuery());
+
+	/** Anime parameters observable. */
+	public readonly animeParams$ = this._animeParams$.asObservable();
 
 	/**
 	 * Changes the anime parameters.
@@ -72,12 +75,5 @@ export class PageAnimeParamsService {
 	 */
 	public changeFilterParams(filterValue: MatSelectChange): void {
 		this.changeAnimeParams({ filterByType: filterValue.value, pageIndex: AnimeQuery.DEFAULT_VALUES.pageIndex });
-	}
-
-	/**
-	 * Returns an Observable of the current AnimeQuery parameters.
-	 */
-	public getAnimeParams(): Observable<AnimeQuery> {
-		return this._animeParams$.asObservable();
 	}
 }

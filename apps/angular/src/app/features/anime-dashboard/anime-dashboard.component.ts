@@ -3,7 +3,7 @@ import { Component, ChangeDetectionStrategy, inject, OnInit, DestroyRef } from '
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute } from '@angular/router';
-import { BehaviorSubject, map, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable, switchMap } from 'rxjs';
 import { BasicProgressSpinnerComponent } from '@js-camp/angular/shared/components/basic-progress-spinner/basic-progress-spinner.component';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
@@ -54,7 +54,7 @@ export class AnimeDashboardComponent implements OnInit {
 	/** Anime list. */
 	protected readonly animeList$: Observable<Pagination<Anime>>;
 
-	private readonly animeParams$ = this.pageParamsService.getAnimeParams();
+	private readonly animeParams$ = this.pageParamsService.animeParams$;
 
 	/** Current page index. */
 	protected readonly currentPage$ = this.animeParams$.pipe(
@@ -84,7 +84,9 @@ export class AnimeDashboardComponent implements OnInit {
 	protected readonly selectControl = new FormControl<AnimeType[]>([]);
 
 	public constructor() {
-		this.animeList$ = this.animeService.getAnimeList();
+		this.animeList$ = this.animeParams$.pipe(
+			switchMap(params => this.animeService.getAnimeList(params)),
+		);
 	}
 
 	/** @inheritdoc */
