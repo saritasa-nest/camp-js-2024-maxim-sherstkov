@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { JwtToken } from '@js-camp/core/models/jwt-token';
 import { Login } from '@js-camp/core/models/login';
-import { catchError, map, Observable, of, shareReplay, switchMap, tap } from 'rxjs';
+import { map, Observable, shareReplay, switchMap } from 'rxjs';
 import { JwtTokenDto } from '@js-camp/core/dtos/jwt-token.dto';
 import { JwtTokenMapper } from '@js-camp/core/mappers/jwt-token.mapper';
 

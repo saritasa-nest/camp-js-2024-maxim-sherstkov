@@ -1,26 +1,32 @@
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable, switchMap } from 'rxjs';
 
-import { AppConfig } from '../services/app-config';
+import { TokenService } from '../services/token.service';
+import { ApiUrlService } from '../services/api-url.service';
 
-/**
- * API key interceptor to add an API key header to each request.
- */
+/** Auth interceptor to add an access token to each request. */
 @Injectable()
-export class ApiKeyInterceptor implements HttpInterceptor {
+export class AuthInterceptor implements HttpInterceptor {
+	private readonly apiUrlService = inject(ApiUrlService);
 
-	private readonly appConfig = inject(AppConfig);
+	private readonly tokenService = inject(TokenService);
 
 	/** @inheritdoc */
-	public intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-
-		/** Add a new API key header to the request. */
-		const apiKeyReq = req.clone({
-			headers: req.headers.set('Api-key', this.appConfig.apiKey),
-		});
-
-		/** Send cloned request with header to the next handler. */
-		return next.handle(apiKeyReq);
+	public intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+		if (request.url === this.apiUrlService.loginPath || request.url === this.apiUrlService.registerPath) {
+			return next.handle(request);
+		}
+		return this.tokenService._token$.pipe(
+			map(token => {
+				if (token === null) {
+					return request;
+				}
+				return request.clone({
+					headers: request.headers.set('Authorization', `Bearer ${token.access}`),
+				});
+			}),
+			switchMap(authorizedRequest => next.handle(authorizedRequest)),
+		);
 	}
 }
