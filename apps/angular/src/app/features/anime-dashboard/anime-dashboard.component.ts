@@ -83,6 +83,9 @@ export class AnimeDashboardComponent implements OnInit {
 	/** Filter input control. */
 	protected readonly selectControl = new FormControl<AnimeType[]>([]);
 
+	/** Initial sort params. */
+	protected readonly initialSort: Sort = AnimeQuery.DEFAULT_VALUES.sort;
+
 	public constructor() {
 		this.animeList$ = this.animeParams$.pipe(
 			switchMap(params => this.animeService.getAnimeList(params)),
@@ -129,6 +132,7 @@ export class AnimeDashboardComponent implements OnInit {
 
 	/**
 	 * Handles sort changes.
+	 *
 	 * @param sort New sort value.
 	 *  */
 	protected handleSortChange(sort: Sort): void {

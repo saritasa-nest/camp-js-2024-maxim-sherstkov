@@ -40,7 +40,7 @@ export namespace AnimeParamsMapper {
 	 */
 	function fromAnimeSort(sort: string): Sort {
 		if (!sort) {
-			return { active: '', direction: '' };
+			return AnimeQuery.DEFAULT_VALUES.sort;
 		}
 		const direction = sort.startsWith('-') ? 'desc' : 'asc';
 		const active = sort.startsWith('-') ? sort.slice(1) : sort;
@@ -71,6 +71,7 @@ export namespace AnimeParamsMapper {
 
 	/**
 	 * Maps anime query params to http params.
+	 *
 	 * @param params Query parameters.
 	 */
 	export function toAnimeHttp(params: AnimeQuery): HttpParams {
