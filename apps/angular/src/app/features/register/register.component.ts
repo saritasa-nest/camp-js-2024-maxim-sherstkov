@@ -1,19 +1,17 @@
-import { ChangeDetectionStrategy, Component, inject, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '@js-camp/angular/core/services/auth.service';
-import { Router } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
-import { BehaviorSubject, Subject, take } from 'rxjs';
+import { BehaviorSubject, take } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-
 import { Registration } from '@js-camp/core/models/registration';
 
-import { ConfirmValidParentMatcher, CustomValidators, errorMessages } from '../auth/custom-validators';
+import { ConfirmValidParentMatcher, CustomValidators, errorMessages } from '../../../core/utils/custom-validators';
 
 /** Register page component. */
 @Component({
@@ -33,14 +31,11 @@ import { ConfirmValidParentMatcher, CustomValidators, errorMessages } from '../a
 	],
 })
 export class RegisterComponent {
-
-	private destroy$ = new Subject<void>();
+	private readonly destroyRef = inject(DestroyRef);
 
 	private readonly formBuilder: FormBuilder = inject(FormBuilder);
 
 	private readonly authService = inject(AuthService);
-
-	private readonly router = inject(Router);
 
 	/** Material directive to determine the validity of `<mat-form-field>`. */
 	protected readonly confirmValidParentMatcher = new ConfirmValidParentMatcher();
@@ -71,7 +66,7 @@ export class RegisterComponent {
 		}
 		const credentials = new Registration({ ...this.registerForm.value, password: this.registerForm.value.passwordGroup.password });
 		this.authService.register(credentials)
-			.pipe(takeUntilDestroyed())
+			.pipe(takeUntilDestroyed(this.destroyRef))
 			.subscribe(
 				response => {
 					console.log(response);

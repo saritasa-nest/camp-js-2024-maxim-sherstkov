@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '@js-camp/angular/core/services/auth.service';
@@ -9,10 +9,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
-import { Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject, catchError, of, Subject, take, takeUntil } from 'rxjs';
 import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TokenService } from '@js-camp/angular/core/services/token.service';
+
+import { Registration } from '@js-camp/core/models/registration';
+
+import { ConfirmValidParentMatcher, CustomValidators, errorMessages } from '../../../core/utils/custom-validators';
 
 /** Login page component. */
 @Component({
@@ -32,85 +36,46 @@ import { TokenService } from '@js-camp/angular/core/services/token.service';
 		MatIconModule,
 	],
 })
-export class LoginComponent implements OnInit, OnDestroy {
 
-	private destroy$ = new Subject<void>();
+export class LoginComponent {
+	private readonly destroyRef = inject(DestroyRef);
 
 	private readonly formBuilder: FormBuilder = inject(FormBuilder);
 
 	private readonly authService = inject(AuthService);
 
-	private readonly tokenService = inject(TokenService);
+	/** Material directive to determine the validity of `<mat-form-field>`. */
+	protected readonly confirmValidParentMatcher = new ConfirmValidParentMatcher();
 
-	private readonly router = inject(Router);
-
-	/** Login form control group. */
+	/** Register form control group. */
 	protected readonly loginForm: FormGroup = this.formBuilder.group({
 		email: ['', [Validators.required, Validators.email]],
-		password: ['', Validators.required],
+		password: ['', [Validators.required, Validators.minLength(8)]],
 	});
 
+	/** Error messages. */
+	protected readonly errorMessages = errorMessages;
+
 	/** Hide password flag. */
-	protected readonly hidePassword = signal(true);
-
-	/** Email error message. */
-	protected readonly emailErrorMessage = signal('');
-
-	private readonly validationMessages: { [key: string]: string; } = {
-		required: 'Please fill the required field.',
-		email: 'Please enter a valid email address.',
-	};
-
-	/** @inheritdoc */
-	public ngOnInit(): void {
-		// this.tokenService._token$.subscribe(token => {
-		// 	console.log('Login token:', token);
-
-		// });
-
-		// const emailControl = this.loginForm.get('email') as AbstractControl;
-		// emailControl.valueChanges.pipe(
-		// 	takeUntil(this.destroy$),
-		// ).subscribe(_ => this.setEmailErrorMessage(emailControl));
-		// this.tokenService.getToken().subscribe(token => {
-		// 	if (token) {
-		// 		console.log('Token received:', token);
-		// 	} else {
-		// 		console.log('No token found');
-		// 	}
-		// });
-
-	}
-
-	/** @inheritdoc */
-	public ngOnDestroy(): void {
-		this.destroy$.next();
-		this.destroy$.complete();
-	}
+	protected readonly hidePassword$ = new BehaviorSubject<boolean>(true);
 
 	/**
-	 * Logs  user with the provided credentials.
+	 * Logs user with the provided credentials.
 	 */
 	public onSubmit(): void {
 		if (this.loginForm.invalid) {
 			return;
 		}
-		const credentials = new Login(this.loginForm.value);
+		const credentials = new Login({ ...this.loginForm.value });
 		this.authService.login(credentials)
+			.pipe(takeUntilDestroyed(this.destroyRef))
 			.subscribe(
 				response => {
-					console.log('User is logged in');
 					console.log(response);
 
-					// this.router.navigateByUrl('/');
 				},
 			);
 
-	}
-
-	/** Password control getter. */
-	protected get password(): AbstractControl {
-		return this.loginForm.get('password') as AbstractControl;
 	}
 
 	/**
@@ -119,24 +84,10 @@ export class LoginComponent implements OnInit, OnDestroy {
 	 * @param event The click event.
 	 *  */
 	protected clickHidePassword(event: Event): void {
-		this.hidePassword.set(!this.hidePassword());
-		event.stopPropagation();
-	}
+		this.hidePassword$.pipe(
+			take(1),
+		).subscribe(value => this.hidePassword$.next(!value));
 
-	/**
-	 * Sets the email message.
-	 *
-	 * @param c The control to check for errors.
-	 */
-	private setEmailErrorMessage(c: AbstractControl): void {
-		this.emailErrorMessage.set('');
-		if ((c.touched || c.dirty) && c.errors) {
-			this.emailErrorMessage.set(
-				Object.keys(c.errors).map(
-					key => this.validationMessages[key],
-				)
-					.join(' '),
-			);
-		}
+		event.stopPropagation();
 	}
 }
