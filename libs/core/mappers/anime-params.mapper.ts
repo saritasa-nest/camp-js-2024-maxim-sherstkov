@@ -1,4 +1,6 @@
 import { HttpParams } from '@angular/common/http';
+import { Sort } from '@angular/material/sort';
+import { Params } from '@angular/router';
 
 import { AnimeHttpDto } from '../dtos/anime-http.dto';
 import { AnimeType } from '../models/anime-type';
@@ -20,6 +22,36 @@ export namespace AnimeParamsMapper {
 	}
 
 	/**
+	 * Concatenates `sort` object into a single string.
+	 *
+	 * @param sort Sort object.
+	 */
+	function toAnimeSort(sort: Sort): string {
+		if (sort.direction && sort.active) {
+			return `${sort.direction === 'desc' ? '-' : ''}${sort.active}`;
+		}
+		return '';
+	}
+
+	/**
+	 * Converts sort string into a Sort object.
+	 *
+	 * @param sort Sort string.
+	 */
+	function fromAnimeSort(sort: string): Sort {
+		if (!sort) {
+			return { active: '', direction: '' };
+		}
+		const direction = sort.startsWith('-') ? 'desc' : 'asc';
+		const active = sort.startsWith('-') ? sort.slice(1) : sort;
+
+		return {
+			active,
+			direction,
+		};
+	}
+
+	/**
 	 * Maps model to dto.
 	 * @param model AnimeParams model.
 	 */
@@ -29,7 +61,7 @@ export namespace AnimeParamsMapper {
 			limit: model.pageSize.toString(),
 			offset: (model.pageIndex * model.pageSize).toString(),
 			search: model.searchValue,
-			ordering: model.sortOrder,
+			ordering: toAnimeSort(model.sort),
 
 			/** Disable rule because 'type__in' is a DTO name of a field. */
 			// eslint-disable-next-line @typescript-eslint/naming-convention
@@ -44,5 +76,34 @@ export namespace AnimeParamsMapper {
 	export function toAnimeHttp(params: AnimeQuery): HttpParams {
 		const animeParams = { ...toDto(params) };
 		return new HttpParams({ fromObject: animeParams });
+	}
+
+	/**
+	 * Maps an AnimeQuery object to query parameters.
+	 *
+	 * @param animeQuery AnimeQuery object to convert.
+	 */
+	export function toQueryParams(animeQuery: AnimeQuery): Params {
+		return {
+			pageSize: animeQuery.pageSize.toString(),
+			pageIndex: animeQuery.pageIndex.toString(),
+			searchValue: animeQuery.searchValue,
+			filterByType: animeQuery.filterByType.map(type => AnimeTypeMapper.toDto(type)),
+			sort: toAnimeSort(animeQuery.sort),
+		};
+	}
+
+	/**
+	 * Creates an instance of AnimeQuery from query parameters.
+	 *
+	 * @param param Query parameters.
+	 */
+	export function fromQueryParams({ pageIndex, pageSize, searchValue, sort }: Params): AnimeQuery {
+		return new AnimeQuery({
+			pageIndex,
+			pageSize,
+			searchValue,
+			sort: fromAnimeSort(sort),
+		});
 	}
 }

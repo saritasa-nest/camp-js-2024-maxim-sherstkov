@@ -1,5 +1,7 @@
 import { inject, Injectable } from '@angular/core';
-import { Params, Router } from '@angular/router';
+import { Router } from '@angular/router';
+import { AnimeParamsMapper } from '@js-camp/core/mappers/anime-params.mapper';
+import { AnimeQuery } from '@js-camp/core/models/anime-query';
 
 /** Service to manage query params. */
 @Injectable({
@@ -13,9 +15,10 @@ export class QueryParamsService {
 	 * Merge query parameters with existing.
 	 * @param params Page parameters.
 	 */
-	public changeQueryParams(params: Params): void {
+	public changeQueryParams(params: AnimeQuery): void {
+		const newParams = AnimeParamsMapper.toQueryParams(params);
 		this.router.navigate([], {
-			queryParams: params,
+			queryParams: newParams,
 			queryParamsHandling: 'merge',
 		});
 	}

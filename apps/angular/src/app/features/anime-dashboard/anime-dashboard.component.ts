@@ -15,13 +15,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { AnimeParamsMapper } from '@js-camp/core/mappers/anime-params.mapper';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { PageAnimeParamsService } from '@js-camp/angular/core/services/page-anime-params.service';
-
 import { Pagination } from '@js-camp/core/models/pagination';
 import { Anime } from '@js-camp/core/models/anime';
-
 import { Sort } from '@angular/material/sort';
-
-import { SortParameters } from '@js-camp/core/models/sort-order';
 
 import { AnimeTableComponent } from './components/anime-table/anime-table.component';
 
@@ -71,8 +67,8 @@ export class AnimeDashboardComponent implements OnInit {
 	);
 
 	/** Current sort order. */
-	protected readonly sortOrder$ = this.animeParams$.pipe(
-		map(params => this.parseSortOrder(params.sortOrder)),
+	protected readonly sort$ = this.animeParams$.pipe(
+		map(params => params.sort),
 	);
 
 	/** Anime count. */
@@ -116,7 +112,7 @@ export class AnimeDashboardComponent implements OnInit {
 	}
 
 	/** Handles search form submit. */
-	protected onSearch(): void {
+	protected handleSearch(): void {
 		this.pageParamsService.changeSearchParams(this.searchControl.value ?? AnimeQuery.DEFAULT_VALUES.searchValue);
 	}
 
@@ -125,7 +121,7 @@ export class AnimeDashboardComponent implements OnInit {
 	 *
 	 * @param selectValue Select element value.
 	 */
-	protected onFilter(selectValue: MatSelectChange): void {
+	protected handleFilter(selectValue: MatSelectChange): void {
 		this.pageParamsService.changeFilterParams(selectValue);
 	}
 
@@ -138,12 +134,12 @@ export class AnimeDashboardComponent implements OnInit {
 	}
 
 	private initializeParamsFromUrl(): void {
-		const { pageSize, pageIndex, searchValue, sortOrder } = this.route.snapshot.queryParams;
+		const { pageSize, pageIndex, searchValue, sort } =
+			AnimeParamsMapper.fromQueryParams({ ...this.route.snapshot.queryParams });
 
 		/** Gets array of filterByType. */
-		const filterByType = this.route.snapshot.queryParamMap.getAll('filterByType');
-
-		const selectedTypes = AnimeParamsMapper.toAnimeType(filterByType);
+		const filterFromQuery = this.route.snapshot.queryParamMap.getAll('filterByType');
+		const selectedTypes = AnimeParamsMapper.toAnimeType(filterFromQuery);
 
 		this.selectControl.setValue(selectedTypes);
 		this.searchControl.setValue(searchValue);
@@ -152,19 +148,8 @@ export class AnimeDashboardComponent implements OnInit {
 			pageSize,
 			pageIndex,
 			searchValue,
-			sortOrder,
+			sort,
 			filterByType: selectedTypes,
 		});
-	}
-
-	private parseSortOrder(sortOrder: string): SortParameters {
-		const direction = sortOrder.startsWith('-') ? 'desc' : 'asc';
-
-		const activeField = sortOrder.startsWith('-') ? sortOrder.slice(1) : sortOrder;
-
-		return {
-			active: activeField,
-			direction,
-		};
 	}
 }

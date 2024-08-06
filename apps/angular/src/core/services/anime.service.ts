@@ -10,6 +10,8 @@ import { Pagination } from '@js-camp/core/models/pagination';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AnimeParamsMapper } from '@js-camp/core/mappers/anime-params.mapper';
 
+import { toHttpParams } from '../utils/http-helpers';
+
 import { ApiUrlService } from './api-url.service';
 import { PageAnimeParamsService } from './page-anime-params.service';
 
@@ -35,7 +37,8 @@ export class AnimeService {
 		return this.animeParams$.pipe(
 			takeUntilDestroyed(this.destroyRef),
 			switchMap(params => {
-				const httpParams = AnimeParamsMapper.toAnimeHttp(params);
+				const animeParams = { ...AnimeParamsMapper.toDto(params) };
+				const httpParams = toHttpParams(animeParams);
 
 				return this.http.get<PaginationDto<AnimeDto>>(this.apiUrlService.animeListPath, { params: httpParams }).pipe(
 					map(pagination => PaginationMapper.fromDto(

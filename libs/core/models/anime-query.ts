@@ -1,3 +1,5 @@
+import { Sort } from '@angular/material/sort';
+
 import { AnimeType } from './anime-type';
 import { Immerable, OmitImmerable } from './immerable';
 
@@ -11,7 +13,10 @@ export class AnimeQuery extends Immerable {
 		pageSize: 15,
 		searchValue: '',
 		animeTotal: 0,
-		sortOrder: '',
+		sort: {
+			active: '',
+			direction: '',
+		} as Sort,
 		filterByType: [],
 	};
 
@@ -25,7 +30,7 @@ export class AnimeQuery extends Immerable {
 	public readonly searchValue: string;
 
 	/** Sort order. */
-	public readonly sortOrder: string;
+	public readonly sort: Sort;
 
 	/** Filter values. */
 	public readonly filterByType: readonly AnimeType[];
@@ -35,7 +40,7 @@ export class AnimeQuery extends Immerable {
 		this.pageIndex = data.pageIndex ?? AnimeQuery.DEFAULT_VALUES.pageIndex;
 		this.pageSize = data.pageSize ?? AnimeQuery.DEFAULT_VALUES.pageSize;
 		this.searchValue = data.searchValue ?? AnimeQuery.DEFAULT_VALUES.searchValue;
-		this.sortOrder = data.sortOrder ?? AnimeQuery.DEFAULT_VALUES.sortOrder;
+		this.sort = data.sort ?? AnimeQuery.DEFAULT_VALUES.sort;
 		this.filterByType = data.filterByType ?? AnimeQuery.DEFAULT_VALUES.filterByType;
 	}
 }

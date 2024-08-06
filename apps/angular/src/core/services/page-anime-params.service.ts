@@ -22,12 +22,6 @@ export class PageAnimeParamsService {
 	/** Anime parameters subject. */
 	private readonly _animeParams$ = new BehaviorSubject(new AnimeQuery());
 
-	/** Loading state subject. */
-	private readonly _isLoading$ = new BehaviorSubject(false);
-
-	/** Loading state observable for monitoring it outside the service. */
-	public readonly isLoading$ = this._isLoading$.asObservable();
-
 	/**
 	 * Changes the anime parameters.
 	 * @param params Partial anime parameters.
@@ -38,8 +32,9 @@ export class PageAnimeParamsService {
 			take(1),
 			map(currentParams => ({ ...currentParams, ...params })),
 		).subscribe(updatedParams => {
-			this._animeParams$.next(new AnimeQuery(updatedParams));
-			this.queryParamsService.changeQueryParams(updatedParams);
+			const animeQueryParams = new AnimeQuery(updatedParams);
+			this._animeParams$.next(animeQueryParams);
+			this.queryParamsService.changeQueryParams(animeQueryParams);
 		});
 	}
 
@@ -62,20 +57,13 @@ export class PageAnimeParamsService {
 	/**
 	 * Changes the sort parameters.
 	 *
-	 * NOTE: This method constructs a `sortOrder` string that indicates the field and direction for sorting.
+	 * NOTE: This method constructs a `sort` string that indicates the field and direction for sorting.
 	 * The sorting directive containing the field to sort by (`active`)	and the direction (`asc` or `desc`).
 	 *
 	 * @param sortValue SortValue Sort value parameter.
 	 */
 	public changeSortParams(sortValue: Sort): void {
-		let sortOrder = '';
-		if (sortValue.direction === 'asc') {
-			sortOrder = sortValue.active;
-		}
-		if (sortValue.direction === 'desc') {
-			sortOrder = `-${sortValue.active}`;
-		}
-		this.changeAnimeParams({ sortOrder });
+		this.changeAnimeParams({ sort: sortValue });
 	}
 
 	/**

@@ -3,7 +3,7 @@
 		<div class="dashboard__filters">
 			<mat-form-field appearance="outline" subscriptSizing="dynamic">
 				<mat-select
-					(selectionChange)="onFilter($event)"
+					(selectionChange)="handleFilter($event)"
 					placeholder="Type of an anime"
 					[formControl]="selectControl"
 					multiple
@@ -15,7 +15,7 @@
 					}
 				</mat-select>
 			</mat-form-field>
-			<form class="search-form" (ngSubmit)="onSearch()">
+			<form class="search-form" (ngSubmit)="handleSearch()">
 				<mat-form-field appearance="outline" subscriptSizing="dynamic">
 					<input
 						matInput
@@ -30,7 +30,7 @@
 		</div>
 		<div>
 
-			<camp-anime-table class="anime-table" [animeList]="animeList.results" matSort [sortParams]="(sortOrder$ | async) ?? {active: '', direction: ''}" (sortChange)="handleSortChange($event)"/>
+			<camp-anime-table class="anime-table" [animeList]="animeList.results" matSort [sortParams]="(sort$ | async) ?? {active: '', direction: ''}" (sortChange)="handleSortChange($event)"/>
 			<mat-paginator
 			class="pagination"
 			[length]="animeTotal$ | async"
