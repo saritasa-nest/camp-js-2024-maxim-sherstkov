@@ -4,11 +4,13 @@
 	  <mat-card-title>{{ isUserLoggedIn$ | async }}</mat-card-title>
 	  <mat-card-content class="login__content">
 		<form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login__form">
+			<h6>{{loginForm.get('email')?.errors | json}}</h6>
 		  <mat-form-field appearance="outline" class="login__input-field">
 			<mat-label>Email</mat-label>
 			<input matInput formControlName="email" type="email" >
 				<mat-error>
-					<span>{{errorMessages['email']}}</span>
+					<span>{{formErrorService.getFieldError(loginForm, 'email')}}</span>
+					<!-- <span>{{errorMessages['email']}}</span> -->
 				</mat-error>
 			</mat-form-field>
 		  <mat-form-field appearance="outline" class="login__input-field">

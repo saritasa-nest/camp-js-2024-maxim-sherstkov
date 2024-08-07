@@ -46,7 +46,7 @@ export class ConfirmValidParentMatcher implements ErrorStateMatcher {
  * Collection of reusable error messages.
  */
 export const errorMessages: { [key: string]: string; } = {
-	email: 'Enter a valid email address',
+	email: 'Enter a valid email address__',
 	password: 'Enter a password with at least 8 characters',
 	confirmPassword: 'Confirm password',
 	name: 'Enter a name between 1 and 30 characters',
