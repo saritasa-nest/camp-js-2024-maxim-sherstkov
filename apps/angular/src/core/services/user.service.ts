@@ -1,6 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { catchError, map, Observable, of, switchMap, take, throwError } from 'rxjs';
 
+import { Login } from '@js-camp/core/models/login';
+
 import { UserSecretService } from './user-secret.service';
 import { AuthService } from './auth.service';
 
@@ -13,7 +15,12 @@ export class UserService {
 
 	private readonly authService = inject(AuthService);
 
-	/** Refreshes the secret via auth service. */
+	/** User logged in status. */
+	public readonly isUserLoggedIn$: Observable<boolean> = this.userSecretService.secret$.pipe(
+		map(secret => secret != null),
+	);
+
+	/** Refreshes the secret via service. */
 	public refresh(): Observable<void> {
 		return this.userSecretService.secret$.pipe(
 			take(1),
@@ -30,4 +37,17 @@ export class UserService {
 	public logout(): Observable<void> {
 		return this.userSecretService.removeSecret();
 	}
+
+	/**
+	 * Logs the user via service.
+	 *
+	 * @param loginData Login data.
+	 */
+	public login(loginData: Login): Observable<void> {
+		return this.authService.login(loginData).pipe(
+			switchMap(secret => secret ? this.userSecretService.setSecret(secret) : of(null)),
+			map(() => void 0),
+		);
+	}
+
 }

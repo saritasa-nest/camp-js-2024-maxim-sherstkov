@@ -1,6 +1,7 @@
 <div class="login">
 	<mat-card class="login__card">
 	  <mat-card-title>Login</mat-card-title>
+	  <mat-card-title>{{ isUserLoggedIn$ | async }}</mat-card-title>
 	  <mat-card-content class="login__content">
 		<form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login__form">
 		  <mat-form-field appearance="outline" class="login__input-field">

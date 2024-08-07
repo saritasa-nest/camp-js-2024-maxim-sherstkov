@@ -1,12 +1,14 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { UserSecret } from '@js-camp/core/models/user-secret';
 import { Login } from '@js-camp/core/models/login';
-import { map, Observable, shareReplay, switchMap } from 'rxjs';
+import { catchError, map, Observable, shareReplay, switchMap, tap, throwError } from 'rxjs';
 import { UserSecretDto } from '@js-camp/core/dtos/user-secret.dto';
 import { UserSecretMapper } from '@js-camp/core/mappers/user-secret.mapper';
 
 import { Registration } from '@js-camp/core/models/registration';
+
+import { ApiErrorMapper } from '@js-camp/core/mappers/api-error.mapper';
 
 import { ApiUrlService } from './api-url.service';
 import { UserSecretService } from './user-secret.service';
@@ -20,7 +22,7 @@ export class AuthService {
 
 	private readonly urlService = inject(ApiUrlService);
 
-	private readonly tokenService = inject(UserSecretService);
+	private readonly userSecretService = inject(UserSecretService);
 
 	/**
 	 * Logs  user with the provided credentials.
@@ -29,11 +31,9 @@ export class AuthService {
 	 */
 	public login(loginData: Login): Observable<UserSecret> {
 		return this.http.post<UserSecretDto>(this.urlService.loginPath, loginData).pipe(
-
+			catchError((error) => this.handleError(error)),
 			map(token => UserSecretMapper.fromDto(token)),
-			switchMap(token => this.tokenService.setSecret(token)),
-
-			// tap(token => this.tokenService.setToken(token)),
+			tap((token) => console.log(`TOKEN?? ${token}`)),
 			shareReplay({
 				refCount: true,
 				bufferSize: 1,
@@ -42,12 +42,13 @@ export class AuthService {
 	}
 
 	/**
-	 * Registers  user with the provided credentials.
+	 * Registers user with the provided credentials.
 	 *
 	 * @param registerData Registration data of user.
 	 */
 	public register(registerData: Registration): Observable<UserSecret> {
 		return this.http.post<UserSecretDto>(this.urlService.registerPath, registerData).pipe(
+			catchError((error) => this.handleError(error)),
 			map(token => UserSecretMapper.fromDto(token)),
 
 			shareReplay({
@@ -68,48 +69,14 @@ export class AuthService {
 		);
 	}
 
-	// 	private handleError(error: HttpErrorResponse): Observable<never> {
-	// 		let userFriendlyMessage = 'Something went wrong';
+	private handleError(error: HttpErrorResponse): Observable<never> {
 
-	// 		if (error.error instanceof ErrorEvent) {
-	// 			// Client-side error
-	// 			userFriendlyMessage = `Error: ${error.error.message}`;
-	// 		} else {
-	// 		  // Server-side error
-	// 		  if (error.error.type && error.error.errors) {
-	// 				const apiError = ApiErrorMapper.fromDto(error.error);
+		const apiError = ApiErrorMapper.fromDto(error.error);
 
-	// 				if (apiError.type === 'client_error') {
-	// 			  const relevantError = apiError.errors.find(err =>
-	// 						err.code === 'invalid_input' || err.code === 'authentication_failed');
-	// 			  if (relevantError) {
-	// 						userFriendlyMessage = relevantError.detail;
-	// 			  } else if (error.status === 403) {
-	// 						userFriendlyMessage = 'Access denied';
-	// 			  } else {
-	// 						userFriendlyMessage = 'Something went wrong';
-	// 			  }
-	// 				} else if (apiError.type === 'server_error') {
-	// 			  userFriendlyMessage = 'A server error occurred';
-	// 				} else {
-	// 			  userFriendlyMessage = 'Something went wrong';
-	// 				}
-	// 		  } else {
-	// 				switch (error.status) {
-	// 			  case 403:
-	// 						userFriendlyMessage = 'Access denied';
-	// 						break;
-	// 			  case 500:
-	// 						userFriendlyMessage = 'A server error occurred';
-	// 						break;
-	// 			  default:
-	// 						userFriendlyMessage = 'Something went wrong';
-	// 						break;
-	// 				}
-	// 		  }
-	// 		}
+		console.log(apiError);
 
-	// 		return throwError(() => new Error(userFriendlyMessage));
-	// 	}
+
+		return throwError(() => apiError);
+	}
 
 }
