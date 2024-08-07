@@ -5,6 +5,8 @@ import { map, Observable, switchMap } from 'rxjs';
 import { UserSecretService } from '../services/user-secret.service';
 import { ApiUrlService } from '../services/api-url.service';
 
+const AUTH_HEADER_KEY = 'Authorization';
+
 /** Auth interceptor to add an access token to each request. */
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -14,19 +16,24 @@ export class AuthInterceptor implements HttpInterceptor {
 
 	/** @inheritdoc */
 	public intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-		if (request.url === this.apiUrlService.loginPath || request.url === this.apiUrlService.registerPath) {
+		if (this.shouldInterceptSecretForUrl(request.url)) {
 			return next.handle(request);
 		}
 		return this.tokenService.secret$.pipe(
-			map(token => {
-				if (token === null) {
-					return request;
-				}
-				return request.clone({
-					headers: request.headers.set('Authorization', `Bearer ${token.access}`),
-				});
-			}),
+			map(userSecret =>
+				userSecret && !request.headers.has(AUTH_HEADER_KEY) ?
+					request.clone({
+						headers: request.headers.set(
+							AUTH_HEADER_KEY,
+							`Bearer ${userSecret.access}`,
+						),
+					}) :
+					request),
 			switchMap(authorizedRequest => next.handle(authorizedRequest)),
 		);
+	}
+
+	private shouldInterceptSecretForUrl(url: string): boolean {
+		return url === this.apiUrlService.loginPath || url === this.apiUrlService.registerPath;
 	}
 }
