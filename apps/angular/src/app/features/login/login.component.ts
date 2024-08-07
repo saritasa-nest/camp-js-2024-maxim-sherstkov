@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, DestroyRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { AuthService } from '@js-camp/angular/core/services/auth.service';
 import { Login } from '@js-camp/core/models/login';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -11,6 +10,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { BehaviorSubject, take } from 'rxjs';
 import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
+import { UserService } from '@js-camp/angular/core/services/user.service';
 
 import { ConfirmValidParentMatcher, errorMessages } from '../../../core/utils/custom-validators';
 
@@ -38,15 +39,20 @@ export class LoginComponent {
 
 	private readonly formBuilder: FormBuilder = inject(FormBuilder);
 
-	private readonly authService = inject(AuthService);
+	private readonly userService = inject(UserService);
+
+	protected readonly isUserLoggedIn$ = this.userService.isUserLoggedIn$;
 
 	/** Material directive to determine the validity of `<mat-form-field>`. */
 	protected readonly confirmValidParentMatcher = new ConfirmValidParentMatcher();
 
 	/** Register form control group. */
 	protected readonly loginForm: FormGroup = this.formBuilder.group({
-		email: ['', [Validators.required, Validators.email]],
-		password: ['', [Validators.required, Validators.minLength(8)]],
+		email: ['', [Validators.required]],
+		password: ['', [Validators.required]],
+
+		// email: ['', [Validators.required, Validators.email]],
+		// password: ['', [Validators.required, Validators.minLength(8)]],
 	});
 
 	/** Error messages. */
@@ -59,18 +65,13 @@ export class LoginComponent {
 	 * Logs user with the provided credentials.
 	 */
 	public onSubmit(): void {
-		// if (this.loginForm.invalid) {
-		// 	return;
-		// }
-		// const credentials = new Login({ ...this.loginForm.value });
-		// this.authService.login(credentials)
-		// 	.pipe(takeUntilDestroyed(this.destroyRef))
-		// 	.subscribe(
-		// 		response => {
-		// 			console.log(response);
-
-		// 		},
-		// 	);
+		if (this.loginForm.invalid) {
+			return;
+		}
+		const credentials = new Login({ ...this.loginForm.value });
+		this.userService.login(credentials)
+			.pipe(takeUntilDestroyed(this.destroyRef))
+			.subscribe();
 
 	}
 
