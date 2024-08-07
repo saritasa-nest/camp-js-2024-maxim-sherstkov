@@ -1,5 +1,5 @@
-/** JWT token DTO. */
-export type JwtTokenDto = Readonly<{
+/** User secret DTO. */
+export type UserSecretDto = Readonly<{
 
 	/** Refresh token. */
 	refresh: string;

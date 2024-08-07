@@ -1,7 +1,7 @@
 import { Immerable, OmitImmerable } from './immerable';
 
-/** JWT token. */
-export class JwtToken extends Immerable {
+/** User secret. */
+export class UserSecret extends Immerable {
 
 	/** Refresh token. */
 	public readonly refresh: string;
@@ -16,4 +16,4 @@ export class JwtToken extends Immerable {
 	}
 }
 
-type JwtTokenConstructorData = OmitImmerable<JwtToken>;
+type JwtTokenConstructorData = OmitImmerable<UserSecret>;

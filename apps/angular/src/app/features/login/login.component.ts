@@ -59,18 +59,18 @@ export class LoginComponent {
 	 * Logs user with the provided credentials.
 	 */
 	public onSubmit(): void {
-		if (this.loginForm.invalid) {
-			return;
-		}
-		const credentials = new Login({ ...this.loginForm.value });
-		this.authService.login(credentials)
-			.pipe(takeUntilDestroyed(this.destroyRef))
-			.subscribe(
-				response => {
-					console.log(response);
+		// if (this.loginForm.invalid) {
+		// 	return;
+		// }
+		// const credentials = new Login({ ...this.loginForm.value });
+		// this.authService.login(credentials)
+		// 	.pipe(takeUntilDestroyed(this.destroyRef))
+		// 	.subscribe(
+		// 		response => {
+		// 			console.log(response);
 
-				},
-			);
+		// 		},
+		// 	);
 
 	}
 
