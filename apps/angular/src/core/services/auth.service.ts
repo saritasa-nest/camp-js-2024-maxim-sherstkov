@@ -22,24 +22,7 @@ export class AuthService {
 
 	private readonly urlService = inject(ApiUrlService);
 
-	private readonly userSecretService = inject(UserSecretService);
 
-	/**
-	 * Logs  user with the provided credentials.
-	 *
-	 * @param loginData Login data of user.
-	 */
-	public login(loginData: Login): Observable<UserSecret> {
-		return this.http.post<UserSecretDto>(this.urlService.loginPath, loginData).pipe(
-			catchError((error) => this.handleError(error)),
-			map(token => UserSecretMapper.fromDto(token)),
-			tap((token) => console.log(`TOKEN?? ${token}`)),
-			shareReplay({
-				refCount: true,
-				bufferSize: 1,
-			}),
-		);
-	}
 
 	/**
 	 * Registers user with the provided credentials.
@@ -49,6 +32,7 @@ export class AuthService {
 	public register(registerData: Registration): Observable<UserSecret> {
 		return this.http.post<UserSecretDto>(this.urlService.registerPath, registerData).pipe(
 			catchError((error) => this.handleError(error)),
+			// catchError((error) => this.handleError(error)),
 			map(token => UserSecretMapper.fromDto(token)),
 
 			shareReplay({
@@ -69,14 +53,25 @@ export class AuthService {
 		);
 	}
 
+	/**
+	 * Logs  user with the provided credentials.
+	 *
+	 * @param loginData Login data of user.
+	 */
+	public login(loginData: Login): Observable<UserSecret | never> {
+		return this.http.post<UserSecretDto>(this.urlService.loginPath, loginData).pipe(
+			catchError((error) => this.handleError(error)),
+			map(token => UserSecretMapper.fromDto(token)),
+			shareReplay({
+				refCount: true,
+				bufferSize: 1,
+			}),
+		);
+	}
+
 	private handleError(error: HttpErrorResponse): Observable<never> {
-
-		const apiError = ApiErrorMapper.fromDto(error.error);
-
-		console.log(apiError);
-
-
-		return throwError(() => apiError);
+		const mappedError = ApiErrorMapper.fromDto(error.error);
+		return throwError(() => mappedError);
 	}
 
 }

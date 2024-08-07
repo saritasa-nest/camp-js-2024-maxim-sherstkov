@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Login } from '@js-camp/core/models/login';
@@ -7,13 +7,17 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
-import { BehaviorSubject, take } from 'rxjs';
+import { BehaviorSubject, catchError, of, take } from 'rxjs';
 import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { UserService } from '@js-camp/angular/core/services/user.service';
 
 import { ConfirmValidParentMatcher, errorMessages } from '../../../core/utils/custom-validators';
+import { FormErrorService } from '@js-camp/angular/core/services/form-error.service';
+
+
 
 /** Login page component. */
 @Component({
@@ -41,7 +45,12 @@ export class LoginComponent {
 
 	private readonly userService = inject(UserService);
 
+	protected readonly formErrorService = inject(FormErrorService);
+
+	private readonly changeDetector = inject(ChangeDetectorRef);
+
 	protected readonly isUserLoggedIn$ = this.userService.isUserLoggedIn$;
+
 
 	/** Material directive to determine the validity of `<mat-form-field>`. */
 	protected readonly confirmValidParentMatcher = new ConfirmValidParentMatcher();
@@ -68,9 +77,20 @@ export class LoginComponent {
 		if (this.loginForm.invalid) {
 			return;
 		}
+		this.loginForm.controls['email'].markAsDirty();
 		const credentials = new Login({ ...this.loginForm.value });
 		this.userService.login(credentials)
-			.pipe(takeUntilDestroyed(this.destroyRef))
+		.pipe(
+			takeUntilDestroyed(this.destroyRef),
+			catchError(error => {
+				console.log(error);
+					this.formErrorService.renderServerErrors(this.loginForm, error);
+
+					// this.loginForm.get('email')?.setErrors({ serverError: true });
+					// this.changeDetector.markForCheck()
+					return of(null);
+				})
+			)
 			.subscribe();
 
 	}
