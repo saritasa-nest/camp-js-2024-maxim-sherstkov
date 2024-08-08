@@ -52,7 +52,7 @@ export class AuthService {
 	 *
 	 * @param loginData Login data of user.
 	 */
-	public login(loginData: Login): Observable<UserSecret | never> {
+	public login(loginData: Login): Observable<UserSecret> {
 		return this.http.post<UserSecretDto>(this.urlService.loginPath, loginData).pipe(
 			catchError((error: unknown) => this.handleError(error)),
 			map(secret => UserSecretMapper.fromDto(secret)),

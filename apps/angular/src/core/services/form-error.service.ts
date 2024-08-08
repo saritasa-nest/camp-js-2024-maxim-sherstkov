@@ -88,7 +88,7 @@ export class FormErrorService {
 
 	private getFieldErrors(form: FormGroup, fieldName: string): string[] {
 		const control = this.findFieldControl(form, fieldName);
-		if (control && control.touched && control.errors) {
+		if (control?.touched && control.errors) {
 			return this.getErrors(control);
 		}
 		return [];
