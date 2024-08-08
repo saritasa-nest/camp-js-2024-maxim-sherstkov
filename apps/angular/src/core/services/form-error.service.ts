@@ -13,13 +13,14 @@ export class FormErrorService {
 	private readonly notificationService = inject(NotificationService);
 
 	// eslint-disable-next-line @typescript-eslint/naming-convention
-	private readonly ERROR_MESSAGES = {
+	private readonly ERROR_MESSAGES: {[key: string]: string;} = {
 		general: 'Something went wrong. Please try again later.',
+		fieldGeneral: 'There is an error with this field.',
 		required: 'This field is required.',
-		email: 'Please enter a valid email address.',
-		minlength: `The input is too short.`,
-		maxlength: `The input is too long.`,
-		match: 'The passwords do not match.',
+		email: 'Enter a valid email address.',
+		minlength: `Below the minimum length required for this field.`,
+		maxlength: `Exceeds the maximum length of this field.`,
+		passwordMatch: 'Passwords do not match.',
 	};
 
 	/**
@@ -30,17 +31,15 @@ export class FormErrorService {
 	 */
 	public renderServerErrors(form: FormGroup, apiError: ApiError): void {
 		if (apiError.errors.length === 0) {
-			this.notificationService.showMessage(this.ERROR_MESSAGES.general);
+			this.notificationService.showMessage(this.ERROR_MESSAGES['general']);
 			return;
 		}
 		apiError.errors.forEach(error => {
-			console.log(error);
-
 			const fieldName = error.attr;
 			const message = error.detail;
 
 			if (!fieldName) {
-				this.notificationService.showMessage(message ?? this.ERROR_MESSAGES.general);
+				this.notificationService.showMessage(message ?? this.ERROR_MESSAGES['general']);
 				return;
 			}
 			if (form == null || !this.hasFieldName(form, fieldName)) {
@@ -73,12 +72,8 @@ export class FormErrorService {
 	}
 
 	private setFieldError(form: FormGroup, fieldName: string, message: string): void {
-		console.log(`${message} - сообщение`);
-
-		// TODO msgs from server not joined
-
 		const control = this.findFieldControl(form, fieldName);
-		const errors = { [message]: true };
+		const errors = { ...control?.errors, [message]: true };
 		control?.setErrors(errors);
 	}
 
@@ -89,7 +84,7 @@ export class FormErrorService {
 	 * @param fieldName The field name.
 	 */
 	public getFieldError(form: FormGroup, fieldName: string): string | null {
-		return this.getFieldErrors(form, fieldName).join('\n');
+		return this.getFieldErrors(form, fieldName).join(' ');
 	}
 
 	private getFieldErrors(form: FormGroup, fieldName: string): string[] {
@@ -105,12 +100,10 @@ export class FormErrorService {
 		if (!control?.errors) {
 			return [];
 		}
-
-		return Object.keys(control.errors).map(error => this.getErrorMessage(error));
+		return Object.keys(control.errors).map(errorKey => this.getErrorMessage(errorKey));
 	}
 
-	private getErrorMessage(error: string): string {
-		return this.ERROR_MESSAGES[error as keyof typeof this.ERROR_MESSAGES] || error;
+	private getErrorMessage(errorKey: string): string {
+		return this.ERROR_MESSAGES[errorKey] || this.ERROR_MESSAGES['fieldGeneral'];
 	}
-
 }
