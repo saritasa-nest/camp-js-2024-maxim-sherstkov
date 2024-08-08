@@ -13,10 +13,9 @@ import { UserService } from '@js-camp/angular/core/services/user.service';
 import { Router } from '@angular/router';
 import { URL_PATHS } from '@js-camp/core/utils/url-paths';
 import { FormErrorService } from '@js-camp/angular/core/services/form-error.service';
-
 import { ApiError } from '@js-camp/core/models/api-error';
 
-import { AuthComponent } from '../auth/auth.component';
+import { AuthComponent } from '../auth.component';
 
 /** Login page component. */
 @Component({

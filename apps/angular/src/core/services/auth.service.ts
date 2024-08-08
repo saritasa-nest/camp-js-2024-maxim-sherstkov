@@ -29,7 +29,6 @@ export class AuthService {
 		return this.http.post<UserSecretDto>(this.urlService.registerPath, registerData).pipe(
 			catchError((error: unknown) => this.handleError(error)),
 			map(token => UserSecretMapper.fromDto(token)),
-
 			shareReplay({
 				refCount: true,
 				bufferSize: 1,

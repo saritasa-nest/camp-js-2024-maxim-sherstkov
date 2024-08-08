@@ -11,13 +11,12 @@ import { BehaviorSubject, catchError, of, take } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Registration } from '@js-camp/core/models/registration';
 import { FormErrorService } from '@js-camp/angular/core/services/form-error.service';
-
 import { Router } from '@angular/router';
 import { URL_PATHS } from '@js-camp/core/utils/url-paths';
 import { ExtendedApiError } from '@js-camp/core/models/api-error';
 
-import { AuthComponent } from '../auth/auth.component';
-import { ConfirmValidParentMatcher, CustomValidators } from '../../../core/utils/custom-validators';
+import { AuthComponent } from '../auth.component';
+import { ConfirmValidParentMatcher, CustomValidators } from '../../../../core/utils/custom-validators';
 
 /** Register page component. */
 @Component({
@@ -42,7 +41,7 @@ export class RegisterComponent {
 
 	private readonly changeDetector = inject(ChangeDetectorRef);
 
-	private readonly formBuilder: FormBuilder = inject(FormBuilder);
+	private readonly formBuilder = inject(FormBuilder);
 
 	private readonly authService = inject(AuthService);
 

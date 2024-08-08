@@ -1,6 +1,5 @@
 import { inject, Injectable } from '@angular/core';
 import { catchError, map, Observable, of, switchMap, take, throwError } from 'rxjs';
-
 import { Login } from '@js-camp/core/models/login';
 
 import { UserSecretService } from './user-secret.service';
