@@ -12,26 +12,18 @@ export const appRoutes: Routes = [
 		),
 	},
 	{
-		path: URL_PATHS.auth,
-		loadComponent: () => import('./features/auth/auth.component').then(
-			c => c.AuthComponent,
+		path: URL_PATHS.login,
+		loadComponent: () => import('./features/login/login.component').then(
+			c => c.LoginComponent,
 		),
 		canActivate: [AlreadyLoggedInGuard],
-		canActivateChild: [AlreadyLoggedInGuard],
-		children: [
-			{
-				path: URL_PATHS.login,
-				loadComponent: () => import('./features/login/login.component').then(
-					c => c.LoginComponent,
-				),
-			},
-			{
-				path: URL_PATHS.register,
-				loadComponent: () => import('./features/register/register.component').then(
-					c => c.RegisterComponent,
-				),
-			},
-		],
+	},
+	{
+		path: URL_PATHS.register,
+		loadComponent: () => import('./features/register/register.component').then(
+			c => c.RegisterComponent,
+		),
+		canActivate: [AlreadyLoggedInGuard],
 	},
 	{ path: '**', redirectTo: URL_PATHS.home },
 ];

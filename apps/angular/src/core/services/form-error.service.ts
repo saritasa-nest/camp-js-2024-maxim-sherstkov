@@ -15,7 +15,6 @@ export class FormErrorService {
 	// eslint-disable-next-line @typescript-eslint/naming-convention
 	private readonly ERROR_MESSAGES: {[key: string]: string;} = {
 		general: 'Something went wrong. Please try again later.',
-		fieldGeneral: 'There is an error with this field.',
 		required: 'This field is required.',
 		email: 'Enter a valid email address.',
 		minlength: `Below the minimum length required for this field.`,
@@ -104,6 +103,6 @@ export class FormErrorService {
 	}
 
 	private getErrorMessage(errorKey: string): string {
-		return this.ERROR_MESSAGES[errorKey] || this.ERROR_MESSAGES['fieldGeneral'];
+		return this.ERROR_MESSAGES[errorKey] || errorKey;
 	}
 }

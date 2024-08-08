@@ -1,4 +1,4 @@
-import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpInterceptorFn, HttpRequest, HttpStatusCode } from '@angular/common/http';
+import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpStatusCode } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable, catchError, shareReplay, switchMap, tap, throwError } from 'rxjs';
 
@@ -20,7 +20,7 @@ export class RefreshInterceptor implements HttpInterceptor {
 			return next.handle(request);
 		}
 		return next.handle(request).pipe(
-			catchError(error => {
+			catchError((error: unknown) => {
 				if (this.shouldHttpErrorBeIgnored(error)) {
 					return throwError(() => error);
 				}
@@ -34,16 +34,20 @@ export class RefreshInterceptor implements HttpInterceptor {
 						this.refreshSecretRequest$ = null;
 					}),
 					switchMap(() => next.handle(request)),
-				)
-			}))
+				);
+			}),
+		);
 	}
 
+	private shouldHttpErrorBeIgnored(error: unknown): boolean {
 
-	private shouldHttpErrorBeIgnored(error: HttpErrorResponse): boolean {
-		return error.status !== HttpStatusCode.Unauthorized;
+		if (error instanceof HttpErrorResponse) {
+			return error.status !== HttpStatusCode.Unauthorized;
+		}
+		return false;
 	}
 
 	private shouldSecretBeRefreshedForUrl(url: string): boolean {
-		return url !== this.apiUrlService.loginPath && url !== this.apiUrlService.registerPath
+		return url !== this.apiUrlService.loginPath && url !== this.apiUrlService.registerPath;
 	}
 }
