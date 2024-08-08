@@ -21,6 +21,7 @@ export class AuthInterceptor implements HttpInterceptor {
 		}
 		return this.tokenService.secret$.pipe(
 			map(userSecret =>
+
 				userSecret && !request.headers.has(AUTH_HEADER_KEY) ?
 					request.clone({
 						headers: request.headers.set(

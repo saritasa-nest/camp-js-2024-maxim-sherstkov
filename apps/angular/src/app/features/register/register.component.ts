@@ -10,9 +10,14 @@ import { MatIconModule } from '@angular/material/icon';
 import { BehaviorSubject, catchError, of, take } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Registration } from '@js-camp/core/models/registration';
-
-import { ConfirmValidParentMatcher, CustomValidators, errorMessages } from '../../../core/utils/custom-validators';
 import { FormErrorService } from '@js-camp/angular/core/services/form-error.service';
+
+import { Router } from '@angular/router';
+import { URL_PATHS } from '@js-camp/core/utils/url-paths';
+import { ExtendedApiError } from '@js-camp/core/models/api-error';
+
+import { AuthComponent } from '../auth/auth.component';
+import { ConfirmValidParentMatcher, CustomValidators } from '../../../core/utils/custom-validators';
 
 /** Register page component. */
 @Component({
@@ -29,6 +34,7 @@ import { FormErrorService } from '@js-camp/angular/core/services/form-error.serv
 		MatFormFieldModule,
 		MatInputModule,
 		MatIconModule,
+		AuthComponent,
 	],
 })
 export class RegisterComponent {
@@ -40,6 +46,9 @@ export class RegisterComponent {
 
 	private readonly authService = inject(AuthService);
 
+	private readonly router = inject(Router);
+
+	/** Form error service. */
 	protected readonly formErrorService = inject(FormErrorService);
 
 	/** Material directive to determine the validity of `<mat-form-field>`. */
@@ -56,9 +65,6 @@ export class RegisterComponent {
 		lastName: ['', [Validators.required, Validators.maxLength(30)]],
 	});
 
-	/** Error messages. */
-	protected readonly errorMessages = errorMessages;
-
 	/** Hide password flag. */
 	protected readonly hidePassword$ = new BehaviorSubject<boolean>(true);
 
@@ -71,14 +77,21 @@ export class RegisterComponent {
 		this.authService.register(credentials)
 			.pipe(
 				takeUntilDestroyed(this.destroyRef),
-				catchError((error) => {
-					console.log(error);
-					this.formErrorService.renderServerErrors(this.registerForm, error);
-					this.changeDetector.markForCheck();
+				catchError((error: unknown) => {
+					if (error instanceof ExtendedApiError) {
+						this.formErrorService.renderServerErrors(this.registerForm, error);
+						this.changeDetector.markForCheck();
+					}
 					return of(null);
 				}),
 			)
-			.subscribe();
+			.subscribe(
+				response => {
+					if (response !== null) {
+						this.router.navigate([URL_PATHS.home]);
+					}
+				},
+			);
 
 	}
 

@@ -8,16 +8,15 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { BehaviorSubject, catchError, of, take } from 'rxjs';
-import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { MatSnackBar } from '@angular/material/snack-bar';
-
 import { UserService } from '@js-camp/angular/core/services/user.service';
-
-import { ConfirmValidParentMatcher, errorMessages } from '../../../core/utils/custom-validators';
+import { Router } from '@angular/router';
+import { URL_PATHS } from '@js-camp/core/utils/url-paths';
 import { FormErrorService } from '@js-camp/angular/core/services/form-error.service';
 
+import { ApiError } from '@js-camp/core/models/api-error';
 
+import { AuthComponent } from '../auth/auth.component';
 
 /** Login page component. */
 @Component({
@@ -26,7 +25,6 @@ import { FormErrorService } from '@js-camp/angular/core/services/form-error.serv
 	templateUrl: './login.component.html',
 	styleUrl: './login.component.css',
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	providers: [{ provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher }],
 	imports: [
 		CommonModule,
 		ReactiveFormsModule,
@@ -35,6 +33,7 @@ import { FormErrorService } from '@js-camp/angular/core/services/form-error.serv
 		MatFormFieldModule,
 		MatInputModule,
 		MatIconModule,
+		AuthComponent,
 	],
 })
 
@@ -45,53 +44,46 @@ export class LoginComponent {
 
 	private readonly userService = inject(UserService);
 
-	protected readonly formErrorService = inject(FormErrorService);
-
 	private readonly changeDetector = inject(ChangeDetectorRef);
 
-	protected readonly isUserLoggedIn$ = this.userService.isUserLoggedIn$;
+	private readonly router = inject(Router);
 
+	/** Form error service. */
+	protected readonly formErrorService = inject(FormErrorService);
 
-	/** Material directive to determine the validity of `<mat-form-field>`. */
-	protected readonly confirmValidParentMatcher = new ConfirmValidParentMatcher();
-
-	/** Register form control group. */
+	/** Login form control group. */
 	protected readonly loginForm: FormGroup = this.formBuilder.group({
-		email: ['', [Validators.required]],
-		password: ['', [Validators.required]],
-
-		// email: ['', [Validators.required, Validators.email]],
-		// password: ['', [Validators.required, Validators.minLength(8)]],
+		email: ['', [Validators.required, Validators.email]],
+		password: ['', [Validators.required, Validators.minLength(8)]],
 	});
-
-	/** Error messages. */
-	protected readonly errorMessages = errorMessages;
 
 	/** Hide password flag. */
 	protected readonly hidePassword$ = new BehaviorSubject<boolean>(true);
 
-	/**
-	 * Logs user with the provided credentials.
-	 */
+	/** Logs user with the provided credentials. */
 	public onSubmit(): void {
 		if (this.loginForm.invalid) {
 			return;
 		}
-		this.loginForm.controls['email'].markAsDirty();
 		const credentials = new Login({ ...this.loginForm.value });
 		this.userService.login(credentials)
-		.pipe(
-			takeUntilDestroyed(this.destroyRef),
-			catchError(error => {
-				console.log(error);
-					this.formErrorService.renderServerErrors(this.loginForm, error);
-
-					// this.loginForm.get('email')?.setErrors({ serverError: true });
-					// this.changeDetector.markForCheck()
+			.pipe(
+				takeUntilDestroyed(this.destroyRef),
+				catchError((error: unknown) => {
+					if (error instanceof ApiError) {
+						this.formErrorService.renderServerErrors(this.loginForm, error);
+						this.changeDetector.markForCheck();
+					}
 					return of(null);
-				})
+				}),
 			)
-			.subscribe();
+			.subscribe(
+				response => {
+					if (response !== null) {
+						this.router.navigate([URL_PATHS.home]);
+					}
+				},
+			);
 
 	}
 
