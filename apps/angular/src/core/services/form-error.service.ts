@@ -1,3 +1,4 @@
+
 import { inject, Injectable } from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
 import { ApiError } from '@js-camp/core/models/api-error';
@@ -14,6 +15,11 @@ export class FormErrorService {
 	// eslint-disable-next-line @typescript-eslint/naming-convention
 	private readonly ERROR_MESSAGES = {
 		general: 'Something went wrong. Please try again later.',
+		required: 'This field is required.',
+		email: 'Please enter a valid email address.',
+		minlength: `The input is too short.`,
+		maxlength: `The input is too long.`,
+		match: 'The passwords do not match.',
 	};
 
 	/**
@@ -51,10 +57,26 @@ export class FormErrorService {
 	}
 
 	private findFieldControl(form: FormGroup, fieldName: string): AbstractControl | null {
-		return form.get(fieldName);
+		let control = form.get(fieldName);
+		if (!control) {
+			Object.keys(form.controls).forEach(key => {
+				const groupControl = form.get(key);
+				if (groupControl instanceof FormGroup) {
+					const nestedControl = this.findFieldControl(groupControl, fieldName);
+					if (nestedControl) {
+						control = nestedControl;
+					}
+				}
+			});
+		}
+		return control;
 	}
 
 	private setFieldError(form: FormGroup, fieldName: string, message: string): void {
+		console.log(`${message} - сообщение`);
+
+		// TODO msgs from server not joined
+
 		const control = this.findFieldControl(form, fieldName);
 		const errors = { [message]: true };
 		control?.setErrors(errors);
@@ -84,8 +106,11 @@ export class FormErrorService {
 			return [];
 		}
 
-		return Object.keys(control.errors).map(error => control?.errors?.[error] ? error : 'null')
-			.filter(Boolean);
+		return Object.keys(control.errors).map(error => this.getErrorMessage(error));
+	}
+
+	private getErrorMessage(error: string): string {
+		return this.ERROR_MESSAGES[error as keyof typeof this.ERROR_MESSAGES] || error;
 	}
 
 }
