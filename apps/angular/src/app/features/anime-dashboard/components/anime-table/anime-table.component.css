@@ -1,0 +1,11 @@
+.anime-image {
+  width: 150px;
+  height: 150px;
+  object-fit: contain;
+  padding: 10px;
+}
+
+.anime-list__empty-message {
+  text-align: center;
+  padding-block: 100px;
+}

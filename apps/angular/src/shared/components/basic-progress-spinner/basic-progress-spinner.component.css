@@ -1,0 +1,4 @@
+.spinner-container {
+  display: flex;
+  place-content: center;
+}

@@ -27,4 +27,5 @@ const GenresPageComponent: FC = () => {
 	);
 };
 
+/** Memoized GenresPageComponent. */
 export const GenresPage = memo(GenresPageComponent);
