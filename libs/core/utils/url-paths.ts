@@ -1,4 +1,4 @@
-/** URL paths constant. */
+/** URL paths constants. */
 export const URL_PATHS = {
 	home: '',
 	login: 'login',

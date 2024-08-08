@@ -17,10 +17,10 @@ type ApiErrorConstructorData = OmitImmerable<ApiError>;
 
 /** Extended API error with Error interface. */
 export class ExtendedApiError extends ApiError implements Error {
-	/** Standard error name. */
+	/** Error name. */
 	public readonly name: string;
 
-	/** Standard error message. */
+	/** Error message. */
 	public readonly message: string;
 
 	public constructor(data: ApiErrorConstructorData, message?: string) {
