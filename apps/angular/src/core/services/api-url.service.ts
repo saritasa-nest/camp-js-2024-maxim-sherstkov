@@ -21,12 +21,12 @@ export class ApiUrlService {
 	public readonly registerPath: string;
 
 	/** Path to API to refresh token. */
-	public readonly refreshTokenPath: string;
+	public readonly refreshSecretPath: string;
 
 	public constructor() {
 		this.animeListPath = `${this.appConfig.apiUrl}/anime/anime/`;
 		this.loginPath = `${this.appConfig.apiUrl}/auth/login/`;
 		this.registerPath = `${this.appConfig.apiUrl}/auth/register/`;
-		this.refreshTokenPath = `${this.appConfig.apiUrl}/auth/token/refresh/`;
+		this.refreshSecretPath = `${this.appConfig.apiUrl}/auth/token/refresh/`;
 	}
 }

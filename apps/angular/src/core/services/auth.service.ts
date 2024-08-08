@@ -41,8 +41,8 @@ export class AuthService {
 	 *
 	 * @param secret User secret.
 	 */
-	public refreshToken(secret: UserSecret): Observable<UserSecret> {
-		return this.http.post<UserSecretDto>(this.urlService.refreshTokenPath, UserSecretMapper.toDto(secret)).pipe(
+	public refreshSecret(secret: UserSecret): Observable<UserSecret> {
+		return this.http.post<UserSecretDto>(this.urlService.refreshSecretPath, UserSecretMapper.toDto(secret)).pipe(
 			map(token => UserSecretMapper.fromDto(token)),
 		);
 	}
@@ -55,7 +55,7 @@ export class AuthService {
 	public login(loginData: Login): Observable<UserSecret | never> {
 		return this.http.post<UserSecretDto>(this.urlService.loginPath, loginData).pipe(
 			catchError((error: unknown) => this.handleError(error)),
-			map(token => UserSecretMapper.fromDto(token)),
+			map(secret => UserSecretMapper.fromDto(secret)),
 			shareReplay({
 				refCount: true,
 				bufferSize: 1,

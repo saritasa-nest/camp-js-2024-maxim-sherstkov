@@ -24,7 +24,7 @@ export class UserService {
 		return this.userSecretService.secret$.pipe(
 			take(1),
 			switchMap(secret =>
-				secret != null ? this.authService.refreshToken(secret) : throwError(() => new Error('No refresh token found'))),
+				secret != null ? this.authService.refreshSecret(secret) : throwError(() => new Error('No refresh token found'))),
 			catchError(() =>
 				this.logout()),
 			switchMap(newSecret => newSecret ? this.userSecretService.setSecret(newSecret) : of(null)),
