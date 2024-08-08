@@ -23,7 +23,7 @@ export class CustomValidators {
 		if (passwordControl.value === confirmControl.value) {
 			return null;
 		}
-		return { match: true };
+		return { passwordMatch: true };
 	}
 }
 

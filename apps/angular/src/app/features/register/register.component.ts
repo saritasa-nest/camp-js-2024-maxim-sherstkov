@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '@js-camp/angular/core/services/auth.service';
@@ -34,6 +34,8 @@ import { FormErrorService } from '@js-camp/angular/core/services/form-error.serv
 export class RegisterComponent {
 	private readonly destroyRef = inject(DestroyRef);
 
+	private readonly changeDetector = inject(ChangeDetectorRef);
+
 	private readonly formBuilder: FormBuilder = inject(FormBuilder);
 
 	private readonly authService = inject(AuthService);
@@ -50,8 +52,7 @@ export class RegisterComponent {
 			password: ['', [Validators.required, Validators.minLength(8)]],
 			confirmPassword: ['', Validators.required],
 		}, { validators: CustomValidators.passwordMatcher }),
-		firstName: ['', [Validators.required]],
-		// firstName: ['', [Validators.required, Validators.maxLength(30)]],
+		firstName: ['', [Validators.required, Validators.maxLength(30)]],
 		lastName: ['', [Validators.required, Validators.maxLength(30)]],
 	});
 
@@ -61,9 +62,7 @@ export class RegisterComponent {
 	/** Hide password flag. */
 	protected readonly hidePassword$ = new BehaviorSubject<boolean>(true);
 
-	/**
-	 * Registers  user with the provided credentials.
-	 */
+	/** Registers user with the provided credentials. */
 	public onSubmit(): void {
 		if (this.registerForm.invalid) {
 			return;
@@ -75,7 +74,8 @@ export class RegisterComponent {
 				catchError((error) => {
 					console.log(error);
 					this.formErrorService.renderServerErrors(this.registerForm, error);
-					return of(null)
+					this.changeDetector.markForCheck();
+					return of(null);
 				}),
 			)
 			.subscribe();
