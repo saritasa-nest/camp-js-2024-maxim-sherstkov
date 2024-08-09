@@ -35,6 +35,9 @@ export class AnimeTableComponent {
 	/** Columns names. */
 	protected readonly displayedColumns = Object.values(AnimeFieldEnum);
 
+	/** No anime message. */
+	protected readonly noAnimeMessage = 'No anime found. Try adjusting your search or filter settings.';
+
 	/**
 	 * TrackBy function using Id of anime.
 	 *
