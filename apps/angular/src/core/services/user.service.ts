@@ -28,7 +28,7 @@ export class UserService {
 			catchError(() =>
 				this.logout()),
 			switchMap(newSecret => newSecret ? this.userSecretService.setSecret(newSecret) : of(null)),
-			map(() => void 0),
+			map(() => undefined),
 		);
 	}
 
@@ -44,7 +44,7 @@ export class UserService {
 	public login(loginData: Login): Observable<void> {
 		return this.authService.login(loginData).pipe(
 			switchMap(secret => secret ? this.userSecretService.setSecret(secret) : of(null)),
-			map(() => void 0),
+			map(() => undefined),
 		);
 	}
 

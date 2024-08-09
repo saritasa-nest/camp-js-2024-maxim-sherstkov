@@ -3,7 +3,6 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
-  gap: 100px;
 }
 
 .auth__card {
@@ -13,6 +12,7 @@
   width: 350px;
 }
 
+/* Resets padding on the last child of `mat-card-content` */
 .auth__content:last-child {
   padding: 0;
 }

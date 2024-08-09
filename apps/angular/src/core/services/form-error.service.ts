@@ -5,22 +5,21 @@ import { ApiError } from '@js-camp/core/models/api-error';
 
 import { NotificationService } from './notification.service';
 
+const ERROR_MESSAGES: Record<string, string> = {
+	default: 'Something went wrong. Please try again later.',
+	required: 'This field is required.',
+	email: 'Enter a valid email address.',
+	minlength: `Below the minimum length required for this field.`,
+	maxlength: `Exceeds the maximum length of this field.`,
+	passwordMatch: 'Passwords do not match.',
+};
+
 /** Form error service. */
 @Injectable({
 	providedIn: 'root',
 })
 export class FormErrorService {
 	private readonly notificationService = inject(NotificationService);
-
-	// eslint-disable-next-line @typescript-eslint/naming-convention
-	private readonly ERROR_MESSAGES: {[key: string]: string;} = {
-		general: 'Something went wrong. Please try again later.',
-		required: 'This field is required.',
-		email: 'Enter a valid email address.',
-		minlength: `Below the minimum length required for this field.`,
-		maxlength: `Exceeds the maximum length of this field.`,
-		passwordMatch: 'Passwords do not match.',
-	};
 
 	/**
 	 * Renders errors from API on the form.
@@ -29,7 +28,7 @@ export class FormErrorService {
 	 */
 	public showFormValidationErrors(form: FormGroup, apiError: ApiError): void {
 		if (apiError.errors.length === 0) {
-			this.notificationService.showMessage(this.ERROR_MESSAGES['general']);
+			this.notificationService.showMessage(ERROR_MESSAGES['default']);
 			return;
 		}
 		apiError.errors.forEach(error => {
@@ -37,7 +36,7 @@ export class FormErrorService {
 			const message = error.detail;
 
 			if (!fieldName) {
-				this.notificationService.showMessage(message ?? this.ERROR_MESSAGES['general']);
+				this.notificationService.showMessage(message ?? ERROR_MESSAGES['default']);
 				return;
 			}
 			if (form == null || !this.hasFieldName(form, fieldName)) {
@@ -102,6 +101,6 @@ export class FormErrorService {
 	}
 
 	private getErrorMessage(errorKey: string): string {
-		return this.ERROR_MESSAGES[errorKey] || errorKey;
+		return ERROR_MESSAGES[errorKey] || errorKey;
 	}
 }
