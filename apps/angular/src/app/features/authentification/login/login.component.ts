@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Login } from '@js-camp/core/models/login';
@@ -7,7 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
-import { BehaviorSubject, catchError, of, take } from 'rxjs';
+import { catchError, of } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { UserService } from '@js-camp/angular/core/services/user.service';
 import { Router } from '@angular/router';
@@ -57,7 +57,7 @@ export class LoginComponent {
 	});
 
 	/** Hide password flag. */
-	protected readonly hidePassword$ = new BehaviorSubject<boolean>(true);
+	protected readonly hidePassword = signal(true);
 
 	/** Logs user with the provided credentials. */
 	public onSubmit(): void {
@@ -91,10 +91,7 @@ export class LoginComponent {
 	 * @param event The click event.
 	 *  */
 	protected clickHidePassword(event: Event): void {
-		this.hidePassword$.pipe(
-			take(1),
-		).subscribe(value => this.hidePassword$.next(!value));
-
+		this.hidePassword.set(!this.hidePassword());
 		event.stopPropagation();
 	}
 }

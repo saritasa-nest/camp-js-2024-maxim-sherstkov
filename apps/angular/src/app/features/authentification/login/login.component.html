@@ -13,16 +13,16 @@
 		<!-- Password field -->
 		<mat-form-field subscriptSizing="dynamic" appearance="outline" class="login__input-field">
 			<mat-label>Password</mat-label>
-			<input matInput formControlName="password" [type]="(hidePassword$ | async) ? 'password' : 'text'">
+			<input matInput formControlName="password" [type]="hidePassword() ? 'password' : 'text'">
 			<button
 				mat-icon-button
 				matSuffix
 				(click)="clickHidePassword($event)"
 				type="button"
 				[attr.aria-label]="'Hide password'"
-				[attr.aria-pressed]="hidePassword$ | async"
+				[attr.aria-pressed]="hidePassword()"
 			>
-				<mat-icon>{{(hidePassword$ | async) ? 'visibility_off' : 'visibility'}}</mat-icon>
+				<mat-icon>{{hidePassword() ? 'visibility_off' : 'visibility'}}</mat-icon>
 			</button>
 			<mat-error>
 				<span>{{formErrorService.getFieldError(loginForm, 'password')}}</span>

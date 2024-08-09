@@ -32,16 +32,16 @@
 		<div formGroupName="passwordGroup" class="password-group">
 			<mat-form-field subscriptSizing="dynamic" appearance="outline" class="register__input-field">
 				<mat-label>Password</mat-label>
-				<input matInput formControlName="password" [type]="(hidePassword$ | async) ? 'password' : 'text'">
+				<input matInput formControlName="password" [type]="hidePassword() ? 'password' : 'text'">
 				<button
 					mat-icon-button
 					matSuffix
 					(click)="clickHidePassword($event)"
 					type="button"
 					[attr.aria-label]="'Hide password'"
-					[attr.aria-pressed]="hidePassword$ | async"
+					[attr.aria-pressed]="hidePassword()"
 				>
-					<mat-icon>{{(hidePassword$ | async) ? 'visibility_off' : 'visibility'}}</mat-icon>
+					<mat-icon>{{hidePassword() ? 'visibility_off' : 'visibility'}}</mat-icon>
 				</button>
 				<mat-error>
 					<span>{{formErrorService.getFieldError(registerForm, 'passwordGroup.password')}}</span>
@@ -52,7 +52,7 @@
 				<input
 					matInput
 					formControlName="confirmPassword"
-					[type]="(hidePassword$ | async) ? 'password' : 'text'"
+					[type]="hidePassword() ? 'password' : 'text'"
 					[errorStateMatcher]="confirmValidParentMatcher"
 				>
 				<mat-error>
