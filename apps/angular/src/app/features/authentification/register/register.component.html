@@ -1,0 +1,71 @@
+<camp-auth>
+	<form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register__form">
+
+		<!-- Email field -->
+		<mat-form-field subscriptSizing="dynamic" appearance="outline" class="register__input-field">
+			<mat-label>Email</mat-label>
+			<input matInput formControlName="email" type="email" >
+			<mat-error>
+				<span>{{formErrorService.getFieldError(registerForm, 'email')}}</span>
+			</mat-error>
+		</mat-form-field>
+
+		<!-- First name field -->
+		<mat-form-field subscriptSizing="dynamic" appearance="outline" class="register__input-field">
+			<mat-label>First name</mat-label>
+			<input matInput formControlName="firstName" type="text" >
+			<mat-error>
+				<span>{{formErrorService.getFieldError(registerForm, 'firstName')}}</span>
+			</mat-error>
+		</mat-form-field>
+
+		<!-- Last name field -->
+		<mat-form-field subscriptSizing="dynamic" appearance="outline" class="register__input-field">
+			<mat-label>Last name</mat-label>
+			<input matInput formControlName="lastName" type="text" >
+			<mat-error>
+				<span>{{formErrorService.getFieldError(registerForm, 'lastName')}}</span>
+			</mat-error>
+		</mat-form-field>
+
+		<!-- Password fields -->
+		<div formGroupName="passwordGroup" class="password-group">
+			<mat-form-field subscriptSizing="dynamic" appearance="outline" class="register__input-field">
+				<mat-label>Password</mat-label>
+				<input matInput formControlName="password" [type]="(hidePassword$ | async) ? 'password' : 'text'">
+				<button
+					mat-icon-button
+					matSuffix
+					(click)="clickHidePassword($event)"
+					type="button"
+					[attr.aria-label]="'Hide password'"
+					[attr.aria-pressed]="hidePassword$ | async"
+				>
+					<mat-icon>{{(hidePassword$ | async) ? 'visibility_off' : 'visibility'}}</mat-icon>
+				</button>
+				<mat-error>
+					<span>{{formErrorService.getFieldError(registerForm, 'passwordGroup.password')}}</span>
+				</mat-error>
+			</mat-form-field>
+			<mat-form-field subscriptSizing="dynamic" appearance="outline" class="register__input-field">
+				<mat-label>Confirm password</mat-label>
+				<input
+					matInput
+					formControlName="confirmPassword"
+					[type]="(hidePassword$ | async) ? 'password' : 'text'"
+					[errorStateMatcher]="confirmValidParentMatcher"
+				>
+				<mat-error>
+					<span>{{formErrorService.getFieldError(registerForm, 'passwordGroup')}}</span>
+				</mat-error>
+			</mat-form-field>
+		</div>
+
+		<!-- Submit button -->
+		<div class="register__actions">
+			<button mat-stroked-button type="submit" [disabled]="registerForm.invalid">Register</button>
+		</div>
+	</form>
+</camp-auth>
+
+

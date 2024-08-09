@@ -13,14 +13,14 @@ export const appRoutes: Routes = [
 	},
 	{
 		path: URL_PATHS.login,
-		loadComponent: () => import('./features/login/login.component').then(
+		loadComponent: () => import('./features/authentification/login/login.component').then(
 			c => c.LoginComponent,
 		),
 		canActivate: [AlreadyLoggedInGuard],
 	},
 	{
 		path: URL_PATHS.register,
-		loadComponent: () => import('./features/register/register.component').then(
+		loadComponent: () => import('./features/authentification/register/register.component').then(
 			c => c.RegisterComponent,
 		),
 		canActivate: [AlreadyLoggedInGuard],

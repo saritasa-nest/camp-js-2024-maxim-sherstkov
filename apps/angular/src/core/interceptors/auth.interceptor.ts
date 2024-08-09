@@ -12,14 +12,14 @@ const AUTH_HEADER_KEY = 'Authorization';
 export class AuthInterceptor implements HttpInterceptor {
 	private readonly apiUrlService = inject(ApiUrlService);
 
-	private readonly tokenService = inject(UserSecretService);
+	private readonly userSecretService = inject(UserSecretService);
 
 	/** @inheritdoc */
 	public intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
 		if (this.shouldInterceptSecretForUrl(request.url)) {
 			return next.handle(request);
 		}
-		return this.tokenService.secret$.pipe(
+		return this.userSecretService.secret$.pipe(
 			map(userSecret =>
 
 				userSecret && !request.headers.has(AUTH_HEADER_KEY) ?

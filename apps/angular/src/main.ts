@@ -9,7 +9,7 @@ import { AppComponent } from './app/app.component';
 import { appRoutes } from './app/app.routes';
 import { AppConfig } from './core/services/app-config';
 import { ApiKeyInterceptor } from './core/interceptors/api-key.interceptor';
-import { AuthInterceptor } from './core/interceptors/auth-interceptor.interceptor';
+import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { RefreshInterceptor } from './core/interceptors/refresh.interceptor';
 
 if (environment.production) {

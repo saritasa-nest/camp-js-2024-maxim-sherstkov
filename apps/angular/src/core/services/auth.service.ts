@@ -29,7 +29,6 @@ export class AuthService {
 		return this.http.post<UserSecretDto>(this.urlService.registerPath, registerData).pipe(
 			catchError((error: unknown) => this.handleError(error)),
 			map(token => UserSecretMapper.fromDto(token)),
-
 			shareReplay({
 				refCount: true,
 				bufferSize: 1,
@@ -42,8 +41,8 @@ export class AuthService {
 	 *
 	 * @param secret User secret.
 	 */
-	public refreshToken(secret: UserSecret): Observable<UserSecret> {
-		return this.http.post<UserSecretDto>(this.urlService.refreshTokenPath, UserSecretMapper.toDto(secret)).pipe(
+	public refreshSecret(secret: UserSecret): Observable<UserSecret> {
+		return this.http.post<UserSecretDto>(this.urlService.refreshSecretPath, UserSecretMapper.toDto(secret)).pipe(
 			map(token => UserSecretMapper.fromDto(token)),
 		);
 	}
@@ -53,10 +52,10 @@ export class AuthService {
 	 *
 	 * @param loginData Login data of user.
 	 */
-	public login(loginData: Login): Observable<UserSecret | never> {
+	public login(loginData: Login): Observable<UserSecret> {
 		return this.http.post<UserSecretDto>(this.urlService.loginPath, loginData).pipe(
 			catchError((error: unknown) => this.handleError(error)),
-			map(token => UserSecretMapper.fromDto(token)),
+			map(secret => UserSecretMapper.fromDto(secret)),
 			shareReplay({
 				refCount: true,
 				bufferSize: 1,
