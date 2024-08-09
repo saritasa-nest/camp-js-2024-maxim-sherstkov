@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { URL_PATHS } from '@js-camp/core/utils/url-paths';
 
-import { AlreadyLoggedInGuard } from '../core/guards/already-logged-in.guard';
+import { alreadyLoggedInGuard } from '../core/guards/already-logged-in.guard';
 
 /** Routes object. */
 export const appRoutes: Routes = [
@@ -16,14 +16,14 @@ export const appRoutes: Routes = [
 		loadComponent: () => import('./features/authentification/login/login.component').then(
 			c => c.LoginComponent,
 		),
-		canActivate: [AlreadyLoggedInGuard],
+		canActivate: [alreadyLoggedInGuard],
 	},
 	{
 		path: URL_PATHS.register,
 		loadComponent: () => import('./features/authentification/register/register.component').then(
 			c => c.RegisterComponent,
 		),
-		canActivate: [AlreadyLoggedInGuard],
+		canActivate: [alreadyLoggedInGuard],
 	},
 	{ path: '**', redirectTo: URL_PATHS.home },
 ];

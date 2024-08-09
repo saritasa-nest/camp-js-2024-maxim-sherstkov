@@ -16,7 +16,7 @@ import { ApiUrlService } from './api-url.service';
 	providedIn: 'root',
 })
 export class AuthService {
-	private readonly http: HttpClient = inject(HttpClient);
+	private readonly http = inject(HttpClient);
 
 	private readonly urlService = inject(ApiUrlService);
 
