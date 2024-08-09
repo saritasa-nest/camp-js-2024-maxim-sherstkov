@@ -88,7 +88,6 @@ export class LoginComponent {
 
 	/**
 	 * Handles hide password button click.
-	 *
 	 * @param event The click event.
 	 *  */
 	protected clickHidePassword(event: Event): void {
