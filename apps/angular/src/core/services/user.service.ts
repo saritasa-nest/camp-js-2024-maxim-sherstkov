@@ -15,7 +15,7 @@ export class UserService {
 	private readonly authService = inject(AuthService);
 
 	/** User logged in status. */
-	public readonly isUserLoggedIn$: Observable<boolean> = this.userSecretService.secret$.pipe(
+	public readonly isUserLoggedIn$ = this.userSecretService.secret$.pipe(
 		map(secret => secret != null),
 	);
 

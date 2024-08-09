@@ -100,7 +100,7 @@ export class RegisterComponent {
 	/**
 	 * Handles hide password button click.
 	 * @param event The click event.
-	 *  */
+	 */
 	protected clickHidePassword(event: Event): void {
 		this.hidePassword.set(!this.hidePassword());
 		event.stopPropagation();
