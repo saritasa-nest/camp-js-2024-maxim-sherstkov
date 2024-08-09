@@ -1,0 +1,21 @@
+<camp-auth>
+	<form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login__form">
+
+		<!-- Email field -->
+		<mat-form-field subscriptSizing="dynamic" appearance="outline" class="login__input-field">
+			<mat-label>Email</mat-label>
+			<input matInput [formControl]="loginForm.controls.email" type="email" >
+			<mat-error>
+				<span>{{formErrorService.getFieldError(loginForm, 'email')}}</span>
+			</mat-error>
+		</mat-form-field>
+
+		<!-- Password field -->
+
+
+		<!-- Submit button -->
+		<div class="login__actions">
+			<button mat-stroked-button type="submit" [disabled]="loginForm.invalid || (isLoading$ | async)">Login</button>
+		</div>
+	</form>
+</camp-auth>

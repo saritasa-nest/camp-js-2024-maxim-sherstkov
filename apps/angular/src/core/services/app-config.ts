@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { environment } from '../../environments/environment';
+import { environment } from '@js-camp/angular/environments/environment';
 
 /**
  * AppConfig provides configuration settings for the application.

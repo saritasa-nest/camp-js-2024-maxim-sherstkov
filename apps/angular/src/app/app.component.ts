@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
+import { PageHeaderComponent } from '../shared/components/page-header/page-header.component';
+
 /** App component. */
 @Component({
 	selector: 'camp-root',
@@ -8,6 +10,6 @@ import { RouterModule } from '@angular/router';
 	styleUrls: ['./app.component.css'],
 	standalone: true,
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	imports: [RouterModule],
+	imports: [RouterModule, PageHeaderComponent],
 })
 export class AppComponent {}

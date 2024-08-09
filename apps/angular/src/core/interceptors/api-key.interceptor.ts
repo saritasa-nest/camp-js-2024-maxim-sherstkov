@@ -9,15 +9,14 @@ import { AppConfig } from '../services/app-config';
  */
 @Injectable()
 export class ApiKeyInterceptor implements HttpInterceptor {
-
 	private readonly appConfig = inject(AppConfig);
 
 	/** @inheritdoc */
-	public intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+	public intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
 
 		/** Add a new API key header to the request. */
-		const apiKeyReq = req.clone({
-			headers: req.headers.set('Api-key', this.appConfig.apiKey),
+		const apiKeyReq = request.clone({
+			headers: request.headers.set('Api-key', this.appConfig.apiKey),
 		});
 
 		/** Send cloned request with header to the next handler. */
