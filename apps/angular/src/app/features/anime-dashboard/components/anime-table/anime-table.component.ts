@@ -27,7 +27,7 @@ export class AnimeTableComponent {
 
 	/** Emits new sort value. */
 	@Output()
-	public sortChange = new EventEmitter<Sort>();
+	public readonly sortChange = new EventEmitter<Sort>();
 
 	/** Anime column enum. */
 	protected readonly animeColumnNames = AnimeFieldEnum;
