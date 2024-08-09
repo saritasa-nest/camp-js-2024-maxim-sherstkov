@@ -12,7 +12,6 @@ export namespace AnimeParamsMapper {
 
 	/**
 	 * Converts a string array to AnimeType array.
-	 *
 	 * @param array The string array to convert.
 	 */
 	export function toAnimeType(array: readonly string[]): AnimeType[] {
@@ -23,7 +22,6 @@ export namespace AnimeParamsMapper {
 
 	/**
 	 * Concatenates `sort` object into a single string.
-	 *
 	 * @param sort Sort object.
 	 */
 	function toAnimeSort(sort: Sort): string {
@@ -35,7 +33,6 @@ export namespace AnimeParamsMapper {
 
 	/**
 	 * Converts sort string into a Sort object.
-	 *
 	 * @param sort Sort string.
 	 */
 	function fromAnimeSort(sort: string): Sort {
@@ -71,7 +68,6 @@ export namespace AnimeParamsMapper {
 
 	/**
 	 * Maps anime query params to http params.
-	 *
 	 * @param params Query parameters.
 	 */
 	export function toAnimeHttp(params: AnimeQuery): HttpParams {
@@ -81,7 +77,6 @@ export namespace AnimeParamsMapper {
 
 	/**
 	 * Maps an AnimeQuery object to query parameters.
-	 *
 	 * @param animeQuery AnimeQuery object to convert.
 	 */
 	export function toQueryParams(animeQuery: AnimeQuery): Params {
@@ -96,7 +91,6 @@ export namespace AnimeParamsMapper {
 
 	/**
 	 * Creates an instance of AnimeQuery from query parameters.
-	 *
 	 * @param param Query parameters.
 	 */
 	export function fromQueryParams({ pageIndex, pageSize, searchValue, sort }: Params): AnimeQuery {

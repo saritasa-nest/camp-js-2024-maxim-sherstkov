@@ -3,7 +3,6 @@ import { Params } from '@angular/router';
 
 /**
  * Creates an instance of HttpParams of the given object.
- *
  * @param params Params object.
  */
 export function toHttpParams<T extends Params>(params: T): HttpParams {

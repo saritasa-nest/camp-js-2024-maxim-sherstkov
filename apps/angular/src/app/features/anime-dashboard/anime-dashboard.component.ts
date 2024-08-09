@@ -79,7 +79,6 @@ export class AnimeDashboardComponent implements OnInit {
 
 	/**
 	 * Handles paginator changes.
-	 *
 	 * @param pageEvent Event triggered by a paginator.
 	 * */
 	protected handlePageEvent(pageEvent: PageEvent): void {
@@ -97,7 +96,6 @@ export class AnimeDashboardComponent implements OnInit {
 
 	/**
 	 * Handles filter changes.
-	 *
 	 * @param selectValue Select element value.
 	 */
 	protected handleFilter(selectValue: MatSelectChange): void {
@@ -106,7 +104,6 @@ export class AnimeDashboardComponent implements OnInit {
 
 	/**
 	 * Handles sort changes.
-	 *
 	 * @param sort New sort value.
 	 *  */
 	protected handleSortChange(sort: Sort): void {
