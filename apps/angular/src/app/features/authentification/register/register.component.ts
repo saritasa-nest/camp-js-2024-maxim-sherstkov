@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '@js-camp/angular/core/services/auth.service';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -41,7 +41,7 @@ export class RegisterComponent {
 
 	private readonly changeDetector = inject(ChangeDetectorRef);
 
-	private readonly formBuilder = inject(FormBuilder);
+	private readonly fb = inject(NonNullableFormBuilder);
 
 	private readonly authService = inject(AuthService);
 
@@ -54,9 +54,9 @@ export class RegisterComponent {
 	protected readonly confirmValidParentMatcher = new ConfirmValidParentMatcher();
 
 	/** Register form control group. */
-	protected readonly registerForm: FormGroup = this.formBuilder.group({
+	protected readonly registerForm = this.fb.group({
 		email: ['', [Validators.required, Validators.email]],
-		passwordGroup: this.formBuilder.group({
+		passwordGroup: this.fb.group({
 			password: ['', [Validators.required, Validators.minLength(8)]],
 			confirmPassword: ['', Validators.required],
 		}, { validators: CustomValidators.passwordMatcher }),
@@ -76,7 +76,16 @@ export class RegisterComponent {
 			return;
 		}
 		this.isLoading$.next(true);
-		const credentials = new Registration({ ...this.registerForm.value, password: this.registerForm.value.passwordGroup.password });
+
+		const formRawValue = this.registerForm.getRawValue();
+		const registrationData = {
+			email: formRawValue.email,
+			password: formRawValue.passwordGroup.password,
+			firstName: formRawValue.firstName,
+			lastName: formRawValue.lastName,
+		};
+		const credentials = new Registration(registrationData);
+
 		this.authService.register(credentials)
 			.pipe(
 				catchError((error: unknown) => {

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Login } from '@js-camp/core/models/login';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -39,7 +39,7 @@ import { AuthComponent } from '../auth.component';
 export class LoginComponent {
 	private readonly destroyRef = inject(DestroyRef);
 
-	private readonly formBuilder: FormBuilder = inject(FormBuilder);
+	private readonly fb = inject(NonNullableFormBuilder);
 
 	private readonly userService = inject(UserService);
 
@@ -51,7 +51,7 @@ export class LoginComponent {
 	protected readonly formErrorService = inject(FormErrorService);
 
 	/** Login form control group. */
-	protected readonly loginForm: FormGroup = this.formBuilder.group({
+	protected readonly loginForm = this.fb.group({
 		email: ['', [Validators.required, Validators.email]],
 		password: ['', [Validators.required, Validators.minLength(8)]],
 	});
@@ -68,7 +68,7 @@ export class LoginComponent {
 			return;
 		}
 		this.isLoading$.next(true);
-		const credentials = new Login({ ...this.loginForm.value });
+		const credentials = new Login(this.loginForm.getRawValue());
 		this.userService.login(credentials)
 			.pipe(
 				catchError((error: unknown) => {

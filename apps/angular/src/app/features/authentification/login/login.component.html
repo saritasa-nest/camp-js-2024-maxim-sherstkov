@@ -4,7 +4,7 @@
 		<!-- Email field -->
 		<mat-form-field subscriptSizing="dynamic" appearance="outline" class="login__input-field">
 			<mat-label>Email</mat-label>
-			<input matInput formControlName="email" type="email" >
+			<input matInput [formControl]="loginForm.controls.email" type="email" >
 			<mat-error>
 				<span>{{formErrorService.getFieldError(loginForm, 'email')}}</span>
 			</mat-error>
@@ -13,7 +13,7 @@
 		<!-- Password field -->
 		<mat-form-field subscriptSizing="dynamic" appearance="outline" class="login__input-field">
 			<mat-label>Password</mat-label>
-			<input matInput formControlName="password" [type]="hidePassword() ? 'password' : 'text'">
+			<input matInput [formControl]="loginForm.controls.password" [type]="hidePassword() ? 'password' : 'text'">
 			<button
 				mat-icon-button
 				matSuffix

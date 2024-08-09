@@ -4,7 +4,7 @@
 		<!-- Email field -->
 		<mat-form-field subscriptSizing="dynamic" appearance="outline" class="register__input-field">
 			<mat-label>Email</mat-label>
-			<input matInput formControlName="email" type="email" >
+			<input matInput [formControl]="registerForm.controls.email" type="email" >
 			<mat-error>
 				<span>{{formErrorService.getFieldError(registerForm, 'email')}}</span>
 			</mat-error>
@@ -13,7 +13,7 @@
 		<!-- First name field -->
 		<mat-form-field subscriptSizing="dynamic" appearance="outline" class="register__input-field">
 			<mat-label>First name</mat-label>
-			<input matInput formControlName="firstName" type="text" >
+			<input matInput [formControl]="registerForm.controls.firstName" type="text" >
 			<mat-error>
 				<span>{{formErrorService.getFieldError(registerForm, 'firstName')}}</span>
 			</mat-error>
@@ -22,17 +22,17 @@
 		<!-- Last name field -->
 		<mat-form-field subscriptSizing="dynamic" appearance="outline" class="register__input-field">
 			<mat-label>Last name</mat-label>
-			<input matInput formControlName="lastName" type="text" >
+			<input matInput [formControl]="registerForm.controls.lastName" type="text" >
 			<mat-error>
 				<span>{{formErrorService.getFieldError(registerForm, 'lastName')}}</span>
 			</mat-error>
 		</mat-form-field>
 
 		<!-- Password fields -->
-		<div formGroupName="passwordGroup" class="password-group">
+		<div [formGroup]="registerForm.controls.passwordGroup" class="password-group">
 			<mat-form-field subscriptSizing="dynamic" appearance="outline" class="register__input-field">
 				<mat-label>Password</mat-label>
-				<input matInput formControlName="password" [type]="hidePassword() ? 'password' : 'text'">
+				<input matInput [formControl]="registerForm.controls.passwordGroup.controls.password" [type]="hidePassword() ? 'password' : 'text'">
 				<button
 					mat-icon-button
 					matSuffix
@@ -51,7 +51,7 @@
 				<mat-label>Confirm password</mat-label>
 				<input
 					matInput
-					formControlName="confirmPassword"
+					[formControl]="registerForm.controls.passwordGroup.controls.confirmPassword"
 					[type]="hidePassword() ? 'password' : 'text'"
 					[errorStateMatcher]="confirmValidParentMatcher"
 				>
