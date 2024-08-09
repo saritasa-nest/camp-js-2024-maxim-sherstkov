@@ -9,14 +9,14 @@ import { MatButtonModule } from '@angular/material/button';
 
 /** The header component. */
 @Component({
-	selector: 'camp-the-header',
-	templateUrl: './the-header.component.html',
-	styleUrl: './the-header.component.css',
+	selector: 'camp-page-header',
+	templateUrl: './page-header.component.html',
+	styleUrl: './page-header.component.css',
 	standalone: true,
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	imports: [CommonModule, RouterModule, MatToolbarModule, MatButtonModule],
 })
-export class TheHeaderComponent {
+export class PageHeaderComponent {
 	private readonly userService = inject(UserService);
 
 	private readonly router = inject(Router);

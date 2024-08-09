@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { TheHeaderComponent } from '../shared/components/the-header/the-header.component';
+import { PageHeaderComponent } from '../shared/components/page-header/page-header.component';
 
 /** App component. */
 @Component({
@@ -10,6 +10,6 @@ import { TheHeaderComponent } from '../shared/components/the-header/the-header.c
 	styleUrls: ['./app.component.css'],
 	standalone: true,
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	imports: [RouterModule, TheHeaderComponent],
+	imports: [RouterModule, PageHeaderComponent],
 })
 export class AppComponent {}
