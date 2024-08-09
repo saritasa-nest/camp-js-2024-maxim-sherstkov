@@ -63,7 +63,7 @@
 
 		<!-- Submit button -->
 		<div class="register__actions">
-			<button mat-stroked-button type="submit" [disabled]="registerForm.invalid">Register</button>
+			<button mat-stroked-button type="submit" [disabled]="registerForm.invalid || (isLoading$ | async)">Register</button>
 		</div>
 	</form>
 </camp-auth>

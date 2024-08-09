@@ -7,7 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
-import { catchError } from 'rxjs';
+import { BehaviorSubject, catchError, finalize } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { UserService } from '@js-camp/angular/core/services/user.service';
 import { Router } from '@angular/router';
@@ -59,11 +59,15 @@ export class LoginComponent {
 	/** Hide password flag. */
 	protected readonly hidePassword = signal(true);
 
+	/** Loading state. */
+	protected readonly isLoading$ = new BehaviorSubject<boolean>(false);
+
 	/** Logs user with the provided credentials. */
 	public onSubmit(): void {
 		if (this.loginForm.invalid) {
 			return;
 		}
+		this.isLoading$.next(true);
 		const credentials = new Login({ ...this.loginForm.value });
 		this.userService.login(credentials)
 			.pipe(
@@ -74,6 +78,9 @@ export class LoginComponent {
 						this.changeDetector.markForCheck();
 					}
 					throw Error;
+				}),
+				finalize(() => {
+					this.isLoading$.next(false);
 				}),
 			)
 			.subscribe(

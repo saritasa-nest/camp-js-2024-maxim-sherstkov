@@ -7,7 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
-import { catchError } from 'rxjs';
+import { BehaviorSubject, catchError, finalize } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Registration } from '@js-camp/core/models/registration';
 import { FormErrorService } from '@js-camp/angular/core/services/form-error.service';
@@ -67,11 +67,15 @@ export class RegisterComponent {
 	/** Hide password flag. */
 	protected readonly hidePassword = signal(true);
 
+	/** Loading state. */
+	protected readonly isLoading$ = new BehaviorSubject<boolean>(false);
+
 	/** Registers user with the provided credentials. */
 	public onSubmit(): void {
 		if (this.registerForm.invalid) {
 			return;
 		}
+		this.isLoading$.next(true);
 		const credentials = new Registration({ ...this.registerForm.value, password: this.registerForm.value.passwordGroup.password });
 		this.authService.register(credentials)
 			.pipe(
@@ -82,6 +86,9 @@ export class RegisterComponent {
 						this.changeDetector.markForCheck();
 					}
 					throw Error;
+				}),
+				finalize(() => {
+					this.isLoading$.next(false);
 				}),
 			)
 			.subscribe(
