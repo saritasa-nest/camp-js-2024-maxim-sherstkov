@@ -30,7 +30,7 @@
 
 		<!-- Password fields -->
 		<div [formGroup]="registerForm.controls.passwordGroup" class="password-group">
-			<mat-form-field subscriptSizing="dynamic" appearance="outline" class="register__input-field">
+			<!-- <mat-form-field subscriptSizing="dynamic" appearance="outline" class="register__input-field">
 				<mat-label>Password</mat-label>
 				<input matInput [formControl]="registerForm.controls.passwordGroup.controls.password" [type]="hidePassword() ? 'password' : 'text'">
 				<button
@@ -58,7 +58,10 @@
 				<mat-error>
 					<span>{{formErrorService.getFieldError(registerForm, 'passwordGroup')}}</span>
 				</mat-error>
-			</mat-form-field>
+			</mat-form-field> -->
+
+			<camp-input-password [passwordControl]="registerForm.controls.passwordGroup.controls.password" />
+			<camp-input-password [passwordControl]="registerForm.controls.passwordGroup.controls.confirmPassword" />
 		</div>
 
 		<!-- Submit button -->

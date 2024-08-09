@@ -76,28 +76,39 @@ export class FormErrorService {
 
 	/**
 	 * Retrieves the error message of a field.
-	 *
 	 * @param form The form group.
 	 * @param fieldName The field name.
 	 */
 	public getFieldError(form: FormGroup, fieldName: string): string | null {
-		return this.getFieldErrors(form, fieldName).join(' ');
+		return this.getFieldErrors(form, fieldName);
 	}
 
-	private getFieldErrors(form: FormGroup, fieldName: string): string[] {
+	private getFieldErrors(form: FormGroup, fieldName: string): string {
 		const control = this.findFieldControl(form, fieldName);
 		if (control?.touched && control.errors) {
 			return this.getErrors(control);
 		}
-		return [];
+		return '';
 
 	}
 
-	private getErrors(control: AbstractControl): string[] {
-		if (!control?.errors) {
-			return [];
+	/**
+	 * Retrieves the errors of the control.
+	 * @param control Form control.
+	 */
+	public getErrors(control: AbstractControl): string {
+		const errors = { ...control?.errors, ...control?.parent?.errors };
+		if (!errors) {
+			return '';
 		}
-		return Object.keys(control.errors).map(errorKey => this.getErrorMessage(errorKey));
+		console.log(control?.parent);
+
+		console.log(Object.keys(errors).map(errorKey => this.getErrorMessage(errorKey)));
+
+		// return ['Error'];
+
+		return Object.keys(errors).map(errorKey => this.getErrorMessage(errorKey))
+			.join(' ');
 	}
 
 	private getErrorMessage(errorKey: string): string {

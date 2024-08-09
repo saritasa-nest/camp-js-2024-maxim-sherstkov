@@ -17,6 +17,7 @@ import { ExtendedApiError } from '@js-camp/core/models/api-error';
 
 import { AuthComponent } from '../auth.component';
 import { ConfirmValidParentMatcher, CustomValidators } from '../../../../core/utils/custom-validators';
+import { InputPasswordComponent } from '../input-password/input-password.component';
 
 /** Register page component. */
 @Component({
@@ -32,8 +33,11 @@ import { ConfirmValidParentMatcher, CustomValidators } from '../../../../core/ut
 		MatButtonModule,
 		MatFormFieldModule,
 		MatInputModule,
+
+		// TODO delete
 		MatIconModule,
 		AuthComponent,
+		InputPasswordComponent,
 	],
 })
 export class RegisterComponent {

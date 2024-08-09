@@ -39,6 +39,6 @@ export class ConfirmValidParentMatcher implements ErrorStateMatcher {
 	 * @param form The parent form group.
 	 */
 	public isErrorState(control: FormControl | null): boolean {
-		return (control?.parent?.invalid && control.touched) ?? false;
+		return (control?.parent?.invalid && control.dirty) ?? false;
 	}
 }
