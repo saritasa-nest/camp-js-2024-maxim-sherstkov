@@ -79,7 +79,6 @@ export class RegisterComponent {
 		const credentials = new Registration({ ...this.registerForm.value, password: this.registerForm.value.passwordGroup.password });
 		this.authService.register(credentials)
 			.pipe(
-				takeUntilDestroyed(this.destroyRef),
 				catchError((error: unknown) => {
 					if (error instanceof ExtendedApiError) {
 						this.formErrorService.showFormValidationErrors(this.registerForm, error);
@@ -90,6 +89,7 @@ export class RegisterComponent {
 				finalize(() => {
 					this.isLoading$.next(false);
 				}),
+				takeUntilDestroyed(this.destroyRef),
 			)
 			.subscribe(
 				_ => this.router.navigate([URL_PATHS.home]),

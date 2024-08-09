@@ -71,7 +71,6 @@ export class LoginComponent {
 		const credentials = new Login({ ...this.loginForm.value });
 		this.userService.login(credentials)
 			.pipe(
-				takeUntilDestroyed(this.destroyRef),
 				catchError((error: unknown) => {
 					if (error instanceof ApiError) {
 						this.formErrorService.showFormValidationErrors(this.loginForm, error);
@@ -82,6 +81,7 @@ export class LoginComponent {
 				finalize(() => {
 					this.isLoading$.next(false);
 				}),
+				takeUntilDestroyed(this.destroyRef),
 			)
 			.subscribe(
 				_ => this.router.navigate([URL_PATHS.home]),
