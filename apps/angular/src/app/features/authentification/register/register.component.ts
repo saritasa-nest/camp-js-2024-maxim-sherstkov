@@ -7,7 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
-import { catchError, of } from 'rxjs';
+import { catchError } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Registration } from '@js-camp/core/models/registration';
 import { FormErrorService } from '@js-camp/angular/core/services/form-error.service';
@@ -81,22 +81,17 @@ export class RegisterComponent {
 						this.formErrorService.showFormValidationErrors(this.registerForm, error);
 						this.changeDetector.markForCheck();
 					}
-					return of(null);
+					throw Error;
 				}),
 			)
 			.subscribe(
-				response => {
-					if (response !== null) {
-						this.router.navigate([URL_PATHS.home]);
-					}
-				},
+				_ => this.router.navigate([URL_PATHS.home]),
 			);
 
 	}
 
 	/**
 	 * Handles hide password button click.
-	 *
 	 * @param event The click event.
 	 *  */
 	protected clickHidePassword(event: Event): void {

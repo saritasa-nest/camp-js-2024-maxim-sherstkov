@@ -7,7 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
-import { catchError, of } from 'rxjs';
+import { catchError } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { UserService } from '@js-camp/angular/core/services/user.service';
 import { Router } from '@angular/router';
@@ -73,15 +73,11 @@ export class LoginComponent {
 						this.formErrorService.showFormValidationErrors(this.loginForm, error);
 						this.changeDetector.markForCheck();
 					}
-					return of(null);
+					throw Error;
 				}),
 			)
 			.subscribe(
-				response => {
-					if (response !== null) {
-						this.router.navigate([URL_PATHS.home]);
-					}
-				},
+				_ => this.router.navigate([URL_PATHS.home]),
 			);
 
 	}
