@@ -4,4 +4,7 @@
 /* Element-specific styles. */
 @import "./elements/index.css";
 
+/* Reset styles. */
+@import "./reset.css";
+
 /* You can add application-scoped global styles to this file, and also import other style files */

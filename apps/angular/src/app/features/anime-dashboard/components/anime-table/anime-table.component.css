@@ -5,7 +5,7 @@
   padding: 10px;
 }
 
-.anime-list__empty-message {
+.anime-table__no-data-message {
   text-align: center;
-  padding-block: 100px;
+  padding-block: var(--space-8);
 }
