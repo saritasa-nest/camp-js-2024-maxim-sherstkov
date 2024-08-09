@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { UserSecret } from '@js-camp/core/models/user-secret';
 import { Login } from '@js-camp/core/models/login';
-import { catchError, map, Observable, shareReplay, throwError } from 'rxjs';
+import { catchError, map, Observable, throwError } from 'rxjs';
 import { UserSecretDto } from '@js-camp/core/dtos/user-secret.dto';
 import { UserSecretMapper } from '@js-camp/core/mappers/user-secret.mapper';
 import { Registration } from '@js-camp/core/models/registration';
@@ -28,10 +28,6 @@ export class AuthService {
 		return this.http.post<UserSecretDto>(this.urlService.registerPath, registerData).pipe(
 			catchError((error: unknown) => this.handleError(error)),
 			map(token => UserSecretMapper.fromDto(token)),
-			shareReplay({
-				refCount: true,
-				bufferSize: 1,
-			}),
 		);
 	}
 
@@ -54,10 +50,6 @@ export class AuthService {
 		return this.http.post<UserSecretDto>(this.urlService.loginPath, loginData).pipe(
 			catchError((error: unknown) => this.handleError(error)),
 			map(secret => UserSecretMapper.fromDto(secret)),
-			shareReplay({
-				refCount: true,
-				bufferSize: 1,
-			}),
 		);
 	}
 
