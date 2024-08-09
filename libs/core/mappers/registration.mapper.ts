@@ -11,9 +11,6 @@ export namespace RegistrationMapper {
 		return {
 			email: model.email,
 			password: model.password,
-
-			/** Disable rule because DTO naming. */
-			/* eslint-disable @typescript-eslint/naming-convention */
 			first_name: model.firstName,
 			last_name: model.lastName,
 		};

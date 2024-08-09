@@ -28,6 +28,12 @@
           }
         ]
       }
+    },
+		{
+      "files": ["**/mappers/**/*.mapper.ts"],
+      "rules": {
+        "@typescript-eslint/naming-convention": "off"
+      }
     }
   ]
 }
