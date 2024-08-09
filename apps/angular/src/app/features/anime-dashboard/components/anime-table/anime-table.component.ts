@@ -40,7 +40,6 @@ export class AnimeTableComponent {
 
 	/**
 	 * TrackBy function using Id of anime.
-	 *
 	 * @param _index The index of the current item.
 	 * @param item The current item of the iteration.
 	 */

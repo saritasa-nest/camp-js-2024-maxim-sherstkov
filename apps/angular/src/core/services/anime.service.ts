@@ -14,9 +14,7 @@ import { toHttpParams } from '../utils/http-helpers';
 
 import { ApiUrlService } from './api-url.service';
 
-/**
- * Anime service to interact with the API.
- */
+/** Anime service to interact with the API. */
 @Injectable({
 	providedIn: 'root',
 })
@@ -27,11 +25,10 @@ export class AnimeService {
 
 	/**
 	 * Get a list of anime from the API.
-	 *
 	 * @param params Anime query parameters.
 	 */
 	public getAnimeList(params: AnimeQuery): Observable<Pagination<Anime>> {
-		const animeParams = { ...AnimeParamsMapper.toDto(params) };
+		const animeParams = AnimeParamsMapper.toDto(params);
 		const httpParams = toHttpParams(animeParams);
 
 		return this.http.get<PaginationDto<AnimeDto>>(this.apiUrlService.animeListPath, { params: httpParams }).pipe(

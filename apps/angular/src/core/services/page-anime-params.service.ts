@@ -7,9 +7,7 @@ import { BehaviorSubject, take, map } from 'rxjs';
 
 import { QueryParamsService } from './query-params.service';
 
-/**
- * Page anime parameters service.
- */
+/** Page anime parameters service. */
 @Injectable({
 	providedIn: 'root',
 })
@@ -46,7 +44,7 @@ export class PageAnimeParamsService {
 	 * @param paginationParams Pagination parameters.
 	 */
 	public changePaginationParams(paginationParams: AnimeQuery): void {
-		this.changeAnimeParams({ pageIndex: paginationParams.pageIndex, pageSize: paginationParams.pageSize });
+		this.changeAnimeParams(paginationParams);
 	}
 
 	/**
@@ -62,7 +60,6 @@ export class PageAnimeParamsService {
 	 *
 	 * NOTE: This method constructs a `sort` string that indicates the field and direction for sorting.
 	 * The sorting directive containing the field to sort by (`active`)	and the direction (`asc` or `desc`).
-	 *
 	 * @param sortValue SortValue Sort value parameter.
 	 */
 	public changeSortParams(sortValue: Sort): void {
