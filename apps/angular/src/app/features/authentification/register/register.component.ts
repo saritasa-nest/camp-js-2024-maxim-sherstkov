@@ -78,7 +78,7 @@ export class RegisterComponent {
 				takeUntilDestroyed(this.destroyRef),
 				catchError((error: unknown) => {
 					if (error instanceof ExtendedApiError) {
-						this.formErrorService.renderServerErrors(this.registerForm, error);
+						this.formErrorService.showFormValidationErrors(this.registerForm, error);
 						this.changeDetector.markForCheck();
 					}
 					return of(null);

@@ -23,11 +23,11 @@ export class FormErrorService {
 	};
 
 	/**
-	 * Renders server errors on the form.
+	 * Renders errors from API on the form.
 	 * @param form The form.
 	 * @param apiError The API error object.
 	 */
-	public renderServerErrors(form: FormGroup, apiError: ApiError): void {
+	public showFormValidationErrors(form: FormGroup, apiError: ApiError): void {
 		if (apiError.errors.length === 0) {
 			this.notificationService.showMessage(this.ERROR_MESSAGES['general']);
 			return;

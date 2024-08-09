@@ -70,7 +70,7 @@ export class LoginComponent {
 				takeUntilDestroyed(this.destroyRef),
 				catchError((error: unknown) => {
 					if (error instanceof ApiError) {
-						this.formErrorService.renderServerErrors(this.loginForm, error);
+						this.formErrorService.showFormValidationErrors(this.loginForm, error);
 						this.changeDetector.markForCheck();
 					}
 					return of(null);
