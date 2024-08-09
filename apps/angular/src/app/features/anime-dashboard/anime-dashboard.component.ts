@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, ChangeDetectionStrategy, inject, OnInit, DestroyRef } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, OnInit } from '@angular/core';
 import { AnimeService } from '@js-camp/angular/core/services/anime.service';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute } from '@angular/router';
-import { BehaviorSubject, map, Observable, switchMap } from 'rxjs';
+import { Observable, switchMap } from 'rxjs';
 import { BasicProgressSpinnerComponent } from '@js-camp/angular/shared/components/basic-progress-spinner/basic-progress-spinner.component';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
@@ -13,7 +13,6 @@ import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import { AnimeType } from '@js-camp/core/models/anime-type';
 import { MatButtonModule } from '@angular/material/button';
 import { AnimeParamsMapper } from '@js-camp/core/mappers/anime-params.mapper';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { PageAnimeParamsService } from '@js-camp/angular/core/services/page-anime-params.service';
 import { Pagination } from '@js-camp/core/models/pagination';
 import { Anime } from '@js-camp/core/models/anime';
@@ -46,33 +45,14 @@ export class AnimeDashboardComponent implements OnInit {
 
 	private readonly pageParamsService = inject(PageAnimeParamsService);
 
-	private readonly destroyRef = inject(DestroyRef);
-
 	/** Current route. */
 	protected readonly route = inject(ActivatedRoute);
 
 	/** Anime list. */
 	protected readonly animeList$: Observable<Pagination<Anime>>;
 
-	private readonly animeParams$ = this.pageParamsService.animeParams$;
-
-	/** Current page index. */
-	protected readonly currentPage$ = this.animeParams$.pipe(
-		map(params => params.pageIndex),
-	);
-
-	/** Maximum number of items per page. */
-	protected readonly pageSize$ = this.animeParams$.pipe(
-		map(params => params.pageSize),
-	);
-
-	/** Current sort order. */
-	protected readonly sort$ = this.animeParams$.pipe(
-		map(params => params.sort),
-	);
-
-	/** Anime count. */
-	protected readonly animeTotal$ = new BehaviorSubject(AnimeQuery.DEFAULT_VALUES.animeTotal);
+	/** Anime page params. */
+	protected readonly animeParams$ = this.pageParamsService.animeParams$;
 
 	/** Anime type values. */
 	protected readonly animeTypes = Object.values(AnimeType);
@@ -94,12 +74,6 @@ export class AnimeDashboardComponent implements OnInit {
 
 	/** @inheritdoc */
 	public ngOnInit(): void {
-		this.animeList$.pipe(
-			takeUntilDestroyed(this.destroyRef),
-		).subscribe(animeList => {
-			this.animeTotal$.next(animeList.count);
-		});
-
 		this.initializeParamsFromUrl();
 	}
 
