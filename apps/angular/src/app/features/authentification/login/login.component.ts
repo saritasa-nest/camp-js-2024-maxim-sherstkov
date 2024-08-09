@@ -35,7 +35,6 @@ import { AuthComponent } from '../auth.component';
 		AuthComponent,
 	],
 })
-
 export class LoginComponent {
 	private readonly destroyRef = inject(DestroyRef);
 
