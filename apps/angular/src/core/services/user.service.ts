@@ -39,7 +39,6 @@ export class UserService {
 
 	/**
 	 * Logs the user via service.
-	 *
 	 * @param loginData Login data.
 	 */
 	public login(loginData: Login): Observable<void> {

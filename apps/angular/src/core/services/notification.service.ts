@@ -16,7 +16,6 @@ export class NotificationService {
 
 	/**
 	 * Displays a notification bar.
-	 *
 	 * @param message The message to be displayed in the notification bar.
 	 */
 	public showMessage(message: string): void {

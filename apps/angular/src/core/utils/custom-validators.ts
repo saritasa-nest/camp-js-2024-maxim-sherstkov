@@ -32,8 +32,9 @@ export class CustomValidators {
  */
 export class ConfirmValidParentMatcher implements ErrorStateMatcher {
 	/**
-	 * Checks if the control is in an error state based on its parent form group's validity and whether it has been touched.
+	 * Checks if the control is in an error state.
 	 *
+	 * Checks based on its parent form group's validity and whether it has been touched.
 	 * @param control The control to check.
 	 * @param form The parent form group.
 	 */

@@ -22,7 +22,6 @@ export class UserSecretService {
 
 	/**
 	 * Sets the secret and saves it to local storage.
-	 *
 	 * @param secret Secret.
 	 */
 	public setSecret(secret: UserSecret): Observable<UserSecret> {

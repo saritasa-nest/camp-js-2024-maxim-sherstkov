@@ -24,7 +24,6 @@ export class FormErrorService {
 
 	/**
 	 * Renders server errors on the form.
-	 *
 	 * @param form The form.
 	 * @param apiError The API error object.
 	 */

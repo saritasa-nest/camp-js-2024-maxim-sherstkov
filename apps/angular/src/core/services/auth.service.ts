@@ -22,7 +22,6 @@ export class AuthService {
 
 	/**
 	 * Registers user with the provided credentials.
-	 *
 	 * @param registerData Registration data of user.
 	 */
 	public register(registerData: Registration): Observable<UserSecret> {
@@ -49,7 +48,6 @@ export class AuthService {
 
 	/**
 	 * Logs  user with the provided credentials.
-	 *
 	 * @param loginData Login data of user.
 	 */
 	public login(loginData: Login): Observable<UserSecret> {
